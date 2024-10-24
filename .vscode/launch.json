@@ -1,0 +1,571 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            // "args": [
+            //     "--flavor",
+            //     "production", //development or staging or production
+            //     "--target",
+            //     "lib/main.dart",
+            //     // "--release",
+            // ]
+        },
+        {
+            "name": "Flutter prepod",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "production", //development or staging or production
+                "--target",
+                "lib/main_preprod.dart"
+            ],
+            // "flutterMode": "profile"
+        },
+        {
+            "name": "generic",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "generic (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "generic (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "accounts",
+            "cwd": "libraries/accounts",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "accounts (profile mode)",
+            "cwd": "libraries/accounts",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "accounts (release mode)",
+            "cwd": "libraries/accounts",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "activation",
+            "cwd": "libraries/activation",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "activation (profile mode)",
+            "cwd": "libraries/activation",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "activation (release mode)",
+            "cwd": "libraries/activation",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "appcore",
+            "cwd": "libraries/appcore",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "appcore (profile mode)",
+            "cwd": "libraries/appcore",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "appcore (release mode)",
+            "cwd": "libraries/appcore",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "biometrics",
+            "cwd": "libraries/biometrics",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "biometrics (profile mode)",
+            "cwd": "libraries/biometrics",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "biometrics (release mode)",
+            "cwd": "libraries/biometrics",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "branches_and_atm",
+            "cwd": "libraries/branches_and_atm",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "branches_and_atm (profile mode)",
+            "cwd": "libraries/branches_and_atm",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "branches_and_atm (release mode)",
+            "cwd": "libraries/branches_and_atm",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "charts",
+            "cwd": "libraries/charts",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "charts (profile mode)",
+            "cwd": "libraries/charts",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "charts (release mode)",
+            "cwd": "libraries/charts",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "chat",
+            "cwd": "libraries/chat",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "chat (profile mode)",
+            "cwd": "libraries/chat",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "chat (release mode)",
+            "cwd": "libraries/chat",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "chat_core",
+            "cwd": "libraries/chat_core",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "chat_core (profile mode)",
+            "cwd": "libraries/chat_core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "chat_core (release mode)",
+            "cwd": "libraries/chat_core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "chat_lookup",
+            "cwd": "libraries/chat_lookup",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "chat_lookup (profile mode)",
+            "cwd": "libraries/chat_lookup",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "chat_lookup (release mode)",
+            "cwd": "libraries/chat_lookup",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "chat_parser",
+            "cwd": "libraries/chat_parser",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "chat_parser (profile mode)",
+            "cwd": "libraries/chat_parser",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "chat_parser (release mode)",
+            "cwd": "libraries/chat_parser",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "core",
+            "cwd": "libraries/core",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "core (profile mode)",
+            "cwd": "libraries/core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "core (release mode)",
+            "cwd": "libraries/core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "dashboard",
+            "cwd": "libraries/dashboard",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "dashboard (profile mode)",
+            "cwd": "libraries/dashboard",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "dashboard (release mode)",
+            "cwd": "libraries/dashboard",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "digital_banking",
+            "cwd": "libraries/digital_banking",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "digital_banking (profile mode)",
+            "cwd": "libraries/digital_banking",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "digital_banking (release mode)",
+            "cwd": "libraries/digital_banking",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "foneloan",
+            "cwd": "libraries/foneloan",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "foneloan (profile mode)",
+            "cwd": "libraries/foneloan",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "foneloan (release mode)",
+            "cwd": "libraries/foneloan",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "fonepoints",
+            "cwd": "libraries/fonepoints",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "fonepoints (profile mode)",
+            "cwd": "libraries/fonepoints",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "fonepoints (release mode)",
+            "cwd": "libraries/fonepoints",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "forget_password",
+            "cwd": "libraries/forget_password",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "forget_password (profile mode)",
+            "cwd": "libraries/forget_password",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "forget_password (release mode)",
+            "cwd": "libraries/forget_password",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "formbuilder",
+            "cwd": "libraries/formbuilder",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "formbuilder (profile mode)",
+            "cwd": "libraries/formbuilder",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "formbuilder (release mode)",
+            "cwd": "libraries/formbuilder",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "login",
+            "cwd": "libraries/login",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "login (profile mode)",
+            "cwd": "libraries/login",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "login (release mode)",
+            "cwd": "libraries/login",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "menu",
+            "cwd": "libraries/menu",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "menu (profile mode)",
+            "cwd": "libraries/menu",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "menu (release mode)",
+            "cwd": "libraries/menu",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "payments",
+            "cwd": "libraries/payments",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "payments (profile mode)",
+            "cwd": "libraries/payments",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "payments (release mode)",
+            "cwd": "libraries/payments",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "qrscanner",
+            "cwd": "libraries/qrscanner",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "qrscanner (profile mode)",
+            "cwd": "libraries/qrscanner",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "qrscanner (release mode)",
+            "cwd": "libraries/qrscanner",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "send_money",
+            "cwd": "libraries/send_money",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "send_money (profile mode)",
+            "cwd": "libraries/send_money",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "send_money (release mode)",
+            "cwd": "libraries/send_money",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "settings",
+            "cwd": "libraries/settings",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "settings (profile mode)",
+            "cwd": "libraries/settings",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "settings (release mode)",
+            "cwd": "libraries/settings",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "sms",
+            "cwd": "libraries/sms",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "sms (profile mode)",
+            "cwd": "libraries/sms",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "sms (release mode)",
+            "cwd": "libraries/sms",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "statements",
+            "cwd": "libraries/statements",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "statements (profile mode)",
+            "cwd": "libraries/statements",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "statements (release mode)",
+            "cwd": "libraries/statements",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "walkthrough",
+            "cwd": "libraries/walkthrough",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "walkthrough (profile mode)",
+            "cwd": "libraries/walkthrough",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "walkthrough (release mode)",
+            "cwd": "libraries/walkthrough",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
