@@ -18,6 +18,8 @@ class _LoginRegisterOptionsPageState
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: MediaQuery.sizeOf(context).height,
+        width: MediaQuery.sizeOf(context).width,
         decoration: const BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.fill,
@@ -27,13 +29,13 @@ class _LoginRegisterOptionsPageState
           ),
         ),
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [
-                Colors.black87,
-                Colors.black12,
+                Colors.black.withOpacity(0.8),
+                Colors.black38,
                 Colors.transparent,
                 Colors.transparent,
               ],
@@ -49,25 +51,62 @@ class _LoginRegisterOptionsPageState
                   ),
                   child: Column(
                     children: [
-                      const Text(
-                        'Finding all your Puja material needs at one Place. ',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                      const Padding(
+                        padding: EdgeInsets.only(right: 100),
+                        child: Text(
+                          'Finding all your Puja material needs at one Place. ',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                color: Colors.white,
+                                width: 4,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            fixedSize: const Size.fromHeight(
+                              45,
+                            ),
+                          ),
+                          onPressed: () {
+                            ref.push(RoutePage(
+                                child: const LoginPage(), name: 'LoginPage'));
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
                       ),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.secondary,
+                              backgroundColor: const Color(0xffD47222),
                               fixedSize: const Size.fromHeight(45)),
                           onPressed: () {
                             ref.push(RoutePage(
                                 child: const DashboardPage(),
-                                name: 'DashboardPage'));
+                                name: 'DashboardPage',),);
                           },
                           child: const Text(
                             'Continue  as guest',
@@ -81,54 +120,6 @@ class _LoginRegisterOptionsPageState
                       ),
                       const SizedBox(
                         height: 16,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size.fromHeight(
-                              45,
-                            ),
-                          ),
-                          onPressed: () {
-                            ref.push(RoutePage(
-                                child: const LoginPage(), name: 'LoginPage'));
-                          },
-                          child: const Text(
-                            'LOGIN',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Theme.of(context).primaryColor,
-                              fixedSize: const Size.fromHeight(45)),
-                          onPressed: () {
-                            ref.push(RoutePage(
-                                child: const LoginPage(), name: 'LoginPage'));
-                          },
-                          child: const Text(
-                            'SIGN UP',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
                       ),
                     ],
                   ),

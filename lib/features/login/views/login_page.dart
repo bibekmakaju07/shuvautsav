@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
+import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
+import 'package:shuvautsavapp/app/view/app.dart';
+import 'package:shuvautsavapp/features/login/controller/login_controller.dart';
+
+import '../../dashboard/views/dashboard_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -10,8 +16,44 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  bool rememberMe = false;
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(loginProvider, (prev, next) {
+      next.maybeWhen(
+        orElse: () {},
+        error: (data, extra) {
+          ref.read(toastProvider.notifier).update((cb) {
+            return (
+              description: '',
+              error: true,
+              id: '213123',
+              title: 'Error on Login'
+            );
+          });
+        },
+        success: (data, extra) {
+          ref.replaceAll(
+              RoutePage(child: const DashboardPage(), name: 'DashboardPage'));
+        },
+        loading: (loading, data) {
+          if (loading) {
+            LoadingIndicator.instance.show(context);
+          } else {
+            LoadingIndicator.instance.hide();
+          }
+        },
+      );
+    });
     return Scaffold(
       body: Container(
         width: MediaQuery.sizeOf(context).width,
@@ -80,13 +122,24 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   height: 4,
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    isDense: true,
+                  controller: emailController,
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Required';
+                    } else if (value.trim().length > 4) {
+                      return 'Email field is not valid';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
                     hintText: 'Email',
-                    fillColor: Color(0xfff7f7f7),
+                    isDense: true,
+                    fillColor: const Color.fromARGB(255, 234, 232, 232),
                     filled: true,
-                    prefixIcon: Icon(HugeIcons.strokeRoundedMail02),
-                    border: OutlineInputBorder(),
+                    prefixIcon: const Icon(HugeIcons.strokeRoundedMail02),
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(6)),
                   ),
                 ),
                 const SizedBox(
@@ -104,14 +157,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   height: 4,
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    isDense: true,
-                    fillColor: Color(0xfff7f7f7),
+                  controller: passwordController,
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Required';
+                    } else if (value.trim().length > 4) {
+                      return 'Password must be a least 5 character';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    fillColor: const Color.fromARGB(255, 234, 232, 232),
                     filled: true,
+                    isDense: true,
+
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(6)),
                     hintText: 'Password',
-                    prefixIcon: Icon(HugeIcons.strokeRoundedLockPassword),
-                    suffixIcon: Icon(HugeIcons.strokeRoundedEye),
-                    border: OutlineInputBorder(),
+                    prefixIcon: const Icon(HugeIcons.strokeRoundedLockPassword),
+                    // suffixIcon: Icon(HugeIcons.strokeRoundedEye),
                   ),
                 ),
                 const SizedBox(
@@ -121,7 +186,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     Expanded(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          setState(() {
+                            rememberMe = !rememberMe;
+                          });
+                        },
                         child: Row(
                           children: [
                             IgnorePointer(
@@ -130,7 +199,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 width: 20,
                                 height: 20,
                                 child: Checkbox(
-                                  value: false,
+                                  value: rememberMe,
                                   onChanged: (sele) {},
                                 ),
                               ),
@@ -143,15 +212,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ),
-                    const Text(
-                      'Forgot Password ?',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Color(
-                            0xffF1B202,
-                          )),
-                    )
+                    // const Text(
+                    //   'Forgot Password ?',
+                    //   style: TextStyle(
+                    //       fontSize: 14,
+                    //       fontWeight: FontWeight.w600,
+                    //       color: Color(
+                    //         0xffF1B202,
+                    //       )),
+                    // )
                   ],
                 ),
                 const SizedBox(
@@ -160,7 +229,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(loginProvider.notifier).login(
+                        {
+                          'email': emailController.text,
+                          'password': passwordController.text,
+                        },
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size.fromHeight(50),
                       backgroundColor: Theme.of(context).primaryColor,
@@ -177,84 +253,86 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                 ),
-                const Row(
-                  children: [
-                    Expanded(child: Divider(height: 50)),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text('or'),
-                    ),
-                    Expanded(child: Divider(height: 50))
-                  ],
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      fixedSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(HugeIcons.strokeRoundedGoogle),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'SignIn With Google',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // const Row(
+                //   children: [
+                //     Expanded(child: Divider(height: 50)),
+                //     Padding(
+                //       padding: EdgeInsets.symmetric(horizontal: 10),
+                //       child: Text('or'),
+                //     ),
+                //     Expanded(child: Divider(height: 50))
+                //   ],
+                // ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: OutlinedButton(
+                //     onPressed: () {},
+                //     style: OutlinedButton.styleFrom(
+                //       fixedSize: const Size.fromHeight(50),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //     ),
+                //     child: const Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Icon(HugeIcons.strokeRoundedGoogle),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Text(
+                //           'SignIn With Google',
+                //           style: TextStyle(
+                //             fontSize: 15,
+                //             fontWeight: FontWeight.w600,
+                //             color: Colors.black,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
                 const SizedBox(
                   height: 30,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      fixedSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          HugeIcons.strokeRoundedApple,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'SignIn With Apple',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: OutlinedButton(
+                //     onPressed: () {},
+                //     style: OutlinedButton.styleFrom(
+                //       backgroundColor: Colors.black,
+                //       fixedSize: const Size.fromHeight(50),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10),
+                //       ),
+                //     ),
+                //     child: const Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       children: [
+                //         Icon(
+                //           HugeIcons.strokeRoundedApple,
+                //           color: Colors.white,
+                //         ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Text(
+                //           'SignIn With Apple',
+                //           style: TextStyle(
+                //             fontSize: 15,
+                //             color: Colors.white,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
                 const SizedBox(
                   height: 30,
                 ),
-                const Text('Already a customer, Sign Up.'),
+                // const Text('Already a customer, Sign Up.'),
               ],
             ),
           ),

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
+import 'package:shuvautsavapp/app/storage/product_model.dart';
+import 'package:shuvautsavapp/app/view/app.dart';
+import 'package:shuvautsavapp/features/cart/views/cart.dart';
 import 'package:shuvautsavapp/features/category/views/category.dart';
 import 'package:shuvautsavapp/features/dashboard/views/home_page.dart';
-import 'package:shuvautsavapp/features/product/views/product_details.dart';
 import 'package:shuvautsavapp/features/product/views/product_list.dart';
+import 'package:shuvautsavapp/main.dart';
 
 class DashboardPage extends StatefulHookConsumerWidget {
   const DashboardPage({super.key});
@@ -21,7 +25,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     const CategoryPage(),
     const SizedBox(),
     const ProductList(),
-    const ProductDetails(),
+    const SizedBox(),
   ];
 
   @override
@@ -30,6 +34,51 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       extendBody: true,
       backgroundColor: Colors.white,
       body: widgetList[selectedPage],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        onPressed: () {
+          ref.push(RoutePage(child: CartPage(), name: 'CartPage'));
+        },
+        child: Stack(
+          children: [
+            CustomPaint(
+              painter: MulticolorBorderCirclePainter(),
+              child: const Center(
+                child: Icon(
+                  HugeIcons.strokeRoundedShoppingCartCheck01,
+                ),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              child: StreamBuilder(
+                  stream: ref
+                      .read(objectBoxProvider.notifier)
+                      .state
+                      .box<ProductDetailsEntity>()
+                      .query()
+                      .watch(triggerImmediately: true)
+                      .map((q) => q.find().length),
+                  builder: (context, snap) {
+                    if (snap.hasData && snap.data! > 0) {
+                      return CircleAvatar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        radius: 10,
+                        child: Text(
+                          '${snap.data}',
+                          style:
+                              context.labelSmall.copyWith(color: Colors.white),
+                        ),
+                      );
+                    }
+                    return SizedBox();
+                  }),
+            )
+          ],
+        ),
+      ),
       bottomNavigationBar: SizedBox(
         height: 70,
         width: double.infinity,
@@ -49,6 +98,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     children: [
                       BottomNavItem(
                         index: 0,
+                        iconData: HugeIcons.strokeRoundedHome01,
                         title: 'Home',
                         selectedIndex: selectedPage,
                         onSelect: (value) {
@@ -58,6 +108,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                         },
                       ),
                       BottomNavItem(
+                        iconData: HugeIcons.strokeRoundedMenuCircle,
                         title: 'Category',
                         index: 1,
                         selectedIndex: selectedPage,
@@ -67,18 +118,26 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                           });
                         },
                       ),
-                      SizedBox(
-                        width: MediaQuery.sizeOf(context).width * .2,
-                        child: const Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 4,
-                            ),
-                            child: Text(
-                              'Cart',
-                              style: TextStyle(
-                                color: Colors.white,
+                      InkWell(
+                        onTap: () {
+                          ref.push(
+                            RoutePage(
+                                child: const CartPage(), name: 'CardPage'),
+                          );
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.sizeOf(context).width * .2,
+                          child: const Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                bottom: 4,
+                              ),
+                              child: Text(
+                                'Cart',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -86,6 +145,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                       ),
                       BottomNavItem(
                         index: 3,
+                        iconData: HugeIcons.strokeRoundedProductLoading,
                         title: 'Product',
                         selectedIndex: selectedPage,
                         onSelect: (value) {
@@ -96,6 +156,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                       ),
                       BottomNavItem(
                         title: 'Profile',
+                        iconData: HugeIcons.strokeRoundedProfile02,
                         index: 4,
                         selectedIndex: selectedPage,
                         onSelect: (value) {
@@ -109,19 +170,26 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                 ),
               ),
             ),
-            Positioned(
-              top: -40,
-              height: 80,
-              width: 80,
-              child: CustomPaint(
-                painter: MulticolorBorderCirclePainter(),
-                child: const Center(
-                  child: Icon(
-                    HugeIcons.strokeRoundedShoppingCartAdd01,
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   top: -20,
+            //   height: 60,
+            //   width: 60,
+            //   child: InkWell(
+            //     onTap: () {
+            //       ref.push(
+            //         RoutePage(child: const CardPage(), name: 'CardPage'),
+            //       );
+            //     },
+            //     child: CustomPaint(
+            //       painter: MulticolorBorderCirclePainter(),
+            //       child: const Center(
+            //         child: Icon(
+            //           HugeIcons.strokeRoundedShoppingCartAdd01,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -130,17 +198,18 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 }
 
 class BottomNavItem extends StatefulWidget {
-  const BottomNavItem({
-    super.key,
-    required this.index,
-    required this.selectedIndex,
-    required this.title,
-    required this.onSelect,
-  });
+  const BottomNavItem(
+      {super.key,
+      required this.index,
+      required this.selectedIndex,
+      required this.title,
+      required this.onSelect,
+      required this.iconData});
   final int index;
   final int selectedIndex;
   final ValueSetter<int> onSelect;
   final String title;
+  final IconData iconData;
 
   @override
   State<BottomNavItem> createState() => _BottomNavItemState();
@@ -154,9 +223,12 @@ class _BottomNavItemState extends State<BottomNavItem> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            HugeIcons.strokeRoundedHome01,
-            color: Colors.white,
+          Icon(
+            widget.iconData,
+            weight: 10,
+            color: widget.index == widget.selectedIndex
+                ? Colors.red
+                : const Color.fromARGB(255, 74, 74, 74),
           ),
           const SizedBox(
             height: 8,
@@ -164,11 +236,13 @@ class _BottomNavItemState extends State<BottomNavItem> {
           Text(
             widget.title,
             style: TextStyle(
-              color: Colors.white,
+              color: widget.index == widget.selectedIndex
+                  ? Colors.red
+                  : const Color.fromARGB(255, 74, 74, 74),
               fontSize: widget.index == widget.selectedIndex ? 16 : 14,
               fontWeight: widget.index == widget.selectedIndex
-                  ? FontWeight.w700
-                  : FontWeight.w500,
+                  ? FontWeight.w600
+                  : FontWeight.w300,
             ),
           ),
         ],
@@ -181,7 +255,7 @@ class MulticolorBorderCirclePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final double radius = size.width / 2;
-    const double strokeWidth = 5; // Border thickness
+    const double strokeWidth = 1; // Border thickness
 
     // Paint for the circle's fill color
     final fillPaint = Paint()
@@ -222,22 +296,22 @@ class CustomBottomPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final path = Path();
     path.moveTo(0, 0);
-    path.lineTo(size.width * 0.25, 0);
+    path.lineTo(size.width * 0.30, 0);
 
     // Create the left side of the dip
     path.cubicTo(
-      size.width * 0.35, 0, // First control point
-      size.width * 0.4, 42, // Second control point
+      size.width * 0.4, 0, // First control point
+      size.width * 0.45, 42, // Second control point
       size.width * 0.5, 42, // End point of the left curve
     );
 
     // Create the right side of the dip
     path.cubicTo(
-        size.width * 0.6,
+        size.width * 0.55,
         42, // Third control point
-        size.width * 0.65,
+        size.width * 0.6,
         0, // Fourth control point
-        size.width * 0.75,
+        size.width * 0.7,
         0 // End point of the right curve
         );
 
@@ -249,7 +323,7 @@ class CustomBottomPainter extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = const Color(0xffED1C24)
+        ..color = const Color.fromARGB(255, 246, 245, 245)
         ..strokeWidth = 10,
     );
   }

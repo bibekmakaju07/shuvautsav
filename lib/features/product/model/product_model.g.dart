@@ -6,51 +6,47 @@ part of 'product_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$ProductResponseImpl _$$ProductResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ProductResponseImpl(
+      data: json['data'] == null
+          ? null
+          : ProductList.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ProductResponseImplToJson(
+        _$ProductResponseImpl instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };
+
+_$ProductListImpl _$$ProductListImplFromJson(Map<String, dynamic> json) =>
+    _$ProductListImpl(
+      products: (json['products'] as List<dynamic>?)
+              ?.map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$$ProductListImplToJson(_$ProductListImpl instance) =>
+    <String, dynamic>{
+      'products': instance.products,
+    };
+
 _$ProductModelImpl _$$ProductModelImplFromJson(Map<String, dynamic> json) =>
     _$ProductModelImpl(
       id: (json['id'] as num?)?.toInt() ?? 0,
       title: json['title'] as String? ?? '',
       slug: json['slug'] as String? ?? '',
-      price: json['price'] as String? ?? '',
-      offer: json['offer'] as String? ?? null,
-      offerText: json['offerText'] as String? ?? null,
-      qty: json['qty'] as String? ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      offer: (json['offer'] as num?)?.toDouble() ?? 0.0,
+      offerText: json['offerText'] as String? ?? '',
+      qty: (json['qty'] as num?)?.toInt() ?? 0,
       code: json['code'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      shipping: json['shipping'] as String? ?? null,
-      videoUrl: json['videoUrl'] as String? ?? null,
       image: json['image'] as String? ?? '',
-      image2: json['image2'] as String? ?? null,
-      image3: json['image3'] as String? ?? null,
-      image4: json['image4'] as String? ?? null,
-      rank: json['rank'] as String? ?? '',
-      preferredDateStatus: json['preferredDateStatus'] as String? ?? '0',
-      preferredMessageStatus: json['preferredMessageStatus'] as String? ?? '0',
-      stitchingStatus: json['stitchingStatus'] as String? ?? '0',
-      status: json['status'] as String? ?? '1',
-      topTen: json['topTen'] as String? ?? '0',
-      weAlsoDeal: json['weAlsoDeal'] as String? ?? '0',
-      ourProduct: json['ourProduct'] as String? ?? '0',
-      bestSelling: json['bestSelling'] as String? ?? '0',
-      featureKey: json['featureKey'] as String? ?? '0',
-      metaTitle: json['metaTitle'] as String? ?? null,
-      metaKeyword: json['metaKeyword'] as String? ?? null,
-      metaDescription: json['metaDescription'] as String? ?? null,
-      offerExpire: json['offerExpire'] as String? ?? null,
-      vendor: json['vendor'] as String? ?? null,
-      createdBy: json['createdBy'] as String? ?? '',
-      updatedBy: json['updatedBy'] as String? ?? '',
-      deletedAt: json['deletedAt'] == null
-          ? null
-          : DateTime.parse(json['deletedAt'] as String),
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      userRole: json['userRole'] as String? ?? '',
-      productBrandId: json['productBrandId'] as String? ?? '',
+      rank: (json['rank'] as num?)?.toInt() ?? 0,
+      status: (json['status'] as num?)?.toInt() ?? 1,
     );
 
 Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
@@ -64,32 +60,7 @@ Map<String, dynamic> _$$ProductModelImplToJson(_$ProductModelImpl instance) =>
       'qty': instance.qty,
       'code': instance.code,
       'description': instance.description,
-      'shipping': instance.shipping,
-      'videoUrl': instance.videoUrl,
       'image': instance.image,
-      'image2': instance.image2,
-      'image3': instance.image3,
-      'image4': instance.image4,
       'rank': instance.rank,
-      'preferredDateStatus': instance.preferredDateStatus,
-      'preferredMessageStatus': instance.preferredMessageStatus,
-      'stitchingStatus': instance.stitchingStatus,
       'status': instance.status,
-      'topTen': instance.topTen,
-      'weAlsoDeal': instance.weAlsoDeal,
-      'ourProduct': instance.ourProduct,
-      'bestSelling': instance.bestSelling,
-      'featureKey': instance.featureKey,
-      'metaTitle': instance.metaTitle,
-      'metaKeyword': instance.metaKeyword,
-      'metaDescription': instance.metaDescription,
-      'offerExpire': instance.offerExpire,
-      'vendor': instance.vendor,
-      'createdBy': instance.createdBy,
-      'updatedBy': instance.updatedBy,
-      'deletedAt': instance.deletedAt?.toIso8601String(),
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'userRole': instance.userRole,
-      'productBrandId': instance.productBrandId,
     };

@@ -84,6 +84,9 @@ class _$AppStateCopyWithImpl<S, E, $Res, $Val extends AppState<S, E>>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -100,6 +103,9 @@ class __$$InitialImplCopyWithImpl<S, E, $Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl<S, E> _value, $Res Function(_$InitialImpl<S, E>) _then)
       : super(_value, _then);
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -217,6 +223,8 @@ class __$$LoadingImplCopyWithImpl<S, E, $Res>
       _$LoadingImpl<S, E> _value, $Res Function(_$LoadingImpl<S, E>) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -264,7 +272,9 @@ class _$LoadingImpl<S, E> implements _Loading<S, E> {
   int get hashCode => Object.hash(
       runtimeType, loading, const DeepCollectionEquality().hash(data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LoadingImplCopyWith<S, E, _$LoadingImpl<S, E>> get copyWith =>
@@ -350,7 +360,10 @@ abstract class _Loading<S, E> implements AppState<S, E> {
 
   bool get loading;
   S? get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoadingImplCopyWith<S, E, _$LoadingImpl<S, E>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -372,6 +385,8 @@ class __$$SuccessImplCopyWithImpl<S, E, $Res>
       _$SuccessImpl<S, E> _value, $Res Function(_$SuccessImpl<S, E>) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -429,7 +444,9 @@ class _$SuccessImpl<S, E> implements _Success<S, E> {
       const DeepCollectionEquality().hash(data),
       const DeepCollectionEquality().hash(_extra));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<S, E, _$SuccessImpl<S, E>> get copyWith =>
@@ -516,7 +533,10 @@ abstract class _Success<S, E> implements AppState<S, E> {
 
   S get data;
   Map<String, dynamic>? get extra;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<S, E, _$SuccessImpl<S, E>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -538,6 +558,8 @@ class __$$ErrorImplCopyWithImpl<S, E, $Res>
       _$ErrorImpl<S, E> _value, $Res Function(_$ErrorImpl<S, E>) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -594,7 +616,9 @@ class _$ErrorImpl<S, E> implements _Error<S, E> {
       const DeepCollectionEquality().hash(data),
       const DeepCollectionEquality().hash(_extra));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<S, E, _$ErrorImpl<S, E>> get copyWith =>
@@ -681,7 +705,10 @@ abstract class _Error<S, E> implements AppState<S, E> {
 
   E get data;
   Map<String, dynamic>? get extra;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<S, E, _$ErrorImpl<S, E>> get copyWith =>
       throw _privateConstructorUsedError;
 }

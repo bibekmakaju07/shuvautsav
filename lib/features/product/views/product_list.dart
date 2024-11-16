@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:shuvautsavapp/features/product/model/product_model.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
-final productProvider =
+final productListProvider =
     FutureProvider.autoDispose<List<ProductModel>>((ref) async {
   final data = await NetworkService()
-      .get(RequestApi(endPath: 'https://shuvautsav.com/api/products'));
+      .get(RequestApi(endPath: 'https://shuvautsav.com/api/v1/products'));
 
-  List<ProductModel> productList = [];
-  for (var da in data.data) {
-    productList.add(ProductModel.fromJson(da));
-  }
-
-  return productList;
+  return ProductResponse.fromJson(data.data).data?.products ?? [];
 });
 
 class ProductList extends ConsumerStatefulWidget {
@@ -27,7 +21,7 @@ class ProductList extends ConsumerStatefulWidget {
 class _ProductListState extends ConsumerState<ProductList> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(productProvider);
+    final state = ref.watch(productListProvider);
     return Scaffold(
       body: Column(
         children: [
@@ -41,79 +35,80 @@ class _ProductListState extends ConsumerState<ProductList> {
                 width: 100,
               ),
               const Spacer(),
-              Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xffEAF0F4), width: 1),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                ),
-                child: const Icon(
-                  HugeIcons.strokeRoundedSearch01,
-                ),
-              ),
+              // Container(
+              //   width: 42,
+              //   height: 42,
+              //   decoration: BoxDecoration(
+              //     border: Border.all(color: const Color(0xffEAF0F4), width: 1),
+              //     borderRadius: const BorderRadius.all(
+              //       Radius.circular(3),
+              //     ),
+              //   ),
+              //   child: const Icon(
+              //     HugeIcons.strokeRoundedSearch01,
+              //   ),
+              // ),
               const SizedBox(
                 width: 10,
               ),
-              Container(
-                width: 42,
-                height: 42,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color(0xffEAF0F4),
-                    width: 1,
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(
-                      3,
-                    ),
-                  ),
-                ),
-                child: const Icon(
-                  HugeIcons.strokeRoundedNotification03,
-                ),
-              )
+              // Container(
+              //   width: 42,
+              //   height: 42,
+              //   decoration: BoxDecoration(
+              //     border: Border.all(
+              //       color: const Color(0xffEAF0F4),
+              //       width: 1,
+              //     ),
+              //     borderRadius: const BorderRadius.all(
+              //       Radius.circular(
+              //         3,
+              //       ),
+              //     ),
+              //   ),
+              //   child: const Icon(
+              //     HugeIcons.strokeRoundedNotification03,
+              //   ),
+              // )
             ],
           ),
           const SizedBox(
             height: 20,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: Row(
-              children: List.generate(
-                10,
-                (index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      right: 16,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                          width: 0.5,
-                        ),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        child: Text('All'),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   padding: const EdgeInsets.symmetric(
+          //     horizontal: 16,
+          //   ),
+          //   child: Row(
+          //     children: List.generate(
+          //       10,
+          //       (index) {
+          //         return Padding(
+          //           padding: const EdgeInsets.only(
+          //             right: 16,
+          //           ),
+          //           child: Container(
+          //             decoration: BoxDecoration(
+          //               borderRadius: BorderRadius.circular(10),
+          //               border: Border.all(
+          //                 color: Theme.of(context).primaryColor,
+          //                 width: 0.5,
+          //               ),
+          //             ),
+          //             child: const Padding(
+          //               padding: EdgeInsets.symmetric(
+          //                 horizontal: 16,
+          //                 vertical: 8,
+          //               ),
+          //               child: Text('All'),
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
+
           const SizedBox(
             height: 10,
           ),
@@ -178,16 +173,13 @@ class _ProductListState extends ConsumerState<ProductList> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(data[index].code),
-                                        Text(data[index].qty),
-                                      ],
+                                      children: [],
                                     ),
                                   ),
                                   const SizedBox(
