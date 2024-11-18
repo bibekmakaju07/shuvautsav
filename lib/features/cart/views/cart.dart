@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -103,7 +104,24 @@ class _CardPageState extends ConsumerState<CartPage> {
                                   child: Align(
                                     alignment: Alignment.bottomRight,
                                     child: InkWell(
-                                      onTap: () {
+                                      onTap: () async {
+                                        final token =
+                                            await FlutterSecureStorage().read(
+                                                    key: 'access_token') ??
+                                                '';
+                                        if (token.isEmpty) {
+                                          ref
+                                              .read(toastProvider.notifier)
+                                              .update((cb) {
+                                            return (
+                                              title: 'Please login to checkout',
+                                              error: true,
+                                              description: '',
+                                              id: 'login',
+                                            );
+                                          });
+                                          return;
+                                        }
                                         final list = [];
                                         for (var e in data) {
                                           list.add({

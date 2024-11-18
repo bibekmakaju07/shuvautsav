@@ -189,14 +189,15 @@ mixin _$LocationData {
   Map<String, String> get cities => throw _privateConstructorUsedError;
   Map<String, String> get areas => throw _privateConstructorUsedError;
   List<dynamic> get countries => throw _privateConstructorUsedError;
+  dynamic get iaddress => throw _privateConstructorUsedError;
   List<Cart> get carts => throw _privateConstructorUsedError;
-  Map<String, String> get districts => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_weight')
-  double? get totalWeight => throw _privateConstructorUsedError;
+  double get totalWeight => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_amount')
-  int? get totalAmount => throw _privateConstructorUsedError;
+  int get totalAmount => throw _privateConstructorUsedError;
   @JsonKey(name: 'shipping_charge')
-  int? get shippingCharge => throw _privateConstructorUsedError;
+  int get shippingCharge => throw _privateConstructorUsedError;
+  Customer? get customer => throw _privateConstructorUsedError;
 
   /// Serializes this LocationData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -219,11 +220,14 @@ abstract class $LocationDataCopyWith<$Res> {
       Map<String, String> cities,
       Map<String, String> areas,
       List<dynamic> countries,
+      dynamic iaddress,
       List<Cart> carts,
-      Map<String, String> districts,
-      @JsonKey(name: 'total_weight') double? totalWeight,
-      @JsonKey(name: 'total_amount') int? totalAmount,
-      @JsonKey(name: 'shipping_charge') int? shippingCharge});
+      @JsonKey(name: 'total_weight') double totalWeight,
+      @JsonKey(name: 'total_amount') int totalAmount,
+      @JsonKey(name: 'shipping_charge') int shippingCharge,
+      Customer? customer});
+
+  $CustomerCopyWith<$Res>? get customer;
 }
 
 /// @nodoc
@@ -245,11 +249,12 @@ class _$LocationDataCopyWithImpl<$Res, $Val extends LocationData>
     Object? cities = null,
     Object? areas = null,
     Object? countries = null,
+    Object? iaddress = freezed,
     Object? carts = null,
-    Object? districts = null,
-    Object? totalWeight = freezed,
-    Object? totalAmount = freezed,
-    Object? shippingCharge = freezed,
+    Object? totalWeight = null,
+    Object? totalAmount = null,
+    Object? shippingCharge = null,
+    Object? customer = freezed,
   }) {
     return _then(_value.copyWith(
       provinces: null == provinces
@@ -268,27 +273,45 @@ class _$LocationDataCopyWithImpl<$Res, $Val extends LocationData>
           ? _value.countries
           : countries // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      iaddress: freezed == iaddress
+          ? _value.iaddress
+          : iaddress // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       carts: null == carts
           ? _value.carts
           : carts // ignore: cast_nullable_to_non_nullable
               as List<Cart>,
-      districts: null == districts
-          ? _value.districts
-          : districts // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      totalWeight: freezed == totalWeight
+      totalWeight: null == totalWeight
           ? _value.totalWeight
           : totalWeight // ignore: cast_nullable_to_non_nullable
-              as double?,
-      totalAmount: freezed == totalAmount
+              as double,
+      totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
-              as int?,
-      shippingCharge: freezed == shippingCharge
+              as int,
+      shippingCharge: null == shippingCharge
           ? _value.shippingCharge
           : shippingCharge // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
+      customer: freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as Customer?,
     ) as $Val);
+  }
+
+  /// Create a copy of LocationData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CustomerCopyWith<$Res>? get customer {
+    if (_value.customer == null) {
+      return null;
+    }
+
+    return $CustomerCopyWith<$Res>(_value.customer!, (value) {
+      return _then(_value.copyWith(customer: value) as $Val);
+    });
   }
 }
 
@@ -305,11 +328,15 @@ abstract class _$$LocationDataImplCopyWith<$Res>
       Map<String, String> cities,
       Map<String, String> areas,
       List<dynamic> countries,
+      dynamic iaddress,
       List<Cart> carts,
-      Map<String, String> districts,
-      @JsonKey(name: 'total_weight') double? totalWeight,
-      @JsonKey(name: 'total_amount') int? totalAmount,
-      @JsonKey(name: 'shipping_charge') int? shippingCharge});
+      @JsonKey(name: 'total_weight') double totalWeight,
+      @JsonKey(name: 'total_amount') int totalAmount,
+      @JsonKey(name: 'shipping_charge') int shippingCharge,
+      Customer? customer});
+
+  @override
+  $CustomerCopyWith<$Res>? get customer;
 }
 
 /// @nodoc
@@ -329,11 +356,12 @@ class __$$LocationDataImplCopyWithImpl<$Res>
     Object? cities = null,
     Object? areas = null,
     Object? countries = null,
+    Object? iaddress = freezed,
     Object? carts = null,
-    Object? districts = null,
-    Object? totalWeight = freezed,
-    Object? totalAmount = freezed,
-    Object? shippingCharge = freezed,
+    Object? totalWeight = null,
+    Object? totalAmount = null,
+    Object? shippingCharge = null,
+    Object? customer = freezed,
   }) {
     return _then(_$LocationDataImpl(
       provinces: null == provinces
@@ -352,26 +380,30 @@ class __$$LocationDataImplCopyWithImpl<$Res>
           ? _value._countries
           : countries // ignore: cast_nullable_to_non_nullable
               as List<dynamic>,
+      iaddress: freezed == iaddress
+          ? _value.iaddress
+          : iaddress // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       carts: null == carts
           ? _value._carts
           : carts // ignore: cast_nullable_to_non_nullable
               as List<Cart>,
-      districts: null == districts
-          ? _value._districts
-          : districts // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-      totalWeight: freezed == totalWeight
+      totalWeight: null == totalWeight
           ? _value.totalWeight
           : totalWeight // ignore: cast_nullable_to_non_nullable
-              as double?,
-      totalAmount: freezed == totalAmount
+              as double,
+      totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
-              as int?,
-      shippingCharge: freezed == shippingCharge
+              as int,
+      shippingCharge: null == shippingCharge
           ? _value.shippingCharge
           : shippingCharge // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
+      customer: freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as Customer?,
     ));
   }
 }
@@ -384,17 +416,17 @@ class _$LocationDataImpl implements _LocationData {
       final Map<String, String> cities = const {},
       final Map<String, String> areas = const {},
       final List<dynamic> countries = const [],
+      this.iaddress,
       final List<Cart> carts = const [],
-      final Map<String, String> districts = const {},
-      @JsonKey(name: 'total_weight') this.totalWeight,
-      @JsonKey(name: 'total_amount') this.totalAmount,
-      @JsonKey(name: 'shipping_charge') this.shippingCharge})
+      @JsonKey(name: 'total_weight') this.totalWeight = 0.0,
+      @JsonKey(name: 'total_amount') this.totalAmount = -1,
+      @JsonKey(name: 'shipping_charge') this.shippingCharge = 0,
+      this.customer})
       : _provinces = provinces,
         _cities = cities,
         _areas = areas,
         _countries = countries,
-        _carts = carts,
-        _districts = districts;
+        _carts = carts;
 
   factory _$LocationDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocationDataImplFromJson(json);
@@ -435,6 +467,8 @@ class _$LocationDataImpl implements _LocationData {
     return EqualUnmodifiableListView(_countries);
   }
 
+  @override
+  final dynamic iaddress;
   final List<Cart> _carts;
   @override
   @JsonKey()
@@ -444,28 +478,21 @@ class _$LocationDataImpl implements _LocationData {
     return EqualUnmodifiableListView(_carts);
   }
 
-  final Map<String, String> _districts;
-  @override
-  @JsonKey()
-  Map<String, String> get districts {
-    if (_districts is EqualUnmodifiableMapView) return _districts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_districts);
-  }
-
   @override
   @JsonKey(name: 'total_weight')
-  final double? totalWeight;
+  final double totalWeight;
   @override
   @JsonKey(name: 'total_amount')
-  final int? totalAmount;
+  final int totalAmount;
   @override
   @JsonKey(name: 'shipping_charge')
-  final int? shippingCharge;
+  final int shippingCharge;
+  @override
+  final Customer? customer;
 
   @override
   String toString() {
-    return 'LocationData(provinces: $provinces, cities: $cities, areas: $areas, countries: $countries, carts: $carts, districts: $districts, totalWeight: $totalWeight, totalAmount: $totalAmount, shippingCharge: $shippingCharge)';
+    return 'LocationData(provinces: $provinces, cities: $cities, areas: $areas, countries: $countries, iaddress: $iaddress, carts: $carts, totalWeight: $totalWeight, totalAmount: $totalAmount, shippingCharge: $shippingCharge, customer: $customer)';
   }
 
   @override
@@ -479,15 +506,16 @@ class _$LocationDataImpl implements _LocationData {
             const DeepCollectionEquality().equals(other._areas, _areas) &&
             const DeepCollectionEquality()
                 .equals(other._countries, _countries) &&
+            const DeepCollectionEquality().equals(other.iaddress, iaddress) &&
             const DeepCollectionEquality().equals(other._carts, _carts) &&
-            const DeepCollectionEquality()
-                .equals(other._districts, _districts) &&
             (identical(other.totalWeight, totalWeight) ||
                 other.totalWeight == totalWeight) &&
             (identical(other.totalAmount, totalAmount) ||
                 other.totalAmount == totalAmount) &&
             (identical(other.shippingCharge, shippingCharge) ||
-                other.shippingCharge == shippingCharge));
+                other.shippingCharge == shippingCharge) &&
+            (identical(other.customer, customer) ||
+                other.customer == customer));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -498,11 +526,12 @@ class _$LocationDataImpl implements _LocationData {
       const DeepCollectionEquality().hash(_cities),
       const DeepCollectionEquality().hash(_areas),
       const DeepCollectionEquality().hash(_countries),
+      const DeepCollectionEquality().hash(iaddress),
       const DeepCollectionEquality().hash(_carts),
-      const DeepCollectionEquality().hash(_districts),
       totalWeight,
       totalAmount,
-      shippingCharge);
+      shippingCharge,
+      customer);
 
   /// Create a copy of LocationData
   /// with the given fields replaced by the non-null parameter values.
@@ -522,16 +551,16 @@ class _$LocationDataImpl implements _LocationData {
 
 abstract class _LocationData implements LocationData {
   const factory _LocationData(
-          {final Map<String, String> provinces,
-          final Map<String, String> cities,
-          final Map<String, String> areas,
-          final List<dynamic> countries,
-          final List<Cart> carts,
-          final Map<String, String> districts,
-          @JsonKey(name: 'total_weight') final double? totalWeight,
-          @JsonKey(name: 'total_amount') final int? totalAmount,
-          @JsonKey(name: 'shipping_charge') final int? shippingCharge}) =
-      _$LocationDataImpl;
+      {final Map<String, String> provinces,
+      final Map<String, String> cities,
+      final Map<String, String> areas,
+      final List<dynamic> countries,
+      final dynamic iaddress,
+      final List<Cart> carts,
+      @JsonKey(name: 'total_weight') final double totalWeight,
+      @JsonKey(name: 'total_amount') final int totalAmount,
+      @JsonKey(name: 'shipping_charge') final int shippingCharge,
+      final Customer? customer}) = _$LocationDataImpl;
 
   factory _LocationData.fromJson(Map<String, dynamic> json) =
       _$LocationDataImpl.fromJson;
@@ -545,18 +574,20 @@ abstract class _LocationData implements LocationData {
   @override
   List<dynamic> get countries;
   @override
+  dynamic get iaddress;
+  @override
   List<Cart> get carts;
   @override
-  Map<String, String> get districts;
-  @override
   @JsonKey(name: 'total_weight')
-  double? get totalWeight;
+  double get totalWeight;
   @override
   @JsonKey(name: 'total_amount')
-  int? get totalAmount;
+  int get totalAmount;
   @override
   @JsonKey(name: 'shipping_charge')
-  int? get shippingCharge;
+  int get shippingCharge;
+  @override
+  Customer? get customer;
 
   /// Create a copy of LocationData
   /// with the given fields replaced by the non-null parameter values.
@@ -572,12 +603,12 @@ Cart _$CartFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Cart {
-  int get id => throw _privateConstructorUsedError;
-  int get quantity => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get quantity => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_weight')
-  double get totalWeight => throw _privateConstructorUsedError;
+  String get totalWeight => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_amount')
-  int get totalAmount => throw _privateConstructorUsedError;
+  String get totalAmount => throw _privateConstructorUsedError;
 
   /// Serializes this Cart to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -594,10 +625,10 @@ abstract class $CartCopyWith<$Res> {
       _$CartCopyWithImpl<$Res, Cart>;
   @useResult
   $Res call(
-      {int id,
-      int quantity,
-      @JsonKey(name: 'total_weight') double totalWeight,
-      @JsonKey(name: 'total_amount') int totalAmount});
+      {String id,
+      String quantity,
+      @JsonKey(name: 'total_weight') String totalWeight,
+      @JsonKey(name: 'total_amount') String totalAmount});
 }
 
 /// @nodoc
@@ -624,19 +655,19 @@ class _$CartCopyWithImpl<$Res, $Val extends Cart>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       totalWeight: null == totalWeight
           ? _value.totalWeight
           : totalWeight // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ) as $Val);
   }
 }
@@ -649,10 +680,10 @@ abstract class _$$CartImplCopyWith<$Res> implements $CartCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int id,
-      int quantity,
-      @JsonKey(name: 'total_weight') double totalWeight,
-      @JsonKey(name: 'total_amount') int totalAmount});
+      {String id,
+      String quantity,
+      @JsonKey(name: 'total_weight') String totalWeight,
+      @JsonKey(name: 'total_amount') String totalAmount});
 }
 
 /// @nodoc
@@ -676,19 +707,19 @@ class __$$CartImplCopyWithImpl<$Res>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       totalWeight: null == totalWeight
           ? _value.totalWeight
           : totalWeight // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -697,24 +728,26 @@ class __$$CartImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CartImpl implements _Cart {
   const _$CartImpl(
-      {required this.id,
-      required this.quantity,
-      @JsonKey(name: 'total_weight') required this.totalWeight,
-      @JsonKey(name: 'total_amount') required this.totalAmount});
+      {this.id = '',
+      this.quantity = '',
+      @JsonKey(name: 'total_weight') this.totalWeight = '',
+      @JsonKey(name: 'total_amount') this.totalAmount = ''});
 
   factory _$CartImpl.fromJson(Map<String, dynamic> json) =>
       _$$CartImplFromJson(json);
 
   @override
-  final int id;
+  @JsonKey()
+  final String id;
   @override
-  final int quantity;
+  @JsonKey()
+  final String quantity;
   @override
   @JsonKey(name: 'total_weight')
-  final double totalWeight;
+  final String totalWeight;
   @override
   @JsonKey(name: 'total_amount')
-  final int totalAmount;
+  final String totalAmount;
 
   @override
   String toString() {
@@ -758,29 +791,335 @@ class _$CartImpl implements _Cart {
 
 abstract class _Cart implements Cart {
   const factory _Cart(
-          {required final int id,
-          required final int quantity,
-          @JsonKey(name: 'total_weight') required final double totalWeight,
-          @JsonKey(name: 'total_amount') required final int totalAmount}) =
-      _$CartImpl;
+      {final String id,
+      final String quantity,
+      @JsonKey(name: 'total_weight') final String totalWeight,
+      @JsonKey(name: 'total_amount') final String totalAmount}) = _$CartImpl;
 
   factory _Cart.fromJson(Map<String, dynamic> json) = _$CartImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
-  int get quantity;
+  String get quantity;
   @override
   @JsonKey(name: 'total_weight')
-  double get totalWeight;
+  String get totalWeight;
   @override
   @JsonKey(name: 'total_amount')
-  int get totalAmount;
+  String get totalAmount;
 
   /// Create a copy of Cart
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CartImplCopyWith<_$CartImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Customer _$CustomerFromJson(Map<String, dynamic> json) {
+  return _Customer.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Customer {
+  int get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
+  @JsonKey(name: 'province_id')
+  int get provinceId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'city_id')
+  int get cityId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'area_id')
+  int get areaId => throw _privateConstructorUsedError;
+  dynamic get street => throw _privateConstructorUsedError;
+
+  /// Serializes this Customer to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Customer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CustomerCopyWith<Customer> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CustomerCopyWith<$Res> {
+  factory $CustomerCopyWith(Customer value, $Res Function(Customer) then) =
+      _$CustomerCopyWithImpl<$Res, Customer>;
+  @useResult
+  $Res call(
+      {int id,
+      String name,
+      String email,
+      String phone,
+      @JsonKey(name: 'province_id') int provinceId,
+      @JsonKey(name: 'city_id') int cityId,
+      @JsonKey(name: 'area_id') int areaId,
+      dynamic street});
+}
+
+/// @nodoc
+class _$CustomerCopyWithImpl<$Res, $Val extends Customer>
+    implements $CustomerCopyWith<$Res> {
+  _$CustomerCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Customer
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? email = null,
+    Object? phone = null,
+    Object? provinceId = null,
+    Object? cityId = null,
+    Object? areaId = null,
+    Object? street = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      provinceId: null == provinceId
+          ? _value.provinceId
+          : provinceId // ignore: cast_nullable_to_non_nullable
+              as int,
+      cityId: null == cityId
+          ? _value.cityId
+          : cityId // ignore: cast_nullable_to_non_nullable
+              as int,
+      areaId: null == areaId
+          ? _value.areaId
+          : areaId // ignore: cast_nullable_to_non_nullable
+              as int,
+      street: freezed == street
+          ? _value.street
+          : street // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CustomerImplCopyWith<$Res>
+    implements $CustomerCopyWith<$Res> {
+  factory _$$CustomerImplCopyWith(
+          _$CustomerImpl value, $Res Function(_$CustomerImpl) then) =
+      __$$CustomerImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String name,
+      String email,
+      String phone,
+      @JsonKey(name: 'province_id') int provinceId,
+      @JsonKey(name: 'city_id') int cityId,
+      @JsonKey(name: 'area_id') int areaId,
+      dynamic street});
+}
+
+/// @nodoc
+class __$$CustomerImplCopyWithImpl<$Res>
+    extends _$CustomerCopyWithImpl<$Res, _$CustomerImpl>
+    implements _$$CustomerImplCopyWith<$Res> {
+  __$$CustomerImplCopyWithImpl(
+      _$CustomerImpl _value, $Res Function(_$CustomerImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Customer
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? email = null,
+    Object? phone = null,
+    Object? provinceId = null,
+    Object? cityId = null,
+    Object? areaId = null,
+    Object? street = freezed,
+  }) {
+    return _then(_$CustomerImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      provinceId: null == provinceId
+          ? _value.provinceId
+          : provinceId // ignore: cast_nullable_to_non_nullable
+              as int,
+      cityId: null == cityId
+          ? _value.cityId
+          : cityId // ignore: cast_nullable_to_non_nullable
+              as int,
+      areaId: null == areaId
+          ? _value.areaId
+          : areaId // ignore: cast_nullable_to_non_nullable
+              as int,
+      street: freezed == street
+          ? _value.street
+          : street // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CustomerImpl implements _Customer {
+  const _$CustomerImpl(
+      {this.id = -1,
+      this.name = '',
+      this.email = '',
+      this.phone = '',
+      @JsonKey(name: 'province_id') this.provinceId = -1,
+      @JsonKey(name: 'city_id') this.cityId = -1,
+      @JsonKey(name: 'area_id') this.areaId = -1,
+      this.street});
+
+  factory _$CustomerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CustomerImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final int id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String email;
+  @override
+  @JsonKey()
+  final String phone;
+  @override
+  @JsonKey(name: 'province_id')
+  final int provinceId;
+  @override
+  @JsonKey(name: 'city_id')
+  final int cityId;
+  @override
+  @JsonKey(name: 'area_id')
+  final int areaId;
+  @override
+  final dynamic street;
+
+  @override
+  String toString() {
+    return 'Customer(id: $id, name: $name, email: $email, phone: $phone, provinceId: $provinceId, cityId: $cityId, areaId: $areaId, street: $street)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CustomerImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.provinceId, provinceId) ||
+                other.provinceId == provinceId) &&
+            (identical(other.cityId, cityId) || other.cityId == cityId) &&
+            (identical(other.areaId, areaId) || other.areaId == areaId) &&
+            const DeepCollectionEquality().equals(other.street, street));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, email, phone,
+      provinceId, cityId, areaId, const DeepCollectionEquality().hash(street));
+
+  /// Create a copy of Customer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CustomerImplCopyWith<_$CustomerImpl> get copyWith =>
+      __$$CustomerImplCopyWithImpl<_$CustomerImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CustomerImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Customer implements Customer {
+  const factory _Customer(
+      {final int id,
+      final String name,
+      final String email,
+      final String phone,
+      @JsonKey(name: 'province_id') final int provinceId,
+      @JsonKey(name: 'city_id') final int cityId,
+      @JsonKey(name: 'area_id') final int areaId,
+      final dynamic street}) = _$CustomerImpl;
+
+  factory _Customer.fromJson(Map<String, dynamic> json) =
+      _$CustomerImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get name;
+  @override
+  String get email;
+  @override
+  String get phone;
+  @override
+  @JsonKey(name: 'province_id')
+  int get provinceId;
+  @override
+  @JsonKey(name: 'city_id')
+  int get cityId;
+  @override
+  @JsonKey(name: 'area_id')
+  int get areaId;
+  @override
+  dynamic get street;
+
+  /// Create a copy of Customer
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CustomerImplCopyWith<_$CustomerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
