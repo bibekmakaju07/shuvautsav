@@ -35,7 +35,7 @@ mixin _$ProductDetailsModel {
   String get shippingPolicy => throw _privateConstructorUsedError;
   String get colorCheck => throw _privateConstructorUsedError;
   int get limit => throw _privateConstructorUsedError;
-  double? get weight => throw _privateConstructorUsedError;
+  String get weight => throw _privateConstructorUsedError;
   List<String> get productColorImage => throw _privateConstructorUsedError;
   String get image1 => throw _privateConstructorUsedError;
   String get image2 => throw _privateConstructorUsedError;
@@ -75,7 +75,7 @@ abstract class $ProductDetailsModelCopyWith<$Res> {
       String shippingPolicy,
       String colorCheck,
       int limit,
-      double? weight,
+      String weight,
       List<String> productColorImage,
       String image1,
       String image2,
@@ -114,7 +114,7 @@ class _$ProductDetailsModelCopyWithImpl<$Res, $Val extends ProductDetailsModel>
     Object? shippingPolicy = null,
     Object? colorCheck = null,
     Object? limit = null,
-    Object? weight = freezed,
+    Object? weight = null,
     Object? productColorImage = null,
     Object? image1 = null,
     Object? image2 = null,
@@ -183,10 +183,10 @@ class _$ProductDetailsModelCopyWithImpl<$Res, $Val extends ProductDetailsModel>
           ? _value.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      weight: freezed == weight
+      weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String,
       productColorImage: null == productColorImage
           ? _value.productColorImage
           : productColorImage // ignore: cast_nullable_to_non_nullable
@@ -239,7 +239,7 @@ abstract class _$$ProductDetailsModelImplCopyWith<$Res>
       String shippingPolicy,
       String colorCheck,
       int limit,
-      double? weight,
+      String weight,
       List<String> productColorImage,
       String image1,
       String image2,
@@ -276,7 +276,7 @@ class __$$ProductDetailsModelImplCopyWithImpl<$Res>
     Object? shippingPolicy = null,
     Object? colorCheck = null,
     Object? limit = null,
-    Object? weight = freezed,
+    Object? weight = null,
     Object? productColorImage = null,
     Object? image1 = null,
     Object? image2 = null,
@@ -345,10 +345,10 @@ class __$$ProductDetailsModelImplCopyWithImpl<$Res>
           ? _value.limit
           : limit // ignore: cast_nullable_to_non_nullable
               as int,
-      weight: freezed == weight
+      weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String,
       productColorImage: null == productColorImage
           ? _value._productColorImage
           : productColorImage // ignore: cast_nullable_to_non_nullable
@@ -396,7 +396,7 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
       this.shippingPolicy = '',
       this.colorCheck = '',
       this.limit = 0,
-      this.weight,
+      this.weight = '',
       final List<String> productColorImage = const [],
       this.image1 = '',
       this.image2 = '',
@@ -460,7 +460,8 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
   @JsonKey()
   final int limit;
   @override
-  final double? weight;
+  @JsonKey()
+  final String weight;
   final List<String> _productColorImage;
   @override
   @JsonKey()
@@ -598,7 +599,7 @@ abstract class _ProductDetailsModel implements ProductDetailsModel {
       final String shippingPolicy,
       final String colorCheck,
       final int limit,
-      final double? weight,
+      final String weight,
       final List<String> productColorImage,
       final String image1,
       final String image2,
@@ -640,7 +641,7 @@ abstract class _ProductDetailsModel implements ProductDetailsModel {
   @override
   int get limit;
   @override
-  double? get weight;
+  String get weight;
   @override
   List<String> get productColorImage;
   @override

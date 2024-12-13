@@ -4,9 +4,11 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:shuvautsavapp/app/app.dart';
+import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/features/cart/controller/checkout_controller.dart';
+import 'package:shuvautsavapp/features/cart/views/checkout_form.dart';
 import 'package:shuvautsavapp/main.dart';
 import 'package:shuvautsavapp/objectbox.g.dart';
 
@@ -25,6 +27,14 @@ class _CardPageState extends ConsumerState<CartPage> {
       next.maybeWhen(
         orElse: () {},
         success: (data, extra) {
+          ref.push(
+            RoutePage(
+              child: CheckoutForm(
+                locationModel: data,
+              ),
+              name: 'CheckoutForm',
+            ),
+          );
           ref.read(toastProvider.notifier).update((_) {
             return (
               title: 'Checkout Successfull',
@@ -65,6 +75,7 @@ class _CardPageState extends ConsumerState<CartPage> {
                     .state
                     .box<ProductDetailsEntity>()
                     .getManyAsync(value);
+                    
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

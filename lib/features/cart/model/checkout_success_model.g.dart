@@ -21,18 +21,21 @@ Map<String, dynamic> _$$LocationModelImplToJson(_$LocationModelImpl instance) =>
 _$LocationDataImpl _$$LocationDataImplFromJson(Map<String, dynamic> json) =>
     _$LocationDataImpl(
       provinces: (json['provinces'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
+            (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
       cities: (json['cities'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
+            (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
       areas: (json['areas'] as Map<String, dynamic>?)?.map(
-            (k, e) => MapEntry(k, e as String),
+            (k, e) => MapEntry(k, e as String?),
           ) ??
           const {},
-      countries: json['countries'] as List<dynamic>? ?? const [],
+      wards: (json['wards'] as List<dynamic>?)
+              ?.map((e) => (e as num).toInt())
+              .toList() ??
+          const [],
       iaddress: json['iaddress'],
       carts: (json['carts'] as List<dynamic>?)
               ?.map((e) => Cart.fromJson(e as Map<String, dynamic>))
@@ -40,7 +43,7 @@ _$LocationDataImpl _$$LocationDataImplFromJson(Map<String, dynamic> json) =>
           const [],
       totalWeight: (json['total_weight'] as num?)?.toDouble() ?? 0.0,
       totalAmount: (json['total_amount'] as num?)?.toInt() ?? -1,
-      shippingCharge: (json['shipping_charge'] as num?)?.toInt() ?? 0,
+      shippingCharge: (json['shipping_charge'] as num?)?.toDouble() ?? 0.0,
       customer: json['customer'] == null
           ? null
           : Customer.fromJson(json['customer'] as Map<String, dynamic>),
@@ -51,7 +54,7 @@ Map<String, dynamic> _$$LocationDataImplToJson(_$LocationDataImpl instance) =>
       'provinces': instance.provinces,
       'cities': instance.cities,
       'areas': instance.areas,
-      'countries': instance.countries,
+      'wards': instance.wards,
       'iaddress': instance.iaddress,
       'carts': instance.carts,
       'total_weight': instance.totalWeight,
@@ -61,10 +64,10 @@ Map<String, dynamic> _$$LocationDataImplToJson(_$LocationDataImpl instance) =>
     };
 
 _$CartImpl _$$CartImplFromJson(Map<String, dynamic> json) => _$CartImpl(
-      id: json['id'] as String? ?? '',
-      quantity: json['quantity'] as String? ?? '',
-      totalWeight: json['total_weight'] as String? ?? '',
-      totalAmount: json['total_amount'] as String? ?? '',
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      quantity: (json['quantity'] as num?)?.toInt() ?? 0,
+      totalWeight: (json['total_weight'] as num?)?.toDouble() ?? 0.0,
+      totalAmount: (json['total_amount'] as num?)?.toDouble() ?? 0.0,
     );
 
 Map<String, dynamic> _$$CartImplToJson(_$CartImpl instance) =>
@@ -84,7 +87,14 @@ _$CustomerImpl _$$CustomerImplFromJson(Map<String, dynamic> json) =>
       provinceId: (json['province_id'] as num?)?.toInt() ?? -1,
       cityId: (json['city_id'] as num?)?.toInt() ?? -1,
       areaId: (json['area_id'] as num?)?.toInt() ?? -1,
-      street: json['street'],
+      street: json['street'] as String?,
+      i_state: json['i_state'] as String?,
+      i_suburb: json['i_suburb'] as String?,
+      i_postcode: json['i_postcode'] as String?,
+      i_street: json['i_street'] as String?,
+      international_address_id: json['international_address_id'],
+      countryId: (json['country_id'] as num?)?.toInt() ?? -1,
+      addressId: (json['address_id'] as num?)?.toInt() ?? -1,
     );
 
 Map<String, dynamic> _$$CustomerImplToJson(_$CustomerImpl instance) =>
@@ -97,4 +107,11 @@ Map<String, dynamic> _$$CustomerImplToJson(_$CustomerImpl instance) =>
       'city_id': instance.cityId,
       'area_id': instance.areaId,
       'street': instance.street,
+      'i_state': instance.i_state,
+      'i_suburb': instance.i_suburb,
+      'i_postcode': instance.i_postcode,
+      'i_street': instance.i_street,
+      'international_address_id': instance.international_address_id,
+      'country_id': instance.countryId,
+      'address_id': instance.addressId,
     };

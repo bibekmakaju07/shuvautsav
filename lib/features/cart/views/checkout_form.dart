@@ -1,6 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
 import 'package:shuvautsavapp/features/cart/model/checkout_success_model.dart';
+import 'package:shuvautsavapp/features/cart/views/widget/billing_details.dart';
+import 'package:shuvautsavapp/features/cart/views/widget/payment_widget.dart';
+import 'package:shuvautsavapp/features/cart/views/widget/shipping_details.dart';
+import 'package:shuvautsavapp/features/payment/controller/esewa_payment_controller.dart';
+import 'package:shuvautsavapp/network/network_client.dart';
+
+final locationProvider = FutureProvider.autoDispose<LocationModel>((ref) async {
+  final data = await NetworkService().get(
+    RequestApi(
+      endPath: 'https://bibekmakaju07.github.io/check.json',
+    ),
+  );
+  return LocationModel.fromJson(data.data);
+});
+
+class TestCheckoutDataFrom extends ConsumerStatefulWidget {
+  const TestCheckoutDataFrom({super.key, required this.locationModel});
+  final LocationModel locationModel;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _TestCheckoutDataFromState();
+}
+
+class _TestCheckoutDataFromState extends ConsumerState<TestCheckoutDataFrom> {
+  @override
+  Widget build(BuildContext context) {
+    return CheckoutForm(locationModel: widget.locationModel);
+  }
+}
 
 class CheckoutForm extends ConsumerStatefulWidget {
   const CheckoutForm({
@@ -17,6 +48,8 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
+  Map<String, dynamic> formData = {};
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +58,12 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(esewaProvider, (prev, next) {
+      next.maybeWhen(
+        orElse: () {},
+        success: (data, extra) {},
+      );
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -33,36 +72,51 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
       ),
       body: Column(
         children: [
-          TabBar(
-            controller: _tabController,
-            tabs: [
-              Tab(
-                text: 'Shipping',
-              ),
-              Tab(
-                text: 'Billing',
-              ),
-              Tab(
-                text: 'Payment}',
-              ),
-            ],
+          IgnorePointer(
+            ignoring: true,
+            child: TabBar(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              tabs: [
+                Tab(
+                  text: 'Shipping Details',
+                ),
+                Tab(
+                  text: 'Billing Details',
+                ),
+                Tab(
+                  text: 'Payment',
+                ),
+              ],
+            ),
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Select a country',
-                    ),
-                  ),
-                  TextFormField(),
-                  TextFormField(),
-                  TextFormField(),
-                  TextFormField(),
-                ],
-              ),
+            child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: [
+                ShippingDetails(
+                  locationModel: widget.locationModel,
+                  onValidate: (value) {
+                    formData.addAll(value);
+                    _tabController.animateTo(_tabController.index + 1);
+                  },
+                ),
+                BillingDetails(
+                  locationModel: widget.locationModel,
+                  onValidate: (value) {
+                    formData.addAll(value);
+                    _tabController.animateTo(_tabController.index + 1);
+                  },
+                ),
+                PaymentWidget(
+                  locationModel: widget.locationModel,
+                  onValidate: (value) {
+                    formData.addAll(value);
+                    ref.read(esewaProvider.notifier).payWithEsewa();
+                  },
+                ),
+              ],
             ),
           ),
         ],
@@ -71,27 +125,70 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
   }
 }
 
-class GenericBottomSheet<T> extends ConsumerStatefulWidget {
-  const GenericBottomSheet(
-      {super.key, required this.items, required this.title});
-  final List<DropdownMenuItem<T>> items;
-  final String title;
+enum PaymentMethod {
+  cashOnDelivery("Cash on Delivery"),
+  esewaPayment("Esewa Payment"),
+  ipsPayment("IPS Payment"),
+  prabhupayPayment("Prabhupay Payment"),
+  bankTransfer("Bank Transfer");
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _GenericBottomSheetState<T>();
+  final String displayName;
+  const PaymentMethod(this.displayName);
 }
 
-class _GenericBottomSheetState<T> extends ConsumerState<GenericBottomSheet<T>> {
+class CustomTextFormField extends StatefulWidget {
+  const CustomTextFormField({
+    super.key,
+    required this.label,
+    this.onTap,
+    this.readOnly,
+    this.suffix,
+    this.suffixIcon,
+    this.textEditingController,
+    this.maxLines,
+    this.hintStyle,
+    this.validator,
+  });
+  final String label;
+  final TextEditingController? textEditingController;
+  final VoidCallback? onTap;
+  final bool? readOnly;
+  final Widget? suffix;
+  final Widget? suffixIcon;
+  final int? maxLines;
+  final TextStyle? hintStyle;
+  final String? Function(String?)? validator;
+
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      heightFactor: 0.8,
-      child: ListView(
-        children: widget.items.map((e) {
-          return e.child;
-        }).toList(),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(widget.label),
+        SizedBox(
+          height: 4,
+        ),
+        TextFormField(
+          controller: widget.textEditingController,
+          onTap: widget.onTap,
+          maxLines: widget.maxLines,
+          readOnly: widget.readOnly ?? false,
+          validator: widget.validator,
+          decoration: InputDecoration(
+            suffixIcon: widget.suffixIcon,
+            isDense: true,
+            hintText: widget.label,
+            hintStyle: widget.hintStyle ?? context.textTheme().bodyMedium,
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ],
     );
   }
 }

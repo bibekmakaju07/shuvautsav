@@ -21,7 +21,7 @@ class ProductDetailsModel with _$ProductDetailsModel {
     @Default('') String shippingPolicy,
     @Default('') String colorCheck,
     @Default(0) int limit,
-    double ? weight,
+    @Default('') String weight,
     @Default([]) List<String> productColorImage,
     @Default('') String image1,
     @Default('') String image2,

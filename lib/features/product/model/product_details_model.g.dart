@@ -28,7 +28,7 @@ _$ProductDetailsModelImpl _$$ProductDetailsModelImplFromJson(
       shippingPolicy: json['shippingPolicy'] as String? ?? '',
       colorCheck: json['colorCheck'] as String? ?? '',
       limit: (json['limit'] as num?)?.toInt() ?? 0,
-      weight: (json['weight'] as num?)?.toDouble(),
+      weight: json['weight'] as String? ?? '',
       productColorImage: (json['productColorImage'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??

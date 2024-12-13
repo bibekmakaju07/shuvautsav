@@ -133,10 +133,19 @@ class _AppState extends ConsumerState<App> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
+        actionIconTheme: ActionIconThemeData(
+          backButtonIconBuilder: (context) {
+            return Icon(Icons.chevron_left);
+          },
+        ),
         // textTheme: KTextTheme.textTheme,
         appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color.fromARGB(255, 42, 42, 42)),
           actionsIconTheme: IconThemeData(
-            color: Colors.transparent,
+            color: Color.fromARGB(0, 45, 45, 45),
           ),
         ),
         useMaterial3: true,

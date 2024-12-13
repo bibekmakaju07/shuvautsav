@@ -7,7 +7,8 @@ import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/cart/views/cart.dart';
 import 'package:shuvautsavapp/features/category/views/category.dart';
 import 'package:shuvautsavapp/features/dashboard/views/home_page.dart';
-import 'package:shuvautsavapp/features/product/views/product_list.dart';
+import 'package:shuvautsavapp/features/orders/views/order_list_page.dart';
+import 'package:shuvautsavapp/features/profile/view/profile_view.dart';
 import 'package:shuvautsavapp/main.dart';
 
 class DashboardPage extends StatefulHookConsumerWidget {
@@ -24,8 +25,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     const HomePage(),
     const CategoryPage(),
     const SizedBox(),
-    const ProductList(),
-    const SizedBox(),
+    const OrderListPage(),
+    const ProfileView(),
   ];
 
   @override
@@ -145,8 +146,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                       ),
                       BottomNavItem(
                         index: 3,
-                        iconData: HugeIcons.strokeRoundedProductLoading,
-                        title: 'Product',
+                        iconData: HugeIcons.strokeRoundedShoppingBag01,
+                        title: 'Orders',
                         selectedIndex: selectedPage,
                         onSelect: (value) {
                           setState(() {

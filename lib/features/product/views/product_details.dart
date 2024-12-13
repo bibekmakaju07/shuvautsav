@@ -105,7 +105,8 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                         quantity: savedData != null
                                             ? (savedData.quantity + 1)
                                             : 1,
-                                            weight: data.product?.weight??0,
+                                        weight: double.tryParse(
+                                            '${data.product?.weight ?? 0}'),
                                         qty: data.product?.qty ?? 0,
                                       ),
                                       mode: savedData != null

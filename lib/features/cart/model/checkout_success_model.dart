@@ -16,15 +16,16 @@ class LocationModel with _$LocationModel {
 @freezed
 class LocationData with _$LocationData {
   const factory LocationData({
-    @Default({}) Map<String, String> provinces,
-    @Default({}) Map<String, String> cities,
-    @Default({}) Map<String, String> areas,
-    @Default([]) List<dynamic> countries,
+    @Default({}) Map<String, String?> provinces,
+    @Default({}) Map<String, String?> cities,
+    @Default({}) Map<String, String?> areas,
+    // @Default({}) Map<String, String?> countries,
+    @Default([]) List<int> wards,
     dynamic iaddress,
     @Default([]) List<Cart> carts,
     @JsonKey(name: 'total_weight') @Default(0.0) double totalWeight,
     @JsonKey(name: 'total_amount') @Default(-1) int totalAmount,
-    @JsonKey(name: 'shipping_charge') @Default(0) int shippingCharge,
+    @JsonKey(name: 'shipping_charge') @Default(0.0) double shippingCharge,
     Customer? customer,
   }) = _LocationData;
 
@@ -35,10 +36,10 @@ class LocationData with _$LocationData {
 @freezed
 class Cart with _$Cart {
   const factory Cart({
-    @Default('') String id,
-    @Default('') String quantity,
-    @JsonKey(name: 'total_weight') @Default('') String totalWeight,
-    @JsonKey(name: 'total_amount') @Default('') String totalAmount,
+    @Default(0) int id,
+    @Default(0) int quantity,
+    @JsonKey(name: 'total_weight') @Default(0.0) double totalWeight,
+    @JsonKey(name: 'total_amount') @Default(0.0) double totalAmount,
   }) = _Cart;
 
   factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
@@ -54,7 +55,15 @@ class Customer with _$Customer {
     @JsonKey(name: 'province_id') @Default(-1) int provinceId,
     @JsonKey(name: 'city_id') @Default(-1) int cityId,
     @JsonKey(name: 'area_id') @Default(-1) int areaId,
-    dynamic street,
+    String? street,
+    String? i_state,
+    String? i_suburb,
+    String? i_postcode,
+    String? i_street,
+    dynamic international_address_id,
+    @JsonKey(name: 'country_id') @Default(-1) int countryId,
+@JsonKey(name: 'address_id') @Default(-1) int addressId,
+
   }) = _Customer;
 
   factory Customer.fromJson(Map<String, dynamic> json) =>
