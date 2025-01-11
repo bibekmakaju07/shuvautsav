@@ -17,6 +17,10 @@ extension AppRoute on WidgetRef {
     read(routeProvider.notifier).removePages(pageCount);
   }
 
+  Future<void> pushReplacement(RoutePage page) async {
+    read(routeProvider.notifier).pushReplacement(page);
+  }
+
   Future<void> replaceAll(RoutePage page) async {
     read(routeProvider.notifier).replaceAll(page);
   }
@@ -103,6 +107,12 @@ class RouteChangeNotifier extends ChangeNotifier {
   }
 
   void push(RoutePage page) {
+    pages.add(page);
+    notifyListeners();
+  }
+
+  void pushReplacement(RoutePage page) {
+    pages.removeLast();
     pages.add(page);
     notifyListeners();
   }

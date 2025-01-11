@@ -32,7 +32,7 @@ class CheckoutController
 
       if (response is Response) {
         final data = LocationModel.fromJson(response.data);
-        state = AppState.success(data);
+        state = AppState.success(data,extra: params);
       } else {
         state = AppState.error(
             const NetworkFailure(statusCode: -1, message: 'Error'));

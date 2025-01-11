@@ -1,6 +1,7 @@
 
 import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shuvautsavapp/network/failure.dart';
 
 part 'payment_state.freezed.dart';
 
@@ -8,6 +9,6 @@ part 'payment_state.freezed.dart';
 class PaymentState with _$PaymentState {
   const factory PaymentState.initial() = PaymentInitial;
   const factory PaymentState.success(EsewaPaymentSuccessResult result) = PaymentSuccess;
-  const factory PaymentState.failure() = PaymentFailure;
-  const factory PaymentState.cancellation() = PaymentCancellation;
+  const factory PaymentState.failure(dynamic failure) = PaymentFailure;
+  const factory PaymentState.cancellation(dynamic failure) = PaymentCancellation;
 }

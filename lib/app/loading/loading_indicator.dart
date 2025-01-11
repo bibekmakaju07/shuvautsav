@@ -9,7 +9,7 @@ class LoadingIndicator {
   final loadingOverlay = OverlayEntry(
     builder: (context) {
       return const Align(
-        child: CircularProgressIndicator.adaptive(),
+        child: CircularProgressIndicator(),
       );
     },
   );
@@ -74,7 +74,7 @@ class LoadingIndicatorWidget extends StatelessWidget {
             child: Scaffold(
               backgroundColor: Colors.black26,
               body: Align(
-                child: CircularProgressIndicator.adaptive(),
+                child: CircularProgressIndicator(),
               ),
             ),
           ),

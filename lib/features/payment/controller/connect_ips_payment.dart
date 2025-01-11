@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shuvautsavapp/app/app_states/appstate.dart';
 
-class ConnectIpsPaymentCubit extends StateNotifier<PaymentState> {
+class ConnectIpsPaymentCubit extends StateNotifier<AppState> {
   ConnectIpsPaymentCubit() : super(AppState.initial());
   final dio = Dio();
 

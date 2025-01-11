@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/app_states/appstate.dart';
@@ -36,6 +38,7 @@ class ProfileNotifier
             const NetworkFailure(statusCode: -1, message: 'Error'));
       }
     } catch (e) {
+      log('${e}');
       state = AppState.loading(false);
       state = AppState.error(
           const NetworkFailure(statusCode: -1, message: 'Error'));

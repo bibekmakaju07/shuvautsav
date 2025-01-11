@@ -4,46 +4,47 @@ import 'package:esewa_flutter_sdk/esewa_payment.dart';
 import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:shuvautsavapp/app/app_states/appstate.dart';
+import 'package:shuvautsavapp/features/payment/state/payment_state.dart';
 
-final esewaProvider = StateNotifierProvider.autoDispose<EsewaController,AppState>((ref) {
+final esewaProvider =
+    StateNotifierProvider.autoDispose<EsewaController, PaymentState>((ref) {
   return EsewaController();
 });
 
-class EsewaController extends StateNotifier<AppState> {
-  EsewaController() : super(AppState.initial());
+class EsewaController extends StateNotifier<PaymentState> {
+  EsewaController() : super(PaymentState.initial());
 
   static const CLIENT_ID =
-      "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R";
-  static const SECRET_KEY = "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==";
+      "NjswISBTPjEqJCVFOC8/Iis8RSc3NiU2SzUvMVMpIyVJJTVUICBIJCkmPSQs";
+  static const SECRET_KEY = "FhcOWRIbHhMY";
 
-  Future<void> payWithEsewa() async {
+  Future<void> payWithEsewa(EsewaPayment esewaPayment
+      // EsewaPayment paymentDetails
+      ) async {
     try {
       EsewaFlutterSdk.initPayment(
         esewaConfig: EsewaConfig(
-          environment: Environment.test,
+          environment: Environment.live,
           clientId: CLIENT_ID,
           secretId: SECRET_KEY,
         ),
-         
-        esewaPayment: EsewaPayment(
-            productId: "1d71jd81",
-            productName: "Product One",
-            productPrice: "20",
-            callbackUrl: '',
-            ),
+        esewaPayment: esewaPayment,
         onPaymentSuccess: (EsewaPaymentSuccessResult data) {
           debugPrint(":::SUCCESS::: => $data");
+          state = PaymentState.success(data);
           // verifyTransactionStatus(data);
         },
         onPaymentFailure: (data) {
           debugPrint(":::FAILURE::: => $data");
+          state = PaymentState.failure(data);
         },
         onPaymentCancellation: (data) {
           debugPrint(":::CANCELLATION::: => $data");
+          state = PaymentState.cancellation(data);
         },
       );
     } on Exception catch (e) {
+      state = PaymentState.cancellation(e.toString());
       debugPrint("EXCEPTION : ${e.toString()}");
     }
   }

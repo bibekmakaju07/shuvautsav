@@ -306,8 +306,12 @@ class _ShippingDetailsState extends ConsumerState<ShippingDetails> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          FocusManager.instance.primaryFocus?.unfocus();
                           var formData = {
-                            '':''
+                            "shipping_address": _streetController.text,
+                            "province_id": int.tryParse(provideId ?? '') ?? 0,
+                            "city_id": int.tryParse(cityid ?? '') ?? 0,
+                            "area_id": int.tryParse(muncipalityId ?? '') ?? 0,
                           };
                           widget.onValidate.call(formData);
                         }

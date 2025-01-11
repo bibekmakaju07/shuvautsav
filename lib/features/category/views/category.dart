@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
-import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/category/model/category_model.dart';
 import 'package:shuvautsavapp/features/product/controller/product_controller.dart';
 import 'package:shuvautsavapp/features/product/views/product_page.dart';
@@ -104,81 +103,97 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   return Expanded(
                     child: SingleChildScrollView(
                       child: Column(
-                        children: List.generate(data.length, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: ClipRect(
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                  sigmaX: 5,
-                                  sigmaY: 5,
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                     ref.push(RoutePage(
-                            child: ProductPage(
-                              categoriesType: CategoriesType.catSlug,
-                              slug: data[index].slug,
-                            ),
-                            name: 'ProductPage',
-                          ));
-                                    // ref
-                                    //     .read(toastProvider.notifier)
-                                    //     .update((cb) {
-                                    //   return (
-                                    //     description: '',
-                                    //     title: 'No item found for category',
-                                    //     id: '1212121',
-                                    //     error: true
-                                    //   );
-                                    // });
-                                  },
-                                  child: Container(
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withOpacity(0.15),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    width: double.infinity,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: Align(
-                                            alignment: Alignment.bottomLeft,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                vertical: 10,
-                                                horizontal: 16,
-                                              ),
-                                              child: Text(
-                                                data[index].title,
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
+                        children: [
+                          Column(
+                            children: List.generate(
+                              data.length,
+                              (index) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10)
+                                          .copyWith(),
+                                  child: ClipRect(
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 5,
+                                        sigmaY: 5,
+                                      ),
+                                      child: InkWell(
+                                        onTap: () {
+                                          ref.push(RoutePage(
+                                            child: ProductPage(
+                                              categoriesType:
+                                                  CategoriesType.catSlug,
+                                              slug: data[index].slug,
+                                            ),
+                                            name: 'ProductPage',
+                                          ));
+                                          // ref
+                                          //     .read(toastProvider.notifier)
+                                          //     .update((cb) {
+                                          //   return (
+                                          //     description: '',
+                                          //     title: 'No item found for category',
+                                          //     id: '1212121',
+                                          //     error: true
+                                          //   );
+                                          // });
+                                        },
+                                        child: Container(
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.15),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          width: double.infinity,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 2,
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.bottomLeft,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 16,
+                                                    ),
+                                                    child: Text(
+                                                      data[index].title,
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Image.network(
+                                                  data[index].image,
+                                                  fit: BoxFit.fitWidth,
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Image.network(
-                                            data[index].image,
-                                            fit: BoxFit.fitWidth,
-                                          ),
-                                        )
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
-                          );
-                        }),
+                          ),
+                          SizedBox(
+                            height: 100,
+                          ),
+                        ],
                       ),
                     ),
                   );

@@ -20,24 +20,24 @@ mixin _$PaymentState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(EsewaPaymentSuccessResult result) success,
-    required TResult Function() failure,
-    required TResult Function() cancellation,
+    required TResult Function(dynamic failure) failure,
+    required TResult Function(dynamic failure) cancellation,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(EsewaPaymentSuccessResult result)? success,
-    TResult? Function()? failure,
-    TResult? Function()? cancellation,
+    TResult? Function(dynamic failure)? failure,
+    TResult? Function(dynamic failure)? cancellation,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(EsewaPaymentSuccessResult result)? success,
-    TResult Function()? failure,
-    TResult Function()? cancellation,
+    TResult Function(dynamic failure)? failure,
+    TResult Function(dynamic failure)? cancellation,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -132,8 +132,8 @@ class _$PaymentInitialImpl implements PaymentInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(EsewaPaymentSuccessResult result) success,
-    required TResult Function() failure,
-    required TResult Function() cancellation,
+    required TResult Function(dynamic failure) failure,
+    required TResult Function(dynamic failure) cancellation,
   }) {
     return initial();
   }
@@ -143,8 +143,8 @@ class _$PaymentInitialImpl implements PaymentInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(EsewaPaymentSuccessResult result)? success,
-    TResult? Function()? failure,
-    TResult? Function()? cancellation,
+    TResult? Function(dynamic failure)? failure,
+    TResult? Function(dynamic failure)? cancellation,
   }) {
     return initial?.call();
   }
@@ -154,8 +154,8 @@ class _$PaymentInitialImpl implements PaymentInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(EsewaPaymentSuccessResult result)? success,
-    TResult Function()? failure,
-    TResult Function()? cancellation,
+    TResult Function(dynamic failure)? failure,
+    TResult Function(dynamic failure)? cancellation,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -277,8 +277,8 @@ class _$PaymentSuccessImpl implements PaymentSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(EsewaPaymentSuccessResult result) success,
-    required TResult Function() failure,
-    required TResult Function() cancellation,
+    required TResult Function(dynamic failure) failure,
+    required TResult Function(dynamic failure) cancellation,
   }) {
     return success(result);
   }
@@ -288,8 +288,8 @@ class _$PaymentSuccessImpl implements PaymentSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(EsewaPaymentSuccessResult result)? success,
-    TResult? Function()? failure,
-    TResult? Function()? cancellation,
+    TResult? Function(dynamic failure)? failure,
+    TResult? Function(dynamic failure)? cancellation,
   }) {
     return success?.call(result);
   }
@@ -299,8 +299,8 @@ class _$PaymentSuccessImpl implements PaymentSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(EsewaPaymentSuccessResult result)? success,
-    TResult Function()? failure,
-    TResult Function()? cancellation,
+    TResult Function(dynamic failure)? failure,
+    TResult Function(dynamic failure)? cancellation,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -365,6 +365,8 @@ abstract class _$$PaymentFailureImplCopyWith<$Res> {
   factory _$$PaymentFailureImplCopyWith(_$PaymentFailureImpl value,
           $Res Function(_$PaymentFailureImpl) then) =
       __$$PaymentFailureImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({dynamic failure});
 }
 
 /// @nodoc
@@ -377,36 +379,63 @@ class __$$PaymentFailureImplCopyWithImpl<$Res>
 
   /// Create a copy of PaymentState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failure = freezed,
+  }) {
+    return _then(_$PaymentFailureImpl(
+      freezed == failure
+          ? _value.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$PaymentFailureImpl implements PaymentFailure {
-  const _$PaymentFailureImpl();
+  const _$PaymentFailureImpl(this.failure);
+
+  @override
+  final dynamic failure;
 
   @override
   String toString() {
-    return 'PaymentState.failure()';
+    return 'PaymentState.failure(failure: $failure)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$PaymentFailureImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$PaymentFailureImpl &&
+            const DeepCollectionEquality().equals(other.failure, failure));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(failure));
+
+  /// Create a copy of PaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PaymentFailureImplCopyWith<_$PaymentFailureImpl> get copyWith =>
+      __$$PaymentFailureImplCopyWithImpl<_$PaymentFailureImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(EsewaPaymentSuccessResult result) success,
-    required TResult Function() failure,
-    required TResult Function() cancellation,
+    required TResult Function(dynamic failure) failure,
+    required TResult Function(dynamic failure) cancellation,
   }) {
-    return failure();
+    return failure(this.failure);
   }
 
   @override
@@ -414,10 +443,10 @@ class _$PaymentFailureImpl implements PaymentFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(EsewaPaymentSuccessResult result)? success,
-    TResult? Function()? failure,
-    TResult? Function()? cancellation,
+    TResult? Function(dynamic failure)? failure,
+    TResult? Function(dynamic failure)? cancellation,
   }) {
-    return failure?.call();
+    return failure?.call(this.failure);
   }
 
   @override
@@ -425,12 +454,12 @@ class _$PaymentFailureImpl implements PaymentFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(EsewaPaymentSuccessResult result)? success,
-    TResult Function()? failure,
-    TResult Function()? cancellation,
+    TResult Function(dynamic failure)? failure,
+    TResult Function(dynamic failure)? cancellation,
     required TResult orElse(),
   }) {
     if (failure != null) {
-      return failure();
+      return failure(this.failure);
     }
     return orElse();
   }
@@ -474,7 +503,15 @@ class _$PaymentFailureImpl implements PaymentFailure {
 }
 
 abstract class PaymentFailure implements PaymentState {
-  const factory PaymentFailure() = _$PaymentFailureImpl;
+  const factory PaymentFailure(final dynamic failure) = _$PaymentFailureImpl;
+
+  dynamic get failure;
+
+  /// Create a copy of PaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PaymentFailureImplCopyWith<_$PaymentFailureImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -482,6 +519,8 @@ abstract class _$$PaymentCancellationImplCopyWith<$Res> {
   factory _$$PaymentCancellationImplCopyWith(_$PaymentCancellationImpl value,
           $Res Function(_$PaymentCancellationImpl) then) =
       __$$PaymentCancellationImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({dynamic failure});
 }
 
 /// @nodoc
@@ -494,37 +533,63 @@ class __$$PaymentCancellationImplCopyWithImpl<$Res>
 
   /// Create a copy of PaymentState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? failure = freezed,
+  }) {
+    return _then(_$PaymentCancellationImpl(
+      freezed == failure
+          ? _value.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$PaymentCancellationImpl implements PaymentCancellation {
-  const _$PaymentCancellationImpl();
+  const _$PaymentCancellationImpl(this.failure);
+
+  @override
+  final dynamic failure;
 
   @override
   String toString() {
-    return 'PaymentState.cancellation()';
+    return 'PaymentState.cancellation(failure: $failure)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PaymentCancellationImpl);
+            other is _$PaymentCancellationImpl &&
+            const DeepCollectionEquality().equals(other.failure, failure));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(failure));
+
+  /// Create a copy of PaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PaymentCancellationImplCopyWith<_$PaymentCancellationImpl> get copyWith =>
+      __$$PaymentCancellationImplCopyWithImpl<_$PaymentCancellationImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(EsewaPaymentSuccessResult result) success,
-    required TResult Function() failure,
-    required TResult Function() cancellation,
+    required TResult Function(dynamic failure) failure,
+    required TResult Function(dynamic failure) cancellation,
   }) {
-    return cancellation();
+    return cancellation(this.failure);
   }
 
   @override
@@ -532,10 +597,10 @@ class _$PaymentCancellationImpl implements PaymentCancellation {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(EsewaPaymentSuccessResult result)? success,
-    TResult? Function()? failure,
-    TResult? Function()? cancellation,
+    TResult? Function(dynamic failure)? failure,
+    TResult? Function(dynamic failure)? cancellation,
   }) {
-    return cancellation?.call();
+    return cancellation?.call(this.failure);
   }
 
   @override
@@ -543,12 +608,12 @@ class _$PaymentCancellationImpl implements PaymentCancellation {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(EsewaPaymentSuccessResult result)? success,
-    TResult Function()? failure,
-    TResult Function()? cancellation,
+    TResult Function(dynamic failure)? failure,
+    TResult Function(dynamic failure)? cancellation,
     required TResult orElse(),
   }) {
     if (cancellation != null) {
-      return cancellation();
+      return cancellation(this.failure);
     }
     return orElse();
   }
@@ -592,5 +657,14 @@ class _$PaymentCancellationImpl implements PaymentCancellation {
 }
 
 abstract class PaymentCancellation implements PaymentState {
-  const factory PaymentCancellation() = _$PaymentCancellationImpl;
+  const factory PaymentCancellation(final dynamic failure) =
+      _$PaymentCancellationImpl;
+
+  dynamic get failure;
+
+  /// Create a copy of PaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PaymentCancellationImplCopyWith<_$PaymentCancellationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

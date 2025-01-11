@@ -30,6 +30,8 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace = "com.shuvautsav.app"
@@ -70,4 +72,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+  implementation 'com.google.firebase:firebase-analytics'
 }

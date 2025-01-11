@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "365824589269",
+    "project_id": "shuvautsav-51f6c",
+    "storage_bucket": "shuvautsav-51f6c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365824589269:android:a0ae75a894bf2678d3d15c",
+        "android_client_info": {
+          "package_name": "com.shuvautsav.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365824589269-8t9nguptbr7e734avh2ole3s4bglof9s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shuvautsav.app",
+            "certificate_hash": "8ec90495db31af73e2b288335896e85da178f1b0"
+          }
+        },
+        {
+          "client_id": "365824589269-fvsri87hdnkqt7rfrc9227fn84lf449j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shuvautsav.app",
+            "certificate_hash": "8bbc717e1c5fda803c2bb600634ad613b57a2850"
+          }
+        },
+        {
+          "client_id": "365824589269-nu3ptpaq0p1g78jq7povl5148rd0p0ai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5Ll5ZZS25nYw5AzXV4dnNas3T8Vdcr_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365824589269-nu3ptpaq0p1g78jq7povl5148rd0p0ai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

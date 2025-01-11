@@ -280,7 +280,7 @@ class _BillingDetailsState extends ConsumerState<BillingDetails> {
                   ),
                   CustomTextFormField(
                     label: 'Street Address',
-                     validator: (p0) {
+                    validator: (p0) {
                       if (p0 == null) {
                         return 'Required';
                       }
@@ -296,7 +296,7 @@ class _BillingDetailsState extends ConsumerState<BillingDetails> {
                   ),
                   CustomTextFormField(
                     label: 'Phone Number',
-                     validator: (p0) {
+                    validator: (p0) {
                       if (p0 == null) {
                         return 'Required';
                       }
@@ -330,7 +330,21 @@ class _BillingDetailsState extends ConsumerState<BillingDetails> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          widget.onValidate.call({'': ''});
+                          FocusManager.instance.primaryFocus?.unfocus();
+
+                          widget.onValidate.call(
+                            {
+                              "bprovince_id":
+                                  int.tryParse(provideId ?? '') ?? 0,
+                              "bcity_id": int.tryParse(cityid ?? '') ?? 0,
+                              "barea_id":
+                                  int.tryParse(muncipalityId ?? '') ?? 0,
+                              "street": _streetController.text,
+                              "name": _nameController.text,
+                              "phone": _phoneController.text,
+                              "email": _emailController.text,
+                            },
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(

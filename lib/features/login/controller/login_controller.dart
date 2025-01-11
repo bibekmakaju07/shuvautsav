@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -68,6 +70,7 @@ class LoginNotifier extends StateNotifier<AppState> {
         state = AppState.error(null);
       }
     } catch (error) {
+      print(error);
       state = AppState.loading(false);
       state = AppState.error(null);
     }
@@ -101,6 +104,7 @@ class LoginNotifier extends StateNotifier<AppState> {
         state = AppState.error(null);
       }
     } catch (e) {
+      log("${e}");
       state = AppState.loading(false);
       state = AppState.error(null);
     }

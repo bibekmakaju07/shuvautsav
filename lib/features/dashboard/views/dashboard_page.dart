@@ -8,6 +8,7 @@ import 'package:shuvautsavapp/features/cart/views/cart.dart';
 import 'package:shuvautsavapp/features/category/views/category.dart';
 import 'package:shuvautsavapp/features/dashboard/views/home_page.dart';
 import 'package:shuvautsavapp/features/orders/views/order_list_page.dart';
+import 'package:shuvautsavapp/features/orders/views/order_status_tab_page.dart';
 import 'package:shuvautsavapp/features/profile/view/profile_view.dart';
 import 'package:shuvautsavapp/main.dart';
 
@@ -25,7 +26,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     const HomePage(),
     const CategoryPage(),
     const SizedBox(),
-    const OrderListPage(),
+    const OrderStatusTabPage(),
     const ProfileView(),
   ];
 

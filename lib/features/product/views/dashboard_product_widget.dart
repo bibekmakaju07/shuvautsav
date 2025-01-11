@@ -237,11 +237,14 @@ class _DashboardGridState extends ConsumerState<DashboardGrid> {
                   final product = data.data.products[index];
                   return InkWell(
                     onTap: () {
-                      ref.push(RoutePage(
+                      ref.push(
+                        RoutePage(
                           child: ProductDetails(
                             slug: product.slug,
                           ),
-                          name: 'ProductDetails'));
+                          name: 'ProductDetails',
+                        ),
+                      );
                     },
                     child: Card(
                       elevation: 2,

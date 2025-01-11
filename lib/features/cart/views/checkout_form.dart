@@ -1,6 +1,11 @@
+import 'package:esewa_flutter_sdk/esewa_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
+import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
+import 'package:shuvautsavapp/app/view/app.dart';
+import 'package:shuvautsavapp/features/cart/controller/cart_checkout_store_controller.dart';
+import 'package:shuvautsavapp/features/cart/model/cart_list_model.dart';
 import 'package:shuvautsavapp/features/cart/model/checkout_success_model.dart';
 import 'package:shuvautsavapp/features/cart/views/widget/billing_details.dart';
 import 'package:shuvautsavapp/features/cart/views/widget/payment_widget.dart';
@@ -18,8 +23,15 @@ final locationProvider = FutureProvider.autoDispose<LocationModel>((ref) async {
 });
 
 class TestCheckoutDataFrom extends ConsumerStatefulWidget {
-  const TestCheckoutDataFrom({super.key, required this.locationModel});
+  const TestCheckoutDataFrom({
+    super.key,
+    required this.locationModel,
+    required this.cartDetails,
+    required this.cartModel,
+  });
   final LocationModel locationModel;
+  final Map<String, dynamic> cartDetails;
+  final CartModel cartModel;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -29,7 +41,11 @@ class TestCheckoutDataFrom extends ConsumerStatefulWidget {
 class _TestCheckoutDataFromState extends ConsumerState<TestCheckoutDataFrom> {
   @override
   Widget build(BuildContext context) {
-    return CheckoutForm(locationModel: widget.locationModel);
+    return CheckoutForm(
+      locationModel: widget.locationModel,
+      cartDetails: widget.cartDetails,
+      cartModel: widget.cartModel,
+    );
   }
 }
 
@@ -37,8 +53,12 @@ class CheckoutForm extends ConsumerStatefulWidget {
   const CheckoutForm({
     super.key,
     required this.locationModel,
+    required this.cartDetails,
+    required this.cartModel,
   });
   final LocationModel locationModel;
+  final Map<String, dynamic> cartDetails;
+  final CartModel cartModel;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CheckoutFormState();
@@ -61,7 +81,90 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
     ref.listen(esewaProvider, (prev, next) {
       next.maybeWhen(
         orElse: () {},
-        success: (data, extra) {},
+        success: (data) {
+          formData['refid'] = data.refId;
+          formData['amt'] = data.totalAmount;
+          formData['oid'] = data.productId;
+
+          ref
+              .read(checkoutStoreProvider.notifier)
+              .storeOnCheckout(params: formData);
+        },
+        cancellation: (failure) {
+          ref.read(toastProvider.notifier).update((_) {
+            return (
+              title: 'Payment Cancelled by User',
+              description: '',
+              id: '1231sa',
+              error: true,
+            );
+          });
+        },
+        failure: (failure) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Payment Failed'),
+                content: Text('$failure'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Close',
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+    });
+
+    ref.listen(checkoutStoreProvider, (prev, next) {
+      next.maybeWhen(
+        orElse: () {},
+        loading: (loading, data) {
+          if (loading) {
+            LoadingIndicator.instance.show(context);
+          } else {
+            LoadingIndicator.instance.hide();
+          }
+        },
+        success: (data, extra) {
+          ref.read(toastProvider.notifier).update((_) {
+            return (
+              title: 'Order Placed Successfully',
+              description: '',
+              id: '1231sa',
+              error: false,
+            );
+          });
+        },
+        error: (data, extra) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Something went wrong'),
+                content: Text(data.message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Close',
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
       );
     });
     return Scaffold(
@@ -110,10 +213,51 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
                   },
                 ),
                 PaymentWidget(
+                  cartModel: widget.cartModel,
                   locationModel: widget.locationModel,
+                  cartDetails: widget.cartDetails,
+                  formData: formData,
                   onValidate: (value) {
                     formData.addAll(value);
-                    ref.read(esewaProvider.notifier).payWithEsewa();
+                    formData.addAll(widget.cartModel.carts.toJson());
+
+                    final data = widget.cartModel.carts.cart
+                        .expand((e) => [e.productName])
+                        .join(",");
+                    final totalAmount = widget.cartModel.carts.cart
+                        .map((e) => e.total_amount)
+                        .fold(
+                      0.0,
+                      (sum, total) {
+                        print(double.tryParse(total));
+                        return sum + (double.tryParse(total) ?? 0);
+                      },
+                    );
+
+                    formData['grand_total'] = "$totalAmount";
+
+                    if (formData['payment_method'] == 'esewa') {
+                      ref
+                          .read(esewaProvider.notifier)
+                          .payWithEsewa(EsewaPayment(
+                            productId: widget.cartModel.cartId,
+                            productName: data,
+                            productPrice: "$totalAmount",
+                            callbackUrl: '',
+                          ));
+                    } else if (formData['payment_method'] == 'cod') {
+                      ref.read(toastProvider.notifier).update((_) {
+                        return (
+                          title: 'Cash on delivery',
+                          description: '',
+                          id: '1231sa',
+                          error: false,
+                        );
+                      });
+                      ref
+                          .read(checkoutStoreProvider.notifier)
+                          .storeOnCheckout(params: formData);
+                    }
                   },
                 ),
               ],
@@ -125,15 +269,18 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
   }
 }
 
+//cod,prabhupay,ips,fonepay,esewa
 enum PaymentMethod {
-  cashOnDelivery("Cash on Delivery"),
-  esewaPayment("Esewa Payment"),
-  ipsPayment("IPS Payment"),
-  prabhupayPayment("Prabhupay Payment"),
-  bankTransfer("Bank Transfer");
+  cashOnDelivery("Cash on Delivery", "cod"),
+  esewaPayment("Esewa Payment", 'esewa')
+  // ipsPayment("IPS Payment"),
+  // prabhupayPayment("Prabhupay Payment"),
+  // bankTransfer("Bank Transfer")
+  ;
 
   final String displayName;
-  const PaymentMethod(this.displayName);
+  final String code;
+  const PaymentMethod(this.displayName, this.code);
 }
 
 class CustomTextFormField extends StatefulWidget {

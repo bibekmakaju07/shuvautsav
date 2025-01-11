@@ -3,6 +3,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
+import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
 import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/product/model/product_details_model.dart';
@@ -328,9 +330,10 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                             data.product!.categories.first
                                                 .title,
                                             style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                                color: Colors.white),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -408,63 +411,98 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                               itemBuilder: (context, index) {
                                 final relatedProduct =
                                     data.related_products[index];
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromARGB(255, 245, 193, 193)
-                                            .withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(
-                                      10,
-                                    ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      SizedBox(
-                                        height: 100,
-                                        child: Image.network(
-                                          relatedProduct.image,
+                                return InkWell(
+                                  onTap: () {
+                                    ref.pushReplacement(
+                                      RoutePage(
+                                        child: ProductDetails(
+                                          slug: relatedProduct.slug,
                                         ),
+                                        name: 'ProductDetails${relatedProduct.slug}',
                                       ),
-                                      const SizedBox(
-                                        height: 10,
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                              255, 245, 193, 193)
+                                          .withOpacity(0.3),
+                                      borderRadius: BorderRadius.circular(
+                                        10,
                                       ),
-                                      Column(
-                                        // crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 12),
-                                            child: Text(
-                                              relatedProduct.title,
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        SizedBox(
+                                          height: 100,
+                                          child: Image.network(
+                                            relatedProduct.image,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 12),
+                                              child: Text(
+                                                relatedProduct.title,
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 20),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [],
+                                            const SizedBox(
+                                              height: 8,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          // const Text('short description'),
-                                        ],
-                                      )
-                                    ],
+                                            Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 16,
+                                                ),
+                                                child:
+                                                    (relatedProduct.offer ==
+                                                            null)
+                                                        ? Text(
+                                                            'Rs ${relatedProduct.price}',
+                                                            style: context
+                                                                .textTheme()
+                                                                .bodyLarge
+                                                                ?.copyWith(),
+                                                          )
+                                                        : Row(
+                                                            children: [
+                                                              Text('Rs '),
+                                                              Text(
+                                                                '${relatedProduct.price}',
+                                                                style: context
+                                                                    .textTheme()
+                                                                    .bodyLarge
+                                                                    ?.copyWith(
+                                                                        decoration:
+                                                                            TextDecoration.overline),
+                                                              ),
+                                                              Text(
+                                                                '${relatedProduct.offer}',
+                                                                style: context
+                                                                    .textTheme()
+                                                                    .bodyLarge
+                                                                    ?.copyWith(),
+                                                              ),
+                                                            ],
+                                                          ))
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 );
                               },

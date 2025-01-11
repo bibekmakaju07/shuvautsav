@@ -8,6 +8,7 @@ import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/features/cart/controller/checkout_controller.dart';
+import 'package:shuvautsavapp/features/cart/model/cart_list_model.dart';
 import 'package:shuvautsavapp/features/cart/views/checkout_form.dart';
 import 'package:shuvautsavapp/main.dart';
 import 'package:shuvautsavapp/objectbox.g.dart';
@@ -21,6 +22,8 @@ class CartPage extends StatefulHookConsumerWidget {
 
 class _CardPageState extends ConsumerState<CartPage> {
   ValueNotifier<List<int>> selectedProduct = ValueNotifier([]);
+
+  CartModel cartModel = CartModel();
   @override
   Widget build(BuildContext context) {
     ref.listen(checkoutProvider('checkout'), (prev, next) {
@@ -31,6 +34,8 @@ class _CardPageState extends ConsumerState<CartPage> {
             RoutePage(
               child: CheckoutForm(
                 locationModel: data,
+                cartDetails: extra ?? {},
+                cartModel: cartModel,
               ),
               name: 'CheckoutForm',
             ),
@@ -75,7 +80,7 @@ class _CardPageState extends ConsumerState<CartPage> {
                     .state
                     .box<ProductDetailsEntity>()
                     .getManyAsync(value);
-                    
+
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -134,6 +139,7 @@ class _CardPageState extends ConsumerState<CartPage> {
                                           return;
                                         }
                                         final list = [];
+                                        final List<Cart> carts = [];
                                         for (var e in data) {
                                           list.add({
                                             "id": e.id,
@@ -143,7 +149,40 @@ class _CardPageState extends ConsumerState<CartPage> {
                                             "total_amount":
                                                 (e.price) * e.quantity,
                                           });
+                                          carts.add(
+                                            Cart(
+                                              id: '${e.id}',
+                                              productName: e.title,
+                                              quantity: "${e.quantity}",
+                                              total_amount:
+                                                  '${(e.price) * e.quantity}',
+                                              total_weight:
+                                                  '${(e.weight ?? 0.0) * e.quantity}',
+                                            ),
+                                          );
                                         }
+                                        if (carts.isEmpty) {
+                                          ref
+                                              .read(toastProvider.notifier)
+                                              .update((_) {
+                                            return (
+                                              title:
+                                                  'Your cart is empty! .Please click on item to add/remove',
+                                              description: '',
+                                              id: '12121',
+                                              error: false,
+                                            );
+                                          });
+                                          return;
+                                        }
+                                        cartModel = CartModel(
+                                          cartId:
+                                              '${carts.first.id}-${DateTime.now().microsecondsSinceEpoch}',
+                                          carts: Carts(
+                                            cart: carts,
+                                          ),
+                                        );
+
                                         ref
                                             .read(checkoutProvider('checkout')
                                                 .notifier)

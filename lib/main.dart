@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/storage/database_storage.dart';
@@ -9,7 +10,9 @@ final objectBoxProvider = StateProvider<Store>((ref) {
 });
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(
+    
+  );
   final objectbox = await ObjectBox.create();
   runApp(
     ProviderScope(
@@ -18,8 +21,7 @@ Future<void> main() async {
           (_) => objectbox.store,
         ),
       ],
-      child: App(
-      ),
+      child: App(),
     ),
   );
 }
