@@ -125,6 +125,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                                               categoriesType:
                                                   CategoriesType.catSlug,
                                               slug: data[index].slug,
+                                              title: data[index].title,
                                             ),
                                             name: 'ProductPage',
                                           ));

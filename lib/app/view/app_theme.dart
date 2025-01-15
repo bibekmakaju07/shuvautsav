@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 const TextTheme customTextTheme = TextTheme(
-
   displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.w400), // Regular
   displayMedium:
       TextStyle(fontSize: 45, fontWeight: FontWeight.w400), // Regular

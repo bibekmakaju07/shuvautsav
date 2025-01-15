@@ -29,6 +29,7 @@ class ProductModel with _$ProductModel {
     @Default(0) int id,
     @Default('') String title,
     @Default('') String slug,
+    @Default('NPR') String currency,
     @Default(0.0) double price,
     @Default(0.0) double? offer,
     @Default('') String? offerText,

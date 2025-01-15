@@ -21,6 +21,7 @@ class ProductDetailsEntity {
   String shippingPolicy;
   String colorCheck;
   int limit;
+  String currency;
   List<String> productColorImage; // Convert to List<String> if necessary
   String image1;
 
@@ -29,6 +30,7 @@ class ProductDetailsEntity {
     this.title = '',
     this.offer = 0,
     this.price = 0,
+    this.currency='',
     this.totalPrice = 0,
     this.quantity = 0,
     this.description = '',

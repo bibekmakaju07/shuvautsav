@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 178116145946145308),
       name: 'ProductDetailsEntity',
-      lastPropertyId: const obx_int.IdUid(20, 6761234443061168611),
+      lastPropertyId: const obx_int.IdUid(21, 8235110138265785475),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -124,6 +124,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(20, 6761234443061168611),
             name: 'weight',
             type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(21, 8235110138265785475),
+            name: 'currency',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -199,7 +204,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .map(fbb.writeString)
               .toList(growable: false));
           final image1Offset = fbb.writeString(object.image1);
-          fbb.startTable(21);
+          final currencyOffset = fbb.writeString(object.currency);
+          fbb.startTable(22);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
           fbb.addFloat64(2, object.offer);
@@ -220,6 +226,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addFloat64(17, object.price);
           fbb.addFloat64(18, object.totalPrice);
           fbb.addFloat64(19, object.weight);
+          fbb.addOffset(20, currencyOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -234,6 +241,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0);
           final priceParam =
               const fb.Float64Reader().vTableGet(buffer, rootOffset, 38, 0);
+          final currencyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 44, '');
           final totalPriceParam =
               const fb.Float64Reader().vTableGet(buffer, rootOffset, 40, 0);
           final quantityParam =
@@ -277,6 +286,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               title: titleParam,
               offer: offerParam,
               price: priceParam,
+              currency: currencyParam,
               totalPrice: totalPriceParam,
               quantity: quantityParam,
               description: descriptionParam,
@@ -385,4 +395,8 @@ class ProductDetailsEntity_ {
   /// See [ProductDetailsEntity.weight].
   static final weight = obx.QueryDoubleProperty<ProductDetailsEntity>(
       _entities[0].properties[19]);
+
+  /// See [ProductDetailsEntity.currency].
+  static final currency = obx.QueryStringProperty<ProductDetailsEntity>(
+      _entities[0].properties[20]);
 }

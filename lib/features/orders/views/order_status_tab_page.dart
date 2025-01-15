@@ -33,10 +33,10 @@ class _OrderStatusTabPageState extends ConsumerState<OrderStatusTabPage>
           controller: _tabController,
           tabs: [
             Tab(
-              text: 'Order List ',
+              text: 'Order Lists ',
             ),
             Tab(
-              text: 'Returned Order ',
+              text: 'Returned Orders ',
             ),
           ],
         ),
@@ -54,7 +54,7 @@ class _OrderStatusTabPageState extends ConsumerState<OrderStatusTabPage>
 
 const orderStatusJson = [
   {'id': 0, 'status': 'Order Placed', 'color': 'ff2196f3'}, // Colors.blue
-  {'id': 1, 'status': 'Order Processed', 'color': 'ffff9800'}, // Colors.orange
+  {'id': 1, 'status': 'Pending', 'color': 'ffff9800'}, // Colors.orange
   {'id': 2, 'status': 'Order Shipped', 'color': 'ff9c27b0'}, // Colors.purple
   {'id': 3, 'status': 'Order Delivered', 'color': 'ff4caf50'}, // Colors.green
   {'id': 4, 'status': 'Order Cancelled', 'color': 'fff44336'}, // Colors.red

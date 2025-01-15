@@ -7,6 +7,7 @@ import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
 import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
+import 'package:shuvautsavapp/features/cart/views/cart.dart';
 import 'package:shuvautsavapp/features/product/model/product_details_model.dart';
 import 'package:shuvautsavapp/main.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
@@ -51,6 +52,16 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
         ),
         Scaffold(
             backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+            appBar: AppBar(
+              title: Row(
+                children: [
+                  Image.asset(
+                    'assets/images/app_logo.png',
+                    width: 100,
+                  ),
+                ],
+              ),
+            ),
             bottomSheet: state.maybeWhen(
               orElse: () {
                 return const SizedBox();
@@ -95,6 +106,8 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                   .box<ProductDetailsEntity>()
                                   .put(
                                       ProductDetailsEntity(
+                                        currency:
+                                            data.product?.currency ?? 'NPR',
                                         id: data.product!.id,
                                         title: data.product?.title ?? '',
                                         description:
@@ -124,6 +137,94 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                   id: '1'
                                 );
                               });
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        savedData != null
+                                            ? 'Updated to cart successfully'
+                                            : 'Added to cart successfully',
+                                        style: context.titleSmall.copyWith(
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Product Details',
+                                            style: context.titleMedium.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Image.network(
+                                                data.product?.image1 ?? '',
+                                                height: 100,
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '${data.product?.title} added to cart',
+                                                      maxLines: 2,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      style: context.titleMedium
+                                                          .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      '${data.product?.currency} ${data.product?.price}',
+                                                      style: context.titleMedium
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: Text('Continue Shopping'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text('Goto Checkout'),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            ref.push(RoutePage(
+                                                child: CartPage(),
+                                                name: 'CartPage'));
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +260,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
               },
               error: (error, stackTrace) {
                 return Center(
-                  child: Text('Error $error'),
+                  child: Text('Something went wrong'),
                 );
               },
               data: (data) {
@@ -296,8 +397,11 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                               style: context.titleMedium,
                                             ),
                                             Text(
-                                              'Rs.${data.product?.price ?? ''}',
-                                              style: context.titleMedium,
+                                              '${data.product?.currency ?? ''} ${data.product?.price ?? ''}',
+                                              style: context.titleMedium
+                                                  .copyWith(
+                                                      color:
+                                                          context.primaryColor),
                                             ),
                                           ],
                                         ),
@@ -418,7 +522,8 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                         child: ProductDetails(
                                           slug: relatedProduct.slug,
                                         ),
-                                        name: 'ProductDetails${relatedProduct.slug}',
+                                        name:
+                                            'ProductDetails${relatedProduct.slug}',
                                       ),
                                     );
                                   },
@@ -472,21 +577,26 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                                     (relatedProduct.offer ==
                                                             null)
                                                         ? Text(
-                                                            'Rs ${relatedProduct.price}',
+                                                            '${relatedProduct.currency} ${relatedProduct.price.toInt()}',
                                                             style: context
                                                                 .textTheme()
                                                                 .bodyLarge
-                                                                ?.copyWith(),
+                                                                ?.copyWith(
+                                                                    color: context
+                                                                        .primaryColor),
                                                           )
                                                         : Row(
                                                             children: [
-                                                              Text('Rs '),
                                                               Text(
-                                                                '${relatedProduct.price}',
+                                                                  '${relatedProduct.currency} '),
+                                                              Text(
+                                                                '${relatedProduct.price.toInt()}',
                                                                 style: context
                                                                     .textTheme()
                                                                     .bodyLarge
                                                                     ?.copyWith(
+                                                                        color: context
+                                                                            .primaryColor,
                                                                         decoration:
                                                                             TextDecoration.overline),
                                                               ),
@@ -495,7 +605,9 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                                                 style: context
                                                                     .textTheme()
                                                                     .bodyLarge
-                                                                    ?.copyWith(),
+                                                                    ?.copyWith(
+                                                                        color: context
+                                                                            .primaryColor),
                                                               ),
                                                             ],
                                                           ))

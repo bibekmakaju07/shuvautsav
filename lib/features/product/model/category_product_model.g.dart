@@ -84,6 +84,7 @@ _$CategoryProductImpl _$$CategoryProductImplFromJson(
     _$CategoryProductImpl(
       id: (json['id'] as num?)?.toInt() ?? -1,
       title: json['title'] as String? ?? '',
+      currency: json['currency'] as String? ?? 'NPR',
       slug: json['slug'] as String? ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0,
       offer: (json['offer'] as num?)?.toInt(),
@@ -102,6 +103,7 @@ Map<String, dynamic> _$$CategoryProductImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'currency': instance.currency,
       'slug': instance.slug,
       'price': instance.price,
       'offer': instance.offer,

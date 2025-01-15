@@ -24,6 +24,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void initState() {
     super.initState();
     LogoutController().logoutSocial();
+      
+
   }
 
   bool rememberMe = false;

@@ -706,6 +706,7 @@ CategoryProduct _$CategoryProductFromJson(Map<String, dynamic> json) {
 mixin _$CategoryProduct {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get currency => throw _privateConstructorUsedError;
   String get slug => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   @JsonKey(name: 'offer')
@@ -739,6 +740,7 @@ abstract class $CategoryProductCopyWith<$Res> {
   $Res call(
       {int id,
       String title,
+      String currency,
       String slug,
       double price,
       @JsonKey(name: 'offer') int? offer,
@@ -769,6 +771,7 @@ class _$CategoryProductCopyWithImpl<$Res, $Val extends CategoryProduct>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? currency = null,
     Object? slug = null,
     Object? price = null,
     Object? offer = freezed,
@@ -789,6 +792,10 @@ class _$CategoryProductCopyWithImpl<$Res, $Val extends CategoryProduct>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       slug: null == slug
           ? _value.slug
@@ -849,6 +856,7 @@ abstract class _$$CategoryProductImplCopyWith<$Res>
   $Res call(
       {int id,
       String title,
+      String currency,
       String slug,
       double price,
       @JsonKey(name: 'offer') int? offer,
@@ -877,6 +885,7 @@ class __$$CategoryProductImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? currency = null,
     Object? slug = null,
     Object? price = null,
     Object? offer = freezed,
@@ -897,6 +906,10 @@ class __$$CategoryProductImplCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       slug: null == slug
           ? _value.slug
@@ -952,6 +965,7 @@ class _$CategoryProductImpl implements _CategoryProduct {
   const _$CategoryProductImpl(
       {this.id = -1,
       this.title = '',
+      this.currency = 'NPR',
       this.slug = '',
       this.price = 0,
       @JsonKey(name: 'offer') this.offer,
@@ -973,6 +987,9 @@ class _$CategoryProductImpl implements _CategoryProduct {
   @override
   @JsonKey()
   final String title;
+  @override
+  @JsonKey()
+  final String currency;
   @override
   @JsonKey()
   final String slug;
@@ -1008,7 +1025,7 @@ class _$CategoryProductImpl implements _CategoryProduct {
 
   @override
   String toString() {
-    return 'CategoryProduct(id: $id, title: $title, slug: $slug, price: $price, offer: $offer, offer_text: $offer_text, qty: $qty, weight: $weight, code: $code, description: $description, image: $image, rank: $rank, status: $status)';
+    return 'CategoryProduct(id: $id, title: $title, currency: $currency, slug: $slug, price: $price, offer: $offer, offer_text: $offer_text, qty: $qty, weight: $weight, code: $code, description: $description, image: $image, rank: $rank, status: $status)';
   }
 
   @override
@@ -1018,6 +1035,8 @@ class _$CategoryProductImpl implements _CategoryProduct {
             other is _$CategoryProductImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.offer, offer) || other.offer == offer) &&
@@ -1035,8 +1054,8 @@ class _$CategoryProductImpl implements _CategoryProduct {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, slug, price, offer,
-      offer_text, qty, weight, code, description, image, rank, status);
+  int get hashCode => Object.hash(runtimeType, id, title, currency, slug, price,
+      offer, offer_text, qty, weight, code, description, image, rank, status);
 
   /// Create a copy of CategoryProduct
   /// with the given fields replaced by the non-null parameter values.
@@ -1059,6 +1078,7 @@ abstract class _CategoryProduct implements CategoryProduct {
   const factory _CategoryProduct(
       {final int id,
       final String title,
+      final String currency,
       final String slug,
       final double price,
       @JsonKey(name: 'offer') final int? offer,
@@ -1078,6 +1098,8 @@ abstract class _CategoryProduct implements CategoryProduct {
   int get id;
   @override
   String get title;
+  @override
+  String get currency;
   @override
   String get slug;
   @override

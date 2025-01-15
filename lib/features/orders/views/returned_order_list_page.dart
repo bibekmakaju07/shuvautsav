@@ -75,6 +75,11 @@ class _OrderListPageState extends ConsumerState<ReturnedOrderListPage> {
           child: CircularProgressIndicator(),
         );
       },
+      error: (error, stackTrace) {
+        return Center(
+          child: Text('Returned Order List is Empty'),
+        );
+      },
       data: (data) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(
@@ -103,7 +108,7 @@ class _OrderListPageState extends ConsumerState<ReturnedOrderListPage> {
                                   bottom: 12,
                                 ),
                                 child: Text(
-                                  'Order Canceled',
+                                  'Actions',
                                   style: context.titleMedium,
                                 ),
                               ),
@@ -115,13 +120,13 @@ class _OrderListPageState extends ConsumerState<ReturnedOrderListPage> {
                                   ref.push(
                                     RoutePage(
                                       child: OrderDetailsPage(
+                                                                        orderId:    order.orderId,
                                         id: '${order.id}',
                                       ),
                                       name: 'OrderDetailsPage',
                                     ),
                                   );
                                   Navigator.pop(context);
-
                                 },
                                 title: Text('View Order'),
                               ),

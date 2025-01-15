@@ -24,6 +24,24 @@ class _CardPageState extends ConsumerState<CartPage> {
   ValueNotifier<List<int>> selectedProduct = ValueNotifier([]);
 
   CartModel cartModel = CartModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final data = ref
+          .read(objectBoxProvider.notifier)
+          .state
+          .box<ProductDetailsEntity>()
+          .query()
+          .build()
+          .property(ProductDetailsEntity_.id)
+          .find();
+      selectedProduct.value = data;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(checkoutProvider('checkout'), (prev, next) {
@@ -75,11 +93,10 @@ class _CardPageState extends ConsumerState<CartPage> {
                     .query(ProductDetailsEntity_.id.oneOf(value))
                     .watch(triggerImmediately: true)
                     .map((e) => e.find());
-                final cardData = ref
-                    .read(objectBoxProvider.notifier)
-                    .state
-                    .box<ProductDetailsEntity>()
-                    .getManyAsync(value);
+
+                if (selectedProduct.value.isEmpty) {
+                  return SizedBox();
+                }
 
                 return Column(
                   mainAxisSize: MainAxisSize.min,
@@ -109,7 +126,7 @@ class _CardPageState extends ConsumerState<CartPage> {
                                         style: context.titleMedium,
                                       ),
                                       Text(
-                                        'RS.$totalPrice',
+                                        'NPR. $totalPrice',
                                         style: context.titleMedium,
                                       )
                                     ],
@@ -258,7 +275,7 @@ class _CardPageState extends ConsumerState<CartPage> {
                 ),
                 Align(
                   child: Text(
-                    'Tap to select for checkout',
+                    'Tap to Select/Unselect for checkout',
                     style: context.titleSmall,
                   ),
                 ),
@@ -303,6 +320,13 @@ class _CardPageState extends ConsumerState<CartPage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
+                                      IgnorePointer(
+                                        ignoring: true,
+                                        child: Checkbox(
+                                          value: value.contains(data.id),
+                                          onChanged: (value) {},
+                                        ),
+                                      ),
                                       Expanded(
                                         flex: 25,
                                         child: ClipRRect(
@@ -372,11 +396,6 @@ class _CardPageState extends ConsumerState<CartPage> {
                                                   RichText(
                                                     text: TextSpan(
                                                       children: [
-                                                        TextSpan(
-                                                          text: 'Price : ',
-                                                          style: context
-                                                              .labelSmall,
-                                                        ),
                                                         TextSpan(
                                                           text: '${data.price}',
                                                           style: context

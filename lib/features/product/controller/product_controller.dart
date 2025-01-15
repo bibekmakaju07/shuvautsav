@@ -70,8 +70,9 @@ class ProductController
   }
 }
 
-final productPaginationProvider = StateNotifierProvider.family<
-    ProductPaginatedController, PaginationState, String>((ref, id) {
+final productPaginationProvider = StateNotifierProvider.family
+    .autoDispose<ProductPaginatedController, PaginationState, String>(
+        (ref, id) {
   return ProductPaginatedController();
 });
 
@@ -81,14 +82,14 @@ class ProductPaginatedController extends StateNotifier<PaginationState> {
 
   Future<void> getProduct(
       {CategoriesType type = CategoriesType.product, String? slug}) async {
-    if (state.isLoading&&state.isPageEnd) {
+    if (state.isLoading || state.isPageEnd) {
       return;
     }
     state = state.copyWith(isLoading: true);
     CategoryProductResponse? savedResponse = state.productResponse;
     ++page;
     try {
-      String url = 'https://shuvautsav.com/api/v1/products';
+      String url = 'https://shuvautsav.com/api/v1/products?per_page=10&page=$page';
       if (type == CategoriesType.childCatSlug) {
         url =
             'https://shuvautsav.com/api/v1/childcategory/$slug/products?per_page=10&page=$page';
@@ -125,7 +126,7 @@ class ProductPaginatedController extends StateNotifier<PaginationState> {
           isPageEnd: false,
           error: NetworkFailure(
             statusCode: -1,
-            message: 'Failure to launch app',
+            message: 'Something went wrong',
           ),
         );
       }
@@ -135,7 +136,7 @@ class ProductPaginatedController extends StateNotifier<PaginationState> {
         isLoading: false,
         error: NetworkFailure(
           statusCode: -1,
-          message: 'Failure to launch app',
+          message: 'Something went wrong',
         ),
       );
     }

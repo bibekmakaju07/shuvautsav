@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:178116145946145308",
-      "lastPropertyId": "20:6761234443061168611",
+      "lastPropertyId": "21:8235110138265785475",
       "name": "ProductDetailsEntity",
       "properties": [
         {
@@ -108,6 +108,11 @@
           "id": "20:6761234443061168611",
           "name": "weight",
           "type": 8
+        },
+        {
+          "id": "21:8235110138265785475",
+          "name": "currency",
+          "type": 9
         }
       ],
       "relations": []

@@ -42,6 +42,7 @@ class CategoryProduct with _$CategoryProduct {
   const factory CategoryProduct({
     @Default(-1) int id,
     @Default('') String title,
+    @Default('NPR') String currency,
     @Default('') String slug,
     @Default(0) double price,
     @JsonKey(name: 'offer') int? offer,

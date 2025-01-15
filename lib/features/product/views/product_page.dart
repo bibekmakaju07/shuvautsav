@@ -26,12 +26,18 @@ final categoryForFilterProvider =
 });
 
 class ProductPage extends ConsumerStatefulWidget {
-  const ProductPage(
-      {super.key, this.slug, this.categoriesType = CategoriesType.product});
+  const ProductPage({
+    super.key,
+    this.slug,
+    this.categoriesType = CategoriesType.product,
+    required this.title,
+  });
 
   final CategoriesType categoriesType;
 
   final String? slug;
+
+  final String? title;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ProductPageState();
@@ -97,15 +103,41 @@ class _ProductPageState extends ConsumerState<ProductPage> {
         endDrawer: const FilterDrawer(),
         body: SafeArea(
           top: true,
-          bottom: false,
+          bottom: true,
           child: Column(
             children: [
               Row(
                 children: [
-                  Image.asset(
-                    'assets/images/app_logo.png',
-                    width: 100,
+                  SizedBox(
+                    width: 20,
                   ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SizedBox.square(
+                      dimension: 30,
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 14,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  if (widget.title != null)
+                    Text(
+                      widget.title!,
+                      style: context.titleMedium.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  else
+                    Image.asset(
+                      'assets/images/app_logo.png',
+                      width: 100,
+                    ),
                   const Spacer(),
                   InkWell(
                     onTap: () {
@@ -268,112 +300,121 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                   ),
                 )
               else if (state.productResponse != null)
-                Expanded(
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        MasonryGridView.count(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 20,
-                          ),
-                          physics: NeverScrollableScrollPhysics(),
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 16,
-                          crossAxisSpacing: 8,
-                          shrinkWrap: true,
-                          itemCount:
-                              state.productResponse!.data.products.length,
-                          itemBuilder: (context, index) {
-                            final product =
-                                state.productResponse!.data.products[index];
-                            return InkWell(
-                              onTap: () {
-                                ref.push(RoutePage(
-                                    child: ProductDetails(
-                                      slug: product.slug,
-                                    ),
-                                    name: 'ProductDetails'));
-                              },
-                              child: Card(
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.vertical(
-                                        top: Radius.circular(12),
-                                      ),
-                                      child: Image.network(
-                                        product.image,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            product.title,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            "Price: ₹${product.price ?? 0}",
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            "Qty: ${product.qty ?? 0}",
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+                if ((state.productResponse?.data.products ?? []).isEmpty)
+                  Expanded(
+                    child: SizedBox(
+                      child: Center(
+                        child: Text(
+                          'Product not found for ${widget.title ?? ''} category',
                         ),
-                        if (state.isLoading)
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  )
+                else
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          MasonryGridView.count(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 20,
                             ),
+                            physics: NeverScrollableScrollPhysics(),
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 8,
+                            shrinkWrap: true,
+                            itemCount:
+                                state.productResponse!.data.products.length,
+                            itemBuilder: (context, index) {
+                              final product =
+                                  state.productResponse!.data.products[index];
+                              return InkWell(
+                                onTap: () {
+                                  ref.push(RoutePage(
+                                      child: ProductDetails(
+                                        slug: product.slug,
+                                      ),
+                                      name: 'ProductDetails'));
+                                },
+                                child: Card(
+                                  elevation: 2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                          top: Radius.circular(12),
+                                        ),
+                                        child: Image.network(
+                                          product.image,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              product.title,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                                "${product.currency}. ${product.price.toInt() ?? 0}",
+                                                style: context.titleMedium
+                                                    .copyWith(
+                                                  color: context.primaryColor,
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        if (state.error != null)
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Text(
-                                'Error',
-                                style: context.titleMedium.copyWith(
-                                  color: Colors.black,
+                          if (state.isLoading)
+                            Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          else if (state.error != null)
+                            Center(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  'Error',
+                                  style: context.titleMedium.copyWith(
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
             ],
           ),
         ),

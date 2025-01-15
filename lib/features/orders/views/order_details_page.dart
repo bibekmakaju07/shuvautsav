@@ -13,8 +13,13 @@ final ordersDetailsProvider = FutureProvider.autoDispose
 });
 
 class OrderDetailsPage extends ConsumerStatefulWidget {
-  const OrderDetailsPage({super.key, required this.id});
+  const OrderDetailsPage({
+    super.key,
+    required this.id,
+    required this.orderId,
+  });
   final String id;
+  final String orderId;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _OrderListPageState();
@@ -66,7 +71,7 @@ class _OrderListPageState extends ConsumerState<OrderDetailsPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(child: Text("Order ID: ")),
-                                  Text("${data.data.order?.id}",
+                                  Text(widget.orderId,
                                       style: context.bodyMedium.copyWith(
                                         fontWeight: FontWeight.w700,
                                       )),
@@ -151,7 +156,7 @@ class _OrderListPageState extends ConsumerState<OrderDetailsPage> {
                                 children: [
                                   Text("Rate: "),
                                   Text(
-                                    "Rs. ${item.rate}",
+                                    "NPR. ${item.rate.toDouble()}",
                                     style: context.bodyMedium.copyWith(
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -165,7 +170,7 @@ class _OrderListPageState extends ConsumerState<OrderDetailsPage> {
                                 children: [
                                   Text("Total: "),
                                   Text(
-                                    "Rs. ${item.total}",
+                                    "NPR. ${item.total}",
                                     style: context.bodyMedium.copyWith(
                                       fontWeight: FontWeight.w700,
                                     ),

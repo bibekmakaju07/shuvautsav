@@ -105,7 +105,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     readOnly: true,
                     onTap: () {
                       ref.push(RoutePage(
-                          child: const ProductPage(), name: 'ProductPage'));
+                          child: const ProductPage(
+                            title: null,
+                          ), name: 'ProductPage'));
                     },
                     decoration: const InputDecoration(
                       prefixIcon: Icon(
@@ -136,7 +138,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   DashboardGrid(
                     title: 'धार्मिक',
                     slug: 'religious-items',
-                    type: DisplayType.list,
                   ),
                   SizedBox(
                     height: 100,
@@ -180,7 +181,7 @@ class _HomeCategoryWidgetState extends ConsumerState<HomeCategoryWidget> {
         Row(
           children: [
             const Text(
-              'Browser Categories',
+              'Browse Categories',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,
@@ -243,8 +244,10 @@ class _HomeCategoryWidgetState extends ConsumerState<HomeCategoryWidget> {
                           //     name: 'ProductDetails'));
                           ref.push(RoutePage(
                             child: ProductPage(
+                              title: '',
                               categoriesType: CategoriesType.catSlug,
                               slug: data[index].slug,
+
                             ),
                             name: 'ProductPage',
                           ));

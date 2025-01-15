@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
+import 'package:shuvautsavapp/features/login/views/login_page.dart';
 import 'package:shuvautsavapp/features/profile/controller/profile_controller.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
@@ -43,12 +45,17 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Something went wrong"),
+                Text(data.message),
                 OutlinedButton(
                   onPressed: () {
+                    if (data.statusCode == 1002) {
+                      ref.push(RoutePage(
+                          child: const LoginPage(), name: 'LoginPage'));
+                      return;
+                    }
                     ref.read(profileNotifierProvider.notifier).getProfile();
                   },
-                  child: Text('Retry'),
+                  child: Text(data.statusCode == 1002 ? 'Login' : 'Retry'),
                 ),
               ],
             ),

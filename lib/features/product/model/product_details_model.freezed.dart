@@ -22,6 +22,7 @@ ProductDetailsModel _$ProductDetailsModelFromJson(Map<String, dynamic> json) {
 mixin _$ProductDetailsModel {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get currency => throw _privateConstructorUsedError;
   dynamic get offer => throw _privateConstructorUsedError;
   dynamic get price => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -62,6 +63,7 @@ abstract class $ProductDetailsModelCopyWith<$Res> {
   $Res call(
       {int id,
       String title,
+      String currency,
       dynamic offer,
       dynamic price,
       String description,
@@ -101,6 +103,7 @@ class _$ProductDetailsModelCopyWithImpl<$Res, $Val extends ProductDetailsModel>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? currency = null,
     Object? offer = freezed,
     Object? price = freezed,
     Object? description = null,
@@ -130,6 +133,10 @@ class _$ProductDetailsModelCopyWithImpl<$Res, $Val extends ProductDetailsModel>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       offer: freezed == offer
           ? _value.offer
@@ -226,6 +233,7 @@ abstract class _$$ProductDetailsModelImplCopyWith<$Res>
   $Res call(
       {int id,
       String title,
+      String currency,
       dynamic offer,
       dynamic price,
       String description,
@@ -263,6 +271,7 @@ class __$$ProductDetailsModelImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? currency = null,
     Object? offer = freezed,
     Object? price = freezed,
     Object? description = null,
@@ -292,6 +301,10 @@ class __$$ProductDetailsModelImplCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       offer: freezed == offer
           ? _value.offer
@@ -383,6 +396,7 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
   const _$ProductDetailsModelImpl(
       {this.id = 0,
       this.title = '',
+      this.currency = 'NPR',
       this.offer,
       this.price,
       this.description = '',
@@ -416,6 +430,9 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
   @override
   @JsonKey()
   final String title;
+  @override
+  @JsonKey()
+  final String currency;
   @override
   final dynamic offer;
   @override
@@ -495,7 +512,7 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
 
   @override
   String toString() {
-    return 'ProductDetailsModel(id: $id, title: $title, offer: $offer, price: $price, description: $description, qty: $qty, preferredDateStatus: $preferredDateStatus, preferredMessageStatus: $preferredMessageStatus, brand: $brand, categoryCount: $categoryCount, categories: $categories, videoUrl: $videoUrl, shippingPolicy: $shippingPolicy, colorCheck: $colorCheck, limit: $limit, weight: $weight, productColorImage: $productColorImage, image1: $image1, image2: $image2, image3: $image3, image4: $image4, productImages: $productImages)';
+    return 'ProductDetailsModel(id: $id, title: $title, currency: $currency, offer: $offer, price: $price, description: $description, qty: $qty, preferredDateStatus: $preferredDateStatus, preferredMessageStatus: $preferredMessageStatus, brand: $brand, categoryCount: $categoryCount, categories: $categories, videoUrl: $videoUrl, shippingPolicy: $shippingPolicy, colorCheck: $colorCheck, limit: $limit, weight: $weight, productColorImage: $productColorImage, image1: $image1, image2: $image2, image3: $image3, image4: $image4, productImages: $productImages)';
   }
 
   @override
@@ -505,6 +522,8 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
             other is _$ProductDetailsModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             const DeepCollectionEquality().equals(other.offer, offer) &&
             const DeepCollectionEquality().equals(other.price, price) &&
             (identical(other.description, description) ||
@@ -543,6 +562,7 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
         runtimeType,
         id,
         title,
+        currency,
         const DeepCollectionEquality().hash(offer),
         const DeepCollectionEquality().hash(price),
         description,
@@ -586,6 +606,7 @@ abstract class _ProductDetailsModel implements ProductDetailsModel {
   const factory _ProductDetailsModel(
       {final int id,
       final String title,
+      final String currency,
       final dynamic offer,
       final dynamic price,
       final String description,
@@ -614,6 +635,8 @@ abstract class _ProductDetailsModel implements ProductDetailsModel {
   int get id;
   @override
   String get title;
+  @override
+  String get currency;
   @override
   dynamic get offer;
   @override
@@ -824,6 +847,7 @@ mixin _$RelatedProduct {
   String get title => throw _privateConstructorUsedError;
   String get shortTitle => throw _privateConstructorUsedError;
   String get slug => throw _privateConstructorUsedError;
+  String get currency => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   dynamic get offer => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
@@ -849,6 +873,7 @@ abstract class $RelatedProductCopyWith<$Res> {
       String title,
       String shortTitle,
       String slug,
+      String currency,
       String image,
       dynamic offer,
       double price});
@@ -873,6 +898,7 @@ class _$RelatedProductCopyWithImpl<$Res, $Val extends RelatedProduct>
     Object? title = null,
     Object? shortTitle = null,
     Object? slug = null,
+    Object? currency = null,
     Object? image = null,
     Object? offer = freezed,
     Object? price = null,
@@ -893,6 +919,10 @@ class _$RelatedProductCopyWithImpl<$Res, $Val extends RelatedProduct>
       slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
@@ -923,6 +953,7 @@ abstract class _$$RelatedProductImplCopyWith<$Res>
       String title,
       String shortTitle,
       String slug,
+      String currency,
       String image,
       dynamic offer,
       double price});
@@ -945,6 +976,7 @@ class __$$RelatedProductImplCopyWithImpl<$Res>
     Object? title = null,
     Object? shortTitle = null,
     Object? slug = null,
+    Object? currency = null,
     Object? image = null,
     Object? offer = freezed,
     Object? price = null,
@@ -965,6 +997,10 @@ class __$$RelatedProductImplCopyWithImpl<$Res>
       slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
@@ -990,6 +1026,7 @@ class _$RelatedProductImpl implements _RelatedProduct {
       this.title = '',
       this.shortTitle = '',
       this.slug = '',
+      this.currency = 'NPR',
       this.image = '',
       this.offer,
       this.price = 0.0});
@@ -1011,6 +1048,9 @@ class _$RelatedProductImpl implements _RelatedProduct {
   final String slug;
   @override
   @JsonKey()
+  final String currency;
+  @override
+  @JsonKey()
   final String image;
   @override
   final dynamic offer;
@@ -1020,7 +1060,7 @@ class _$RelatedProductImpl implements _RelatedProduct {
 
   @override
   String toString() {
-    return 'RelatedProduct(id: $id, title: $title, shortTitle: $shortTitle, slug: $slug, image: $image, offer: $offer, price: $price)';
+    return 'RelatedProduct(id: $id, title: $title, shortTitle: $shortTitle, slug: $slug, currency: $currency, image: $image, offer: $offer, price: $price)';
   }
 
   @override
@@ -1033,6 +1073,8 @@ class _$RelatedProductImpl implements _RelatedProduct {
             (identical(other.shortTitle, shortTitle) ||
                 other.shortTitle == shortTitle) &&
             (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.image, image) || other.image == image) &&
             const DeepCollectionEquality().equals(other.offer, offer) &&
             (identical(other.price, price) || other.price == price));
@@ -1041,7 +1083,7 @@ class _$RelatedProductImpl implements _RelatedProduct {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, shortTitle, slug,
-      image, const DeepCollectionEquality().hash(offer), price);
+      currency, image, const DeepCollectionEquality().hash(offer), price);
 
   /// Create a copy of RelatedProduct
   /// with the given fields replaced by the non-null parameter values.
@@ -1066,6 +1108,7 @@ abstract class _RelatedProduct implements RelatedProduct {
       final String title,
       final String shortTitle,
       final String slug,
+      final String currency,
       final String image,
       final dynamic offer,
       final double price}) = _$RelatedProductImpl;
@@ -1081,6 +1124,8 @@ abstract class _RelatedProduct implements RelatedProduct {
   String get shortTitle;
   @override
   String get slug;
+  @override
+  String get currency;
   @override
   String get image;
   @override

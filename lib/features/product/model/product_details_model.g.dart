@@ -11,6 +11,7 @@ _$ProductDetailsModelImpl _$$ProductDetailsModelImplFromJson(
     _$ProductDetailsModelImpl(
       id: (json['id'] as num?)?.toInt() ?? 0,
       title: json['title'] as String? ?? '',
+      currency: json['currency'] as String? ?? 'NPR',
       offer: json['offer'],
       price: json['price'],
       description: json['description'] as String? ?? '',
@@ -48,6 +49,7 @@ Map<String, dynamic> _$$ProductDetailsModelImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'currency': instance.currency,
       'offer': instance.offer,
       'price': instance.price,
       'description': instance.description,
@@ -88,6 +90,7 @@ _$RelatedProductImpl _$$RelatedProductImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String? ?? '',
       shortTitle: json['shortTitle'] as String? ?? '',
       slug: json['slug'] as String? ?? '',
+      currency: json['currency'] as String? ?? 'NPR',
       image: json['image'] as String? ?? '',
       offer: json['offer'],
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
@@ -100,6 +103,7 @@ Map<String, dynamic> _$$RelatedProductImplToJson(
       'title': instance.title,
       'shortTitle': instance.shortTitle,
       'slug': instance.slug,
+      'currency': instance.currency,
       'image': instance.image,
       'offer': instance.offer,
       'price': instance.price,

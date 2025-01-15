@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/app_states/appstate.dart';
 import 'package:shuvautsavapp/features/profile/model/user_address_data_model.dart';
@@ -22,6 +23,13 @@ class ProfileNotifier
     }
     state = AppState.loading(true);
     try {
+      final token = await FlutterSecureStorage().read(key: 'access_token');
+      if ((token ?? '').isEmpty) {
+        state = AppState.loading(false);
+        state = AppState.error(const NetworkFailure(
+            statusCode: 1002, message: 'Please Login to view Profile',),);
+        return;
+      }
       String url = 'https://shuvautsav.com/api/v1/customer/profile';
 
       final response = await NetworkService().get(RequestApi(
@@ -38,10 +46,14 @@ class ProfileNotifier
             const NetworkFailure(statusCode: -1, message: 'Error'));
       }
     } catch (e) {
-      log('${e}');
+      log('$e');
       state = AppState.loading(false);
       state = AppState.error(
-          const NetworkFailure(statusCode: -1, message: 'Error'));
+        const NetworkFailure(
+          statusCode: -1,
+          message: 'Something went wrong',
+        ),
+      );
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/features/dashboard/views/dashboard_page.dart';
@@ -14,6 +15,21 @@ class LoginRegisterOptionsPage extends ConsumerStatefulWidget {
 
 class _LoginRegisterOptionsPageState
     extends ConsumerState<LoginRegisterOptionsPage> {
+  @override
+  void initState() {
+    super.initState();
+    checkTokenAndNavigate();
+  }
+
+  checkTokenAndNavigate() async {
+    final token = await FlutterSecureStorage().read(key: 'access_token') ?? '';
+
+    if (token.isNotEmpty) {
+      ref.replaceAll(
+          RoutePage(child: const DashboardPage(), name: 'DashboardPage'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +97,7 @@ class _LoginRegisterOptionsPageState
                             ),
                           ),
                           onPressed: () {
-                            ref.push(RoutePage(
+                            ref.replaceAll(RoutePage(
                                 child: const LoginPage(), name: 'LoginPage'));
                           },
                           child: const Text(
@@ -104,9 +120,12 @@ class _LoginRegisterOptionsPageState
                               backgroundColor: const Color(0xffD47222),
                               fixedSize: const Size.fromHeight(45)),
                           onPressed: () {
-                            ref.push(RoutePage(
+                            ref.replaceAll(
+                              RoutePage(
                                 child: const DashboardPage(),
-                                name: 'DashboardPage',),);
+                                name: 'DashboardPage',
+                              ),
+                            );
                           },
                           child: const Text(
                             'Continue  as guest',

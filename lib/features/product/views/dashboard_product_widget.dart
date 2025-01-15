@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/product/controller/filter_controller.dart';
+import 'package:shuvautsavapp/features/product/controller/product_controller.dart';
 import 'package:shuvautsavapp/features/product/model/product_model.dart';
 import 'package:shuvautsavapp/features/product/views/product_details.dart';
 import 'package:shuvautsavapp/features/product/views/product_page.dart';
@@ -37,7 +38,7 @@ class _DashboardProductWidgetState
         Row(
           children: [
             const Text(
-              'Browser Product',
+              'Browse Product',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,
@@ -57,7 +58,7 @@ class _DashboardProductWidgetState
               },
               data: (data) {
                 return Text(
-                  data.length > 15 ? '15+' : '${data.length}',
+                  data.length > 15 ? '15+' : '${data.length - 1}+',
                   style: const TextStyle(fontWeight: FontWeight.w400),
                 );
               },
@@ -65,8 +66,11 @@ class _DashboardProductWidgetState
             const Spacer(),
             InkWell(
               onTap: () {
-                ref.push(
-                    RoutePage(child: const ProductPage(), name: 'ProductPage'));
+                ref.push(RoutePage(
+                    child: const ProductPage(
+                      title: null,
+                    ),
+                    name: 'ProductPage'));
               },
               child: const Text(
                 'See All',
@@ -129,7 +133,10 @@ class _DashboardProductWidgetState
                             // ),
                             const SizedBox(),
                             Text(
-                              '${data[index].price}',
+                              '${data[index].currency} ${data[index].price.toInt()}',
+                              style: context.titleMedium.copyWith(
+                                color: context.primaryColor,
+                              ),
                             ),
                           ],
                         ),
@@ -209,11 +216,39 @@ class _DashboardGridState extends ConsumerState<DashboardGrid> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              widget.title,
-              style: context.titleLarge.copyWith(
-                color: Theme.of(context).primaryColor,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.title,
+                  style: context.titleLarge.copyWith(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                TextButton(
+                    child: Row(
+                      children: [
+                        Text('View All'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 12,
+                        )
+                      ],
+                    ),
+                    onPressed: () {
+                      ref.push(RoutePage(
+                        child: ProductPage(
+                          categoriesType: CategoriesType.catSlug,
+                          slug: widget.slug,
+                          title: widget.title,
+                        ),
+                        name: 'ProductPage',
+                      ));
+                    }),
+              ],
             ),
             Divider(
               height: 5,
@@ -279,13 +314,11 @@ class _DashboardGridState extends ConsumerState<DashboardGrid> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  "Price: ₹${product.price ?? 0}",
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  "Qty: ${product.qty ?? 0}",
-                                  style: const TextStyle(fontSize: 14),
+                                  "${product.currency}. ${product.price.toInt() ?? 0}",
+                                  style: context.titleMedium.copyWith(
+                                    color: context.primaryColor,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ],
                             ),
@@ -375,12 +408,18 @@ class _DashboardGridState extends ConsumerState<DashboardGrid> {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: 'Price : ',
-                                              style: context.labelSmall,
+                                              text: '${product.currency}. ',
+                                              style:
+                                                  context.labelSmall.copyWith(
+                                                color: context.primaryColor,
+                                              ),
                                             ),
                                             TextSpan(
-                                              text: '${product.price}',
-                                              style: context.titleSmall,
+                                              text: ' ${product.price.toInt()}',
+                                              style:
+                                                  context.titleSmall.copyWith(
+                                                color: context.primaryColor,
+                                              ),
                                             ),
                                           ],
                                         ),

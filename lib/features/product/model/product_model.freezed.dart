@@ -351,6 +351,7 @@ mixin _$ProductModel {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get slug => throw _privateConstructorUsedError;
+  String get currency => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   double? get offer => throw _privateConstructorUsedError;
   String? get offerText => throw _privateConstructorUsedError;
@@ -381,6 +382,7 @@ abstract class $ProductModelCopyWith<$Res> {
       {int id,
       String title,
       String slug,
+      String currency,
       double price,
       double? offer,
       String? offerText,
@@ -410,6 +412,7 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
     Object? id = null,
     Object? title = null,
     Object? slug = null,
+    Object? currency = null,
     Object? price = null,
     Object? offer = freezed,
     Object? offerText = freezed,
@@ -432,6 +435,10 @@ class _$ProductModelCopyWithImpl<$Res, $Val extends ProductModel>
       slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       price: null == price
           ? _value.price
@@ -485,6 +492,7 @@ abstract class _$$ProductModelImplCopyWith<$Res>
       {int id,
       String title,
       String slug,
+      String currency,
       double price,
       double? offer,
       String? offerText,
@@ -512,6 +520,7 @@ class __$$ProductModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? title = null,
     Object? slug = null,
+    Object? currency = null,
     Object? price = null,
     Object? offer = freezed,
     Object? offerText = freezed,
@@ -534,6 +543,10 @@ class __$$ProductModelImplCopyWithImpl<$Res>
       slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
               as String,
       price: null == price
           ? _value.price
@@ -582,6 +595,7 @@ class _$ProductModelImpl implements _ProductModel {
       {this.id = 0,
       this.title = '',
       this.slug = '',
+      this.currency = 'NPR',
       this.price = 0.0,
       this.offer = 0.0,
       this.offerText = '',
@@ -604,6 +618,9 @@ class _$ProductModelImpl implements _ProductModel {
   @override
   @JsonKey()
   final String slug;
+  @override
+  @JsonKey()
+  final String currency;
   @override
   @JsonKey()
   final double price;
@@ -634,7 +651,7 @@ class _$ProductModelImpl implements _ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, title: $title, slug: $slug, price: $price, offer: $offer, offerText: $offerText, qty: $qty, code: $code, description: $description, image: $image, rank: $rank, status: $status)';
+    return 'ProductModel(id: $id, title: $title, slug: $slug, currency: $currency, price: $price, offer: $offer, offerText: $offerText, qty: $qty, code: $code, description: $description, image: $image, rank: $rank, status: $status)';
   }
 
   @override
@@ -645,6 +662,8 @@ class _$ProductModelImpl implements _ProductModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.offer, offer) || other.offer == offer) &&
             (identical(other.offerText, offerText) ||
@@ -660,8 +679,8 @@ class _$ProductModelImpl implements _ProductModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, slug, price, offer,
-      offerText, qty, code, description, image, rank, status);
+  int get hashCode => Object.hash(runtimeType, id, title, slug, currency, price,
+      offer, offerText, qty, code, description, image, rank, status);
 
   /// Create a copy of ProductModel
   /// with the given fields replaced by the non-null parameter values.
@@ -684,6 +703,7 @@ abstract class _ProductModel implements ProductModel {
       {final int id,
       final String title,
       final String slug,
+      final String currency,
       final double price,
       final double? offer,
       final String? offerText,
@@ -703,6 +723,8 @@ abstract class _ProductModel implements ProductModel {
   String get title;
   @override
   String get slug;
+  @override
+  String get currency;
   @override
   double get price;
   @override

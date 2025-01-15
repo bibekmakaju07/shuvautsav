@@ -70,6 +70,11 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
           child: CircularProgressIndicator(),
         );
       },
+      error: (error, stackTrace) {
+        return Center(
+          child: Text('Order List is Empty'),
+        );
+      },
       data: (data) {
         return Padding(
           padding:
@@ -101,7 +106,7 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
                                       bottom: 12,
                                     ),
                                     child: Text(
-                                      'Order Canceled',
+                                      'Actions',
                                       style: context.titleMedium,
                                     ),
                                   ),
@@ -114,6 +119,7 @@ class _OrderListPageState extends ConsumerState<OrderListPage> {
                                         RoutePage(
                                           child: OrderDetailsPage(
                                             id: '${order.id}',
+                                         orderId:    order.orderId
                                           ),
                                           name: 'OrderDetailsPage',
                                         ),

@@ -8,7 +8,8 @@ class ProductDetailsModel with _$ProductDetailsModel {
   const factory ProductDetailsModel({
     @Default(0) int id,
     @Default('') String title,
-     dynamic offer,
+    @Default('NPR') String currency,
+    dynamic offer,
     dynamic price,
     @Default('') String description,
     @Default(0) int qty,
@@ -51,6 +52,7 @@ class RelatedProduct with _$RelatedProduct {
     @Default('') String title,
     @Default('') String shortTitle,
     @Default('') String slug,
+    @Default('NPR') String currency,
     @Default('') String image,
     dynamic offer,
     @Default(0.0) double price,
