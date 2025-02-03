@@ -1,8 +1,10 @@
 import 'package:esewa_flutter_sdk/esewa_payment.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
 import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
+import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/cart/controller/cart_checkout_store_controller.dart';
 import 'package:shuvautsavapp/features/cart/model/cart_list_model.dart';
@@ -11,6 +13,7 @@ import 'package:shuvautsavapp/features/cart/views/widget/billing_details.dart';
 import 'package:shuvautsavapp/features/cart/views/widget/payment_widget.dart';
 import 'package:shuvautsavapp/features/cart/views/widget/shipping_details.dart';
 import 'package:shuvautsavapp/features/payment/controller/esewa_payment_controller.dart';
+import 'package:shuvautsavapp/main.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
 final locationProvider = FutureProvider.autoDispose<LocationModel>((ref) async {
@@ -143,6 +146,16 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
               error: false,
             );
           });
+
+          ref
+              .read(objectBoxProvider.notifier)
+              .state
+              .box<ProductDetailsEntity>()
+              .removeMany(widget.cartModel.carts.cart
+                  .map((e) => int.tryParse(e.id) ?? 0)
+                  .toList());
+
+          ref.pop();
         },
         error: (data, extra) {
           showDialog(
@@ -294,6 +307,7 @@ class CustomTextFormField extends StatefulWidget {
     this.textEditingController,
     this.maxLines,
     this.hintStyle,
+    this.onSaved,
     this.validator,
   });
   final String label;
@@ -303,6 +317,7 @@ class CustomTextFormField extends StatefulWidget {
   final Widget? suffix;
   final Widget? suffixIcon;
   final int? maxLines;
+  final FormFieldSetter<String>? onSaved;
   final TextStyle? hintStyle;
   final String? Function(String?)? validator;
 
@@ -327,6 +342,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           maxLines: widget.maxLines,
           readOnly: widget.readOnly ?? false,
           validator: widget.validator,
+          onSaved: widget.onSaved,
           decoration: InputDecoration(
             suffixIcon: widget.suffixIcon,
             isDense: true,

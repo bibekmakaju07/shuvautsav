@@ -354,7 +354,9 @@ mixin _$User {
   @JsonKey(name: 'area_id')
   int? get areaId => throw _privateConstructorUsedError;
   @JsonKey(name: 'ward_no')
-  int? get wardNo => throw _privateConstructorUsedError;
+  String? get wardNo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'province_id')
+  int? get provinceId => throw _privateConstructorUsedError;
   String get street => throw _privateConstructorUsedError;
   @JsonKey(name: 'i_state')
   String? get iState => throw _privateConstructorUsedError;
@@ -389,7 +391,8 @@ abstract class $UserCopyWith<$Res> {
       @JsonKey(name: 'country_id') int? countryId,
       @JsonKey(name: 'city_id') int? cityId,
       @JsonKey(name: 'area_id') int? areaId,
-      @JsonKey(name: 'ward_no') int? wardNo,
+      @JsonKey(name: 'ward_no') String? wardNo,
+      @JsonKey(name: 'province_id') int? provinceId,
       String street,
       @JsonKey(name: 'i_state') String? iState,
       @JsonKey(name: 'i_suburb') String? iSuburb,
@@ -422,6 +425,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? cityId = freezed,
     Object? areaId = freezed,
     Object? wardNo = freezed,
+    Object? provinceId = freezed,
     Object? street = null,
     Object? iState = freezed,
     Object? iSuburb = freezed,
@@ -468,6 +472,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       wardNo: freezed == wardNo
           ? _value.wardNo
           : wardNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      provinceId: freezed == provinceId
+          ? _value.provinceId
+          : provinceId // ignore: cast_nullable_to_non_nullable
               as int?,
       street: null == street
           ? _value.street
@@ -510,7 +518,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       @JsonKey(name: 'country_id') int? countryId,
       @JsonKey(name: 'city_id') int? cityId,
       @JsonKey(name: 'area_id') int? areaId,
-      @JsonKey(name: 'ward_no') int? wardNo,
+      @JsonKey(name: 'ward_no') String? wardNo,
+      @JsonKey(name: 'province_id') int? provinceId,
       String street,
       @JsonKey(name: 'i_state') String? iState,
       @JsonKey(name: 'i_suburb') String? iSuburb,
@@ -540,6 +549,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? cityId = freezed,
     Object? areaId = freezed,
     Object? wardNo = freezed,
+    Object? provinceId = freezed,
     Object? street = null,
     Object? iState = freezed,
     Object? iSuburb = freezed,
@@ -586,6 +596,10 @@ class __$$UserImplCopyWithImpl<$Res>
       wardNo: freezed == wardNo
           ? _value.wardNo
           : wardNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      provinceId: freezed == provinceId
+          ? _value.provinceId
+          : provinceId // ignore: cast_nullable_to_non_nullable
               as int?,
       street: null == street
           ? _value.street
@@ -625,7 +639,8 @@ class _$UserImpl implements _User {
       @JsonKey(name: 'city_id') this.cityId,
       @JsonKey(name: 'area_id') this.areaId,
       @JsonKey(name: 'ward_no') this.wardNo,
-      required this.street,
+      @JsonKey(name: 'province_id') this.provinceId,
+      this.street = '',
       @JsonKey(name: 'i_state') this.iState,
       @JsonKey(name: 'i_suburb') this.iSuburb,
       @JsonKey(name: 'i_postcode') this.iPostcode,
@@ -659,8 +674,12 @@ class _$UserImpl implements _User {
   final int? areaId;
   @override
   @JsonKey(name: 'ward_no')
-  final int? wardNo;
+  final String? wardNo;
   @override
+  @JsonKey(name: 'province_id')
+  final int? provinceId;
+  @override
+  @JsonKey()
   final String street;
   @override
   @JsonKey(name: 'i_state')
@@ -677,7 +696,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, phone: $phone, addressId: $addressId, internationalAddressId: $internationalAddressId, countryId: $countryId, cityId: $cityId, areaId: $areaId, wardNo: $wardNo, street: $street, iState: $iState, iSuburb: $iSuburb, iPostcode: $iPostcode, iStreet: $iStreet)';
+    return 'User(id: $id, name: $name, email: $email, phone: $phone, addressId: $addressId, internationalAddressId: $internationalAddressId, countryId: $countryId, cityId: $cityId, areaId: $areaId, wardNo: $wardNo, provinceId: $provinceId, street: $street, iState: $iState, iSuburb: $iSuburb, iPostcode: $iPostcode, iStreet: $iStreet)';
   }
 
   @override
@@ -698,6 +717,8 @@ class _$UserImpl implements _User {
             (identical(other.cityId, cityId) || other.cityId == cityId) &&
             (identical(other.areaId, areaId) || other.areaId == areaId) &&
             (identical(other.wardNo, wardNo) || other.wardNo == wardNo) &&
+            (identical(other.provinceId, provinceId) ||
+                other.provinceId == provinceId) &&
             (identical(other.street, street) || other.street == street) &&
             (identical(other.iState, iState) || other.iState == iState) &&
             (identical(other.iSuburb, iSuburb) || other.iSuburb == iSuburb) &&
@@ -720,6 +741,7 @@ class _$UserImpl implements _User {
       cityId,
       areaId,
       wardNo,
+      provinceId,
       street,
       iState,
       iSuburb,
@@ -754,8 +776,9 @@ abstract class _User implements User {
       @JsonKey(name: 'country_id') final int? countryId,
       @JsonKey(name: 'city_id') final int? cityId,
       @JsonKey(name: 'area_id') final int? areaId,
-      @JsonKey(name: 'ward_no') final int? wardNo,
-      required final String street,
+      @JsonKey(name: 'ward_no') final String? wardNo,
+      @JsonKey(name: 'province_id') final int? provinceId,
+      final String street,
       @JsonKey(name: 'i_state') final String? iState,
       @JsonKey(name: 'i_suburb') final String? iSuburb,
       @JsonKey(name: 'i_postcode') final String? iPostcode,
@@ -788,7 +811,10 @@ abstract class _User implements User {
   int? get areaId;
   @override
   @JsonKey(name: 'ward_no')
-  int? get wardNo;
+  String? get wardNo;
+  @override
+  @JsonKey(name: 'province_id')
+  int? get provinceId;
   @override
   String get street;
   @override

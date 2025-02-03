@@ -19,7 +19,11 @@ class ProductDetailsModel with _$ProductDetailsModel {
     @Default(0) int categoryCount,
     @Default([]) List<DetailsCategory> categories,
     @Default('') String videoUrl,
-    @Default('') String shippingPolicy,
+    
+    @Default('') @JsonKey(name: 'shipping_policy') String shippingPolicy,
+     @JsonKey(name: 'product_specification')
+    @Default([]) List<ProductSpecification> productSpecification,
+
     @Default('') String colorCheck,
     @Default(0) int limit,
     @Default('') String weight,
@@ -67,9 +71,55 @@ class ApiResponse with _$ApiResponse {
   const factory ApiResponse({
     ProductDetailsModel? product,
     @Default([]) List<RelatedProduct> related_products,
+    @Default('') String user_email,
+    @JsonKey(name:'review_exists') bool? reviewExists,
+    @JsonKey(name: "all_reviews") @Default([]) List<ReviewData> allReviews,
+
     // Default to an empty list
   }) = _ApiResponse;
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) =>
       _$ApiResponseFromJson(json);
 }
+
+
+
+@freezed
+class ProductSpecification with _$ProductSpecification {
+  const factory ProductSpecification({
+    @Default(-1) int id,
+    @Default(-1)@JsonKey(name: 'product_id')  int productId,
+    @Default('')@JsonKey(name: 'specification_title')  String specificationTitle,
+      @Default('') @JsonKey(name: 'specification_value')  String specificationValue,
+    @JsonKey(name: 'deleted_at')  String? deletedAt,
+    @JsonKey(name: 'created_at')  @Default('')  String createdAt,
+     @JsonKey(name: 'updated_at')  @Default('')  String updatedAt,
+  }) = _ProductSpecification;
+
+  factory ProductSpecification.fromJson(Map<String, dynamic> json) =>
+      _$ProductSpecificationFromJson(json);
+}
+
+
+@freezed
+class ReviewData with _$ReviewData {
+  const factory ReviewData({
+    @Default(-1) int id,
+    @JsonKey(name: "product_id") @Default(-1) int productId,
+    @Default('') String name,
+    @Default('') String email,
+    @Default('') String phone,
+    @Default('') String rating,
+    @Default('') String review,
+    @Default(0) int status,
+    @JsonKey(name: "review_date") @Default('') String reviewDate,
+    @JsonKey(name: "deleted_at") String? deletedAt,
+    @JsonKey(name: "created_at") @Default('') String createdAt,
+    @JsonKey(name: "updated_at") @Default('') String updatedAt,
+  }) = _ReviewData;
+
+  factory ReviewData.fromJson(Map<String, dynamic> json) =>
+      _$ReviewDataFromJson(json);
+}
+
+

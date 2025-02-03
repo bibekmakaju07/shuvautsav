@@ -55,8 +55,8 @@ class _BillingDetailsState extends ConsumerState<BillingDetails> {
         TextEditingController(text: locationModel.data.customer?.name ?? '');
     _emailController =
         TextEditingController(text: locationModel.data.customer?.email ?? '');
-    _streetController = TextEditingController(
-        text: '${locationModel.data.customer?.street ?? ''}');
+    _streetController =
+        TextEditingController(text: locationModel.data.customer?.street ?? '');
     _phoneController =
         TextEditingController(text: locationModel.data.customer?.phone ?? '');
 

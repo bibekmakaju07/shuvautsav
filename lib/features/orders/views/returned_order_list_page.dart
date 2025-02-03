@@ -120,7 +120,7 @@ class _OrderListPageState extends ConsumerState<ReturnedOrderListPage> {
                                   ref.push(
                                     RoutePage(
                                       child: OrderDetailsPage(
-                                                                        orderId:    order.orderId,
+                                        orderId: order.orderId,
                                         id: '${order.id}',
                                       ),
                                       name: 'OrderDetailsPage',
@@ -160,7 +160,7 @@ class _OrderListPageState extends ConsumerState<ReturnedOrderListPage> {
                               Row(
                                 children: [
                                   Text(
-                                    'Order ID',
+                                    'Order ID :',
                                     style: context.textTheme().bodyLarge,
                                   ),
                                   Text(

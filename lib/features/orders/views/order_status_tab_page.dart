@@ -58,7 +58,7 @@ const orderStatusJson = [
   {'id': 2, 'status': 'Order Shipped', 'color': 'ff9c27b0'}, // Colors.purple
   {'id': 3, 'status': 'Order Delivered', 'color': 'ff4caf50'}, // Colors.green
   {'id': 4, 'status': 'Order Cancelled', 'color': 'fff44336'}, // Colors.red
-  {'id': 5, 'status': 'Return Requested', 'color': 'ffffeb3b'}, // Colors.yellow
+  {'id': 5, 'status': 'Return Requested', 'color': 'ff2196F3'}, // Colors.yellow
   {'id': 6, 'status': 'Returned', 'color': 'ff9e9e9e'}, // Colors.grey
 ];
 

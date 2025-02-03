@@ -33,7 +33,11 @@ mixin _$ProductDetailsModel {
   int get categoryCount => throw _privateConstructorUsedError;
   List<DetailsCategory> get categories => throw _privateConstructorUsedError;
   String get videoUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: 'shipping_policy')
   String get shippingPolicy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'product_specification')
+  List<ProductSpecification> get productSpecification =>
+      throw _privateConstructorUsedError;
   String get colorCheck => throw _privateConstructorUsedError;
   int get limit => throw _privateConstructorUsedError;
   String get weight => throw _privateConstructorUsedError;
@@ -74,7 +78,9 @@ abstract class $ProductDetailsModelCopyWith<$Res> {
       int categoryCount,
       List<DetailsCategory> categories,
       String videoUrl,
-      String shippingPolicy,
+      @JsonKey(name: 'shipping_policy') String shippingPolicy,
+      @JsonKey(name: 'product_specification')
+      List<ProductSpecification> productSpecification,
       String colorCheck,
       int limit,
       String weight,
@@ -115,6 +121,7 @@ class _$ProductDetailsModelCopyWithImpl<$Res, $Val extends ProductDetailsModel>
     Object? categories = null,
     Object? videoUrl = null,
     Object? shippingPolicy = null,
+    Object? productSpecification = null,
     Object? colorCheck = null,
     Object? limit = null,
     Object? weight = null,
@@ -182,6 +189,10 @@ class _$ProductDetailsModelCopyWithImpl<$Res, $Val extends ProductDetailsModel>
           ? _value.shippingPolicy
           : shippingPolicy // ignore: cast_nullable_to_non_nullable
               as String,
+      productSpecification: null == productSpecification
+          ? _value.productSpecification
+          : productSpecification // ignore: cast_nullable_to_non_nullable
+              as List<ProductSpecification>,
       colorCheck: null == colorCheck
           ? _value.colorCheck
           : colorCheck // ignore: cast_nullable_to_non_nullable
@@ -244,7 +255,9 @@ abstract class _$$ProductDetailsModelImplCopyWith<$Res>
       int categoryCount,
       List<DetailsCategory> categories,
       String videoUrl,
-      String shippingPolicy,
+      @JsonKey(name: 'shipping_policy') String shippingPolicy,
+      @JsonKey(name: 'product_specification')
+      List<ProductSpecification> productSpecification,
       String colorCheck,
       int limit,
       String weight,
@@ -283,6 +296,7 @@ class __$$ProductDetailsModelImplCopyWithImpl<$Res>
     Object? categories = null,
     Object? videoUrl = null,
     Object? shippingPolicy = null,
+    Object? productSpecification = null,
     Object? colorCheck = null,
     Object? limit = null,
     Object? weight = null,
@@ -350,6 +364,10 @@ class __$$ProductDetailsModelImplCopyWithImpl<$Res>
           ? _value.shippingPolicy
           : shippingPolicy // ignore: cast_nullable_to_non_nullable
               as String,
+      productSpecification: null == productSpecification
+          ? _value._productSpecification
+          : productSpecification // ignore: cast_nullable_to_non_nullable
+              as List<ProductSpecification>,
       colorCheck: null == colorCheck
           ? _value.colorCheck
           : colorCheck // ignore: cast_nullable_to_non_nullable
@@ -407,7 +425,9 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
       this.categoryCount = 0,
       final List<DetailsCategory> categories = const [],
       this.videoUrl = '',
-      this.shippingPolicy = '',
+      @JsonKey(name: 'shipping_policy') this.shippingPolicy = '',
+      @JsonKey(name: 'product_specification')
+      final List<ProductSpecification> productSpecification = const [],
       this.colorCheck = '',
       this.limit = 0,
       this.weight = '',
@@ -418,6 +438,7 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
       this.image4 = '',
       final List<String> productImages = const []})
       : _categories = categories,
+        _productSpecification = productSpecification,
         _productColorImage = productColorImage,
         _productImages = productImages;
 
@@ -468,8 +489,18 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
   @JsonKey()
   final String videoUrl;
   @override
-  @JsonKey()
+  @JsonKey(name: 'shipping_policy')
   final String shippingPolicy;
+  final List<ProductSpecification> _productSpecification;
+  @override
+  @JsonKey(name: 'product_specification')
+  List<ProductSpecification> get productSpecification {
+    if (_productSpecification is EqualUnmodifiableListView)
+      return _productSpecification;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_productSpecification);
+  }
+
   @override
   @JsonKey()
   final String colorCheck;
@@ -512,7 +543,7 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
 
   @override
   String toString() {
-    return 'ProductDetailsModel(id: $id, title: $title, currency: $currency, offer: $offer, price: $price, description: $description, qty: $qty, preferredDateStatus: $preferredDateStatus, preferredMessageStatus: $preferredMessageStatus, brand: $brand, categoryCount: $categoryCount, categories: $categories, videoUrl: $videoUrl, shippingPolicy: $shippingPolicy, colorCheck: $colorCheck, limit: $limit, weight: $weight, productColorImage: $productColorImage, image1: $image1, image2: $image2, image3: $image3, image4: $image4, productImages: $productImages)';
+    return 'ProductDetailsModel(id: $id, title: $title, currency: $currency, offer: $offer, price: $price, description: $description, qty: $qty, preferredDateStatus: $preferredDateStatus, preferredMessageStatus: $preferredMessageStatus, brand: $brand, categoryCount: $categoryCount, categories: $categories, videoUrl: $videoUrl, shippingPolicy: $shippingPolicy, productSpecification: $productSpecification, colorCheck: $colorCheck, limit: $limit, weight: $weight, productColorImage: $productColorImage, image1: $image1, image2: $image2, image3: $image3, image4: $image4, productImages: $productImages)';
   }
 
   @override
@@ -542,6 +573,8 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
                 other.videoUrl == videoUrl) &&
             (identical(other.shippingPolicy, shippingPolicy) ||
                 other.shippingPolicy == shippingPolicy) &&
+            const DeepCollectionEquality()
+                .equals(other._productSpecification, _productSpecification) &&
             (identical(other.colorCheck, colorCheck) ||
                 other.colorCheck == colorCheck) &&
             (identical(other.limit, limit) || other.limit == limit) &&
@@ -574,6 +607,7 @@ class _$ProductDetailsModelImpl implements _ProductDetailsModel {
         const DeepCollectionEquality().hash(_categories),
         videoUrl,
         shippingPolicy,
+        const DeepCollectionEquality().hash(_productSpecification),
         colorCheck,
         limit,
         weight,
@@ -617,7 +651,9 @@ abstract class _ProductDetailsModel implements ProductDetailsModel {
       final int categoryCount,
       final List<DetailsCategory> categories,
       final String videoUrl,
-      final String shippingPolicy,
+      @JsonKey(name: 'shipping_policy') final String shippingPolicy,
+      @JsonKey(name: 'product_specification')
+      final List<ProductSpecification> productSpecification,
       final String colorCheck,
       final int limit,
       final String weight,
@@ -658,7 +694,11 @@ abstract class _ProductDetailsModel implements ProductDetailsModel {
   @override
   String get videoUrl;
   @override
+  @JsonKey(name: 'shipping_policy')
   String get shippingPolicy;
+  @override
+  @JsonKey(name: 'product_specification')
+  List<ProductSpecification> get productSpecification;
   @override
   String get colorCheck;
   @override
@@ -1150,6 +1190,11 @@ mixin _$ApiResponse {
   ProductDetailsModel? get product => throw _privateConstructorUsedError;
   List<RelatedProduct> get related_products =>
       throw _privateConstructorUsedError;
+  String get user_email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'review_exists')
+  bool? get reviewExists => throw _privateConstructorUsedError;
+  @JsonKey(name: "all_reviews")
+  List<ReviewData> get allReviews => throw _privateConstructorUsedError;
 
   /// Serializes this ApiResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1168,7 +1213,11 @@ abstract class $ApiResponseCopyWith<$Res> {
       _$ApiResponseCopyWithImpl<$Res, ApiResponse>;
   @useResult
   $Res call(
-      {ProductDetailsModel? product, List<RelatedProduct> related_products});
+      {ProductDetailsModel? product,
+      List<RelatedProduct> related_products,
+      String user_email,
+      @JsonKey(name: 'review_exists') bool? reviewExists,
+      @JsonKey(name: "all_reviews") List<ReviewData> allReviews});
 
   $ProductDetailsModelCopyWith<$Res>? get product;
 }
@@ -1190,6 +1239,9 @@ class _$ApiResponseCopyWithImpl<$Res, $Val extends ApiResponse>
   $Res call({
     Object? product = freezed,
     Object? related_products = null,
+    Object? user_email = null,
+    Object? reviewExists = freezed,
+    Object? allReviews = null,
   }) {
     return _then(_value.copyWith(
       product: freezed == product
@@ -1200,6 +1252,18 @@ class _$ApiResponseCopyWithImpl<$Res, $Val extends ApiResponse>
           ? _value.related_products
           : related_products // ignore: cast_nullable_to_non_nullable
               as List<RelatedProduct>,
+      user_email: null == user_email
+          ? _value.user_email
+          : user_email // ignore: cast_nullable_to_non_nullable
+              as String,
+      reviewExists: freezed == reviewExists
+          ? _value.reviewExists
+          : reviewExists // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      allReviews: null == allReviews
+          ? _value.allReviews
+          : allReviews // ignore: cast_nullable_to_non_nullable
+              as List<ReviewData>,
     ) as $Val);
   }
 
@@ -1227,7 +1291,11 @@ abstract class _$$ApiResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ProductDetailsModel? product, List<RelatedProduct> related_products});
+      {ProductDetailsModel? product,
+      List<RelatedProduct> related_products,
+      String user_email,
+      @JsonKey(name: 'review_exists') bool? reviewExists,
+      @JsonKey(name: "all_reviews") List<ReviewData> allReviews});
 
   @override
   $ProductDetailsModelCopyWith<$Res>? get product;
@@ -1248,6 +1316,9 @@ class __$$ApiResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? product = freezed,
     Object? related_products = null,
+    Object? user_email = null,
+    Object? reviewExists = freezed,
+    Object? allReviews = null,
   }) {
     return _then(_$ApiResponseImpl(
       product: freezed == product
@@ -1258,6 +1329,18 @@ class __$$ApiResponseImplCopyWithImpl<$Res>
           ? _value._related_products
           : related_products // ignore: cast_nullable_to_non_nullable
               as List<RelatedProduct>,
+      user_email: null == user_email
+          ? _value.user_email
+          : user_email // ignore: cast_nullable_to_non_nullable
+              as String,
+      reviewExists: freezed == reviewExists
+          ? _value.reviewExists
+          : reviewExists // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      allReviews: null == allReviews
+          ? _value._allReviews
+          : allReviews // ignore: cast_nullable_to_non_nullable
+              as List<ReviewData>,
     ));
   }
 }
@@ -1266,8 +1349,14 @@ class __$$ApiResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ApiResponseImpl implements _ApiResponse {
   const _$ApiResponseImpl(
-      {this.product, final List<RelatedProduct> related_products = const []})
-      : _related_products = related_products;
+      {this.product,
+      final List<RelatedProduct> related_products = const [],
+      this.user_email = '',
+      @JsonKey(name: 'review_exists') this.reviewExists,
+      @JsonKey(name: "all_reviews")
+      final List<ReviewData> allReviews = const []})
+      : _related_products = related_products,
+        _allReviews = allReviews;
 
   factory _$ApiResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ApiResponseImplFromJson(json);
@@ -1285,8 +1374,23 @@ class _$ApiResponseImpl implements _ApiResponse {
   }
 
   @override
+  @JsonKey()
+  final String user_email;
+  @override
+  @JsonKey(name: 'review_exists')
+  final bool? reviewExists;
+  final List<ReviewData> _allReviews;
+  @override
+  @JsonKey(name: "all_reviews")
+  List<ReviewData> get allReviews {
+    if (_allReviews is EqualUnmodifiableListView) return _allReviews;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allReviews);
+  }
+
+  @override
   String toString() {
-    return 'ApiResponse(product: $product, related_products: $related_products)';
+    return 'ApiResponse(product: $product, related_products: $related_products, user_email: $user_email, reviewExists: $reviewExists, allReviews: $allReviews)';
   }
 
   @override
@@ -1296,13 +1400,24 @@ class _$ApiResponseImpl implements _ApiResponse {
             other is _$ApiResponseImpl &&
             (identical(other.product, product) || other.product == product) &&
             const DeepCollectionEquality()
-                .equals(other._related_products, _related_products));
+                .equals(other._related_products, _related_products) &&
+            (identical(other.user_email, user_email) ||
+                other.user_email == user_email) &&
+            (identical(other.reviewExists, reviewExists) ||
+                other.reviewExists == reviewExists) &&
+            const DeepCollectionEquality()
+                .equals(other._allReviews, _allReviews));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, product,
-      const DeepCollectionEquality().hash(_related_products));
+  int get hashCode => Object.hash(
+      runtimeType,
+      product,
+      const DeepCollectionEquality().hash(_related_products),
+      user_email,
+      reviewExists,
+      const DeepCollectionEquality().hash(_allReviews));
 
   /// Create a copy of ApiResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -1322,8 +1437,12 @@ class _$ApiResponseImpl implements _ApiResponse {
 
 abstract class _ApiResponse implements ApiResponse {
   const factory _ApiResponse(
-      {final ProductDetailsModel? product,
-      final List<RelatedProduct> related_products}) = _$ApiResponseImpl;
+          {final ProductDetailsModel? product,
+          final List<RelatedProduct> related_products,
+          final String user_email,
+          @JsonKey(name: 'review_exists') final bool? reviewExists,
+          @JsonKey(name: "all_reviews") final List<ReviewData> allReviews}) =
+      _$ApiResponseImpl;
 
   factory _ApiResponse.fromJson(Map<String, dynamic> json) =
       _$ApiResponseImpl.fromJson;
@@ -1332,11 +1451,735 @@ abstract class _ApiResponse implements ApiResponse {
   ProductDetailsModel? get product;
   @override
   List<RelatedProduct> get related_products;
+  @override
+  String get user_email;
+  @override
+  @JsonKey(name: 'review_exists')
+  bool? get reviewExists;
+  @override
+  @JsonKey(name: "all_reviews")
+  List<ReviewData> get allReviews;
 
   /// Create a copy of ApiResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ApiResponseImplCopyWith<_$ApiResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ProductSpecification _$ProductSpecificationFromJson(Map<String, dynamic> json) {
+  return _ProductSpecification.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProductSpecification {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'product_id')
+  int get productId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'specification_title')
+  String get specificationTitle => throw _privateConstructorUsedError;
+  @JsonKey(name: 'specification_value')
+  String get specificationValue => throw _privateConstructorUsedError;
+  @JsonKey(name: 'deleted_at')
+  String? get deletedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at')
+  String get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this ProductSpecification to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ProductSpecification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ProductSpecificationCopyWith<ProductSpecification> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProductSpecificationCopyWith<$Res> {
+  factory $ProductSpecificationCopyWith(ProductSpecification value,
+          $Res Function(ProductSpecification) then) =
+      _$ProductSpecificationCopyWithImpl<$Res, ProductSpecification>;
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(name: 'product_id') int productId,
+      @JsonKey(name: 'specification_title') String specificationTitle,
+      @JsonKey(name: 'specification_value') String specificationValue,
+      @JsonKey(name: 'deleted_at') String? deletedAt,
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'updated_at') String updatedAt});
+}
+
+/// @nodoc
+class _$ProductSpecificationCopyWithImpl<$Res,
+        $Val extends ProductSpecification>
+    implements $ProductSpecificationCopyWith<$Res> {
+  _$ProductSpecificationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ProductSpecification
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? productId = null,
+    Object? specificationTitle = null,
+    Object? specificationValue = null,
+    Object? deletedAt = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      productId: null == productId
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as int,
+      specificationTitle: null == specificationTitle
+          ? _value.specificationTitle
+          : specificationTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      specificationValue: null == specificationValue
+          ? _value.specificationValue
+          : specificationValue // ignore: cast_nullable_to_non_nullable
+              as String,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ProductSpecificationImplCopyWith<$Res>
+    implements $ProductSpecificationCopyWith<$Res> {
+  factory _$$ProductSpecificationImplCopyWith(_$ProductSpecificationImpl value,
+          $Res Function(_$ProductSpecificationImpl) then) =
+      __$$ProductSpecificationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(name: 'product_id') int productId,
+      @JsonKey(name: 'specification_title') String specificationTitle,
+      @JsonKey(name: 'specification_value') String specificationValue,
+      @JsonKey(name: 'deleted_at') String? deletedAt,
+      @JsonKey(name: 'created_at') String createdAt,
+      @JsonKey(name: 'updated_at') String updatedAt});
+}
+
+/// @nodoc
+class __$$ProductSpecificationImplCopyWithImpl<$Res>
+    extends _$ProductSpecificationCopyWithImpl<$Res, _$ProductSpecificationImpl>
+    implements _$$ProductSpecificationImplCopyWith<$Res> {
+  __$$ProductSpecificationImplCopyWithImpl(_$ProductSpecificationImpl _value,
+      $Res Function(_$ProductSpecificationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProductSpecification
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? productId = null,
+    Object? specificationTitle = null,
+    Object? specificationValue = null,
+    Object? deletedAt = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_$ProductSpecificationImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      productId: null == productId
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as int,
+      specificationTitle: null == specificationTitle
+          ? _value.specificationTitle
+          : specificationTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      specificationValue: null == specificationValue
+          ? _value.specificationValue
+          : specificationValue // ignore: cast_nullable_to_non_nullable
+              as String,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ProductSpecificationImpl implements _ProductSpecification {
+  const _$ProductSpecificationImpl(
+      {this.id = -1,
+      @JsonKey(name: 'product_id') this.productId = -1,
+      @JsonKey(name: 'specification_title') this.specificationTitle = '',
+      @JsonKey(name: 'specification_value') this.specificationValue = '',
+      @JsonKey(name: 'deleted_at') this.deletedAt,
+      @JsonKey(name: 'created_at') this.createdAt = '',
+      @JsonKey(name: 'updated_at') this.updatedAt = ''});
+
+  factory _$ProductSpecificationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProductSpecificationImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final int id;
+  @override
+  @JsonKey(name: 'product_id')
+  final int productId;
+  @override
+  @JsonKey(name: 'specification_title')
+  final String specificationTitle;
+  @override
+  @JsonKey(name: 'specification_value')
+  final String specificationValue;
+  @override
+  @JsonKey(name: 'deleted_at')
+  final String? deletedAt;
+  @override
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final String updatedAt;
+
+  @override
+  String toString() {
+    return 'ProductSpecification(id: $id, productId: $productId, specificationTitle: $specificationTitle, specificationValue: $specificationValue, deletedAt: $deletedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProductSpecificationImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
+            (identical(other.specificationTitle, specificationTitle) ||
+                other.specificationTitle == specificationTitle) &&
+            (identical(other.specificationValue, specificationValue) ||
+                other.specificationValue == specificationValue) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, productId,
+      specificationTitle, specificationValue, deletedAt, createdAt, updatedAt);
+
+  /// Create a copy of ProductSpecification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProductSpecificationImplCopyWith<_$ProductSpecificationImpl>
+      get copyWith =>
+          __$$ProductSpecificationImplCopyWithImpl<_$ProductSpecificationImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ProductSpecificationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProductSpecification implements ProductSpecification {
+  const factory _ProductSpecification(
+          {final int id,
+          @JsonKey(name: 'product_id') final int productId,
+          @JsonKey(name: 'specification_title') final String specificationTitle,
+          @JsonKey(name: 'specification_value') final String specificationValue,
+          @JsonKey(name: 'deleted_at') final String? deletedAt,
+          @JsonKey(name: 'created_at') final String createdAt,
+          @JsonKey(name: 'updated_at') final String updatedAt}) =
+      _$ProductSpecificationImpl;
+
+  factory _ProductSpecification.fromJson(Map<String, dynamic> json) =
+      _$ProductSpecificationImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: 'product_id')
+  int get productId;
+  @override
+  @JsonKey(name: 'specification_title')
+  String get specificationTitle;
+  @override
+  @JsonKey(name: 'specification_value')
+  String get specificationValue;
+  @override
+  @JsonKey(name: 'deleted_at')
+  String? get deletedAt;
+  @override
+  @JsonKey(name: 'created_at')
+  String get createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  String get updatedAt;
+
+  /// Create a copy of ProductSpecification
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ProductSpecificationImplCopyWith<_$ProductSpecificationImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ReviewData _$ReviewDataFromJson(Map<String, dynamic> json) {
+  return _ReviewData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ReviewData {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "product_id")
+  int get productId => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
+  String get rating => throw _privateConstructorUsedError;
+  String get review => throw _privateConstructorUsedError;
+  int get status => throw _privateConstructorUsedError;
+  @JsonKey(name: "review_date")
+  String get reviewDate => throw _privateConstructorUsedError;
+  @JsonKey(name: "deleted_at")
+  String? get deletedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "created_at")
+  String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "updated_at")
+  String get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this ReviewData to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ReviewData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ReviewDataCopyWith<ReviewData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ReviewDataCopyWith<$Res> {
+  factory $ReviewDataCopyWith(
+          ReviewData value, $Res Function(ReviewData) then) =
+      _$ReviewDataCopyWithImpl<$Res, ReviewData>;
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(name: "product_id") int productId,
+      String name,
+      String email,
+      String phone,
+      String rating,
+      String review,
+      int status,
+      @JsonKey(name: "review_date") String reviewDate,
+      @JsonKey(name: "deleted_at") String? deletedAt,
+      @JsonKey(name: "created_at") String createdAt,
+      @JsonKey(name: "updated_at") String updatedAt});
+}
+
+/// @nodoc
+class _$ReviewDataCopyWithImpl<$Res, $Val extends ReviewData>
+    implements $ReviewDataCopyWith<$Res> {
+  _$ReviewDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ReviewData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? productId = null,
+    Object? name = null,
+    Object? email = null,
+    Object? phone = null,
+    Object? rating = null,
+    Object? review = null,
+    Object? status = null,
+    Object? reviewDate = null,
+    Object? deletedAt = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      productId: null == productId
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      rating: null == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as String,
+      review: null == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int,
+      reviewDate: null == reviewDate
+          ? _value.reviewDate
+          : reviewDate // ignore: cast_nullable_to_non_nullable
+              as String,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ReviewDataImplCopyWith<$Res>
+    implements $ReviewDataCopyWith<$Res> {
+  factory _$$ReviewDataImplCopyWith(
+          _$ReviewDataImpl value, $Res Function(_$ReviewDataImpl) then) =
+      __$$ReviewDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(name: "product_id") int productId,
+      String name,
+      String email,
+      String phone,
+      String rating,
+      String review,
+      int status,
+      @JsonKey(name: "review_date") String reviewDate,
+      @JsonKey(name: "deleted_at") String? deletedAt,
+      @JsonKey(name: "created_at") String createdAt,
+      @JsonKey(name: "updated_at") String updatedAt});
+}
+
+/// @nodoc
+class __$$ReviewDataImplCopyWithImpl<$Res>
+    extends _$ReviewDataCopyWithImpl<$Res, _$ReviewDataImpl>
+    implements _$$ReviewDataImplCopyWith<$Res> {
+  __$$ReviewDataImplCopyWithImpl(
+      _$ReviewDataImpl _value, $Res Function(_$ReviewDataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ReviewData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? productId = null,
+    Object? name = null,
+    Object? email = null,
+    Object? phone = null,
+    Object? rating = null,
+    Object? review = null,
+    Object? status = null,
+    Object? reviewDate = null,
+    Object? deletedAt = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_$ReviewDataImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      productId: null == productId
+          ? _value.productId
+          : productId // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      rating: null == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as String,
+      review: null == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int,
+      reviewDate: null == reviewDate
+          ? _value.reviewDate
+          : reviewDate // ignore: cast_nullable_to_non_nullable
+              as String,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ReviewDataImpl implements _ReviewData {
+  const _$ReviewDataImpl(
+      {this.id = -1,
+      @JsonKey(name: "product_id") this.productId = -1,
+      this.name = '',
+      this.email = '',
+      this.phone = '',
+      this.rating = '',
+      this.review = '',
+      this.status = 0,
+      @JsonKey(name: "review_date") this.reviewDate = '',
+      @JsonKey(name: "deleted_at") this.deletedAt,
+      @JsonKey(name: "created_at") this.createdAt = '',
+      @JsonKey(name: "updated_at") this.updatedAt = ''});
+
+  factory _$ReviewDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ReviewDataImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final int id;
+  @override
+  @JsonKey(name: "product_id")
+  final int productId;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String email;
+  @override
+  @JsonKey()
+  final String phone;
+  @override
+  @JsonKey()
+  final String rating;
+  @override
+  @JsonKey()
+  final String review;
+  @override
+  @JsonKey()
+  final int status;
+  @override
+  @JsonKey(name: "review_date")
+  final String reviewDate;
+  @override
+  @JsonKey(name: "deleted_at")
+  final String? deletedAt;
+  @override
+  @JsonKey(name: "created_at")
+  final String createdAt;
+  @override
+  @JsonKey(name: "updated_at")
+  final String updatedAt;
+
+  @override
+  String toString() {
+    return 'ReviewData(id: $id, productId: $productId, name: $name, email: $email, phone: $phone, rating: $rating, review: $review, status: $status, reviewDate: $reviewDate, deletedAt: $deletedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ReviewDataImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.productId, productId) ||
+                other.productId == productId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
+            (identical(other.review, review) || other.review == review) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.reviewDate, reviewDate) ||
+                other.reviewDate == reviewDate) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      productId,
+      name,
+      email,
+      phone,
+      rating,
+      review,
+      status,
+      reviewDate,
+      deletedAt,
+      createdAt,
+      updatedAt);
+
+  /// Create a copy of ReviewData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ReviewDataImplCopyWith<_$ReviewDataImpl> get copyWith =>
+      __$$ReviewDataImplCopyWithImpl<_$ReviewDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ReviewDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ReviewData implements ReviewData {
+  const factory _ReviewData(
+      {final int id,
+      @JsonKey(name: "product_id") final int productId,
+      final String name,
+      final String email,
+      final String phone,
+      final String rating,
+      final String review,
+      final int status,
+      @JsonKey(name: "review_date") final String reviewDate,
+      @JsonKey(name: "deleted_at") final String? deletedAt,
+      @JsonKey(name: "created_at") final String createdAt,
+      @JsonKey(name: "updated_at") final String updatedAt}) = _$ReviewDataImpl;
+
+  factory _ReviewData.fromJson(Map<String, dynamic> json) =
+      _$ReviewDataImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: "product_id")
+  int get productId;
+  @override
+  String get name;
+  @override
+  String get email;
+  @override
+  String get phone;
+  @override
+  String get rating;
+  @override
+  String get review;
+  @override
+  int get status;
+  @override
+  @JsonKey(name: "review_date")
+  String get reviewDate;
+  @override
+  @JsonKey(name: "deleted_at")
+  String? get deletedAt;
+  @override
+  @JsonKey(name: "created_at")
+  String get createdAt;
+  @override
+  @JsonKey(name: "updated_at")
+  String get updatedAt;
+
+  /// Create a copy of ReviewData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ReviewDataImplCopyWith<_$ReviewDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

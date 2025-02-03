@@ -1,7 +1,6 @@
 
 import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:shuvautsavapp/network/failure.dart';
 
 part 'payment_state.freezed.dart';
 

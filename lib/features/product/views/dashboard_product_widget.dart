@@ -66,11 +66,14 @@ class _DashboardProductWidgetState
             const Spacer(),
             InkWell(
               onTap: () {
-                ref.push(RoutePage(
+                ref.push(
+                  RoutePage(
                     child: const ProductPage(
                       title: null,
                     ),
-                    name: 'ProductPage'));
+                    name: 'ProductPage',
+                  ),
+                );
               },
               child: const Text(
                 'See All',

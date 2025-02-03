@@ -104,7 +104,7 @@ class LoginNotifier extends StateNotifier<AppState> {
         state = AppState.error(null);
       }
     } catch (e) {
-      log("${e}");
+      log("$e");
       state = AppState.loading(false);
       state = AppState.error(null);
     }

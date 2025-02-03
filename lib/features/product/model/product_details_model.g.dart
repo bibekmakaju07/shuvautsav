@@ -26,7 +26,12 @@ _$ProductDetailsModelImpl _$$ProductDetailsModelImplFromJson(
               .toList() ??
           const [],
       videoUrl: json['videoUrl'] as String? ?? '',
-      shippingPolicy: json['shippingPolicy'] as String? ?? '',
+      shippingPolicy: json['shipping_policy'] as String? ?? '',
+      productSpecification: (json['product_specification'] as List<dynamic>?)
+              ?.map((e) =>
+                  ProductSpecification.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       colorCheck: json['colorCheck'] as String? ?? '',
       limit: (json['limit'] as num?)?.toInt() ?? 0,
       weight: json['weight'] as String? ?? '',
@@ -60,7 +65,8 @@ Map<String, dynamic> _$$ProductDetailsModelImplToJson(
       'categoryCount': instance.categoryCount,
       'categories': instance.categories,
       'videoUrl': instance.videoUrl,
-      'shippingPolicy': instance.shippingPolicy,
+      'shipping_policy': instance.shippingPolicy,
+      'product_specification': instance.productSpecification,
       'colorCheck': instance.colorCheck,
       'limit': instance.limit,
       'weight': instance.weight,
@@ -119,10 +125,75 @@ _$ApiResponseImpl _$$ApiResponseImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => RelatedProduct.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      user_email: json['user_email'] as String? ?? '',
+      reviewExists: json['review_exists'] as bool?,
+      allReviews: (json['all_reviews'] as List<dynamic>?)
+              ?.map((e) => ReviewData.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$ApiResponseImplToJson(_$ApiResponseImpl instance) =>
     <String, dynamic>{
       'product': instance.product,
       'related_products': instance.related_products,
+      'user_email': instance.user_email,
+      'review_exists': instance.reviewExists,
+      'all_reviews': instance.allReviews,
+    };
+
+_$ProductSpecificationImpl _$$ProductSpecificationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ProductSpecificationImpl(
+      id: (json['id'] as num?)?.toInt() ?? -1,
+      productId: (json['product_id'] as num?)?.toInt() ?? -1,
+      specificationTitle: json['specification_title'] as String? ?? '',
+      specificationValue: json['specification_value'] as String? ?? '',
+      deletedAt: json['deleted_at'] as String?,
+      createdAt: json['created_at'] as String? ?? '',
+      updatedAt: json['updated_at'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$ProductSpecificationImplToJson(
+        _$ProductSpecificationImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'product_id': instance.productId,
+      'specification_title': instance.specificationTitle,
+      'specification_value': instance.specificationValue,
+      'deleted_at': instance.deletedAt,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };
+
+_$ReviewDataImpl _$$ReviewDataImplFromJson(Map<String, dynamic> json) =>
+    _$ReviewDataImpl(
+      id: (json['id'] as num?)?.toInt() ?? -1,
+      productId: (json['product_id'] as num?)?.toInt() ?? -1,
+      name: json['name'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      phone: json['phone'] as String? ?? '',
+      rating: json['rating'] as String? ?? '',
+      review: json['review'] as String? ?? '',
+      status: (json['status'] as num?)?.toInt() ?? 0,
+      reviewDate: json['review_date'] as String? ?? '',
+      deletedAt: json['deleted_at'] as String?,
+      createdAt: json['created_at'] as String? ?? '',
+      updatedAt: json['updated_at'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$ReviewDataImplToJson(_$ReviewDataImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'product_id': instance.productId,
+      'name': instance.name,
+      'email': instance.email,
+      'phone': instance.phone,
+      'rating': instance.rating,
+      'review': instance.review,
+      'status': instance.status,
+      'review_date': instance.reviewDate,
+      'deleted_at': instance.deletedAt,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
     };

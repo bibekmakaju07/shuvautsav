@@ -8,6 +8,7 @@ import 'package:shuvautsavapp/features/category/views/category.dart';
 import 'package:shuvautsavapp/features/product/controller/product_controller.dart';
 import 'package:shuvautsavapp/features/product/views/dashboard_product_widget.dart';
 import 'package:shuvautsavapp/features/product/views/product_page.dart';
+import 'package:shuvautsavapp/features/product/views/product_search_page.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
 class HomePage extends StatefulHookConsumerWidget {
@@ -105,14 +106,16 @@ class _HomePageState extends ConsumerState<HomePage> {
                     readOnly: true,
                     onTap: () {
                       ref.push(RoutePage(
-                          child: const ProductPage(
+                          child: const ProductSearchPage(
                             title: null,
-                          ), name: 'ProductPage'));
+                          ),
+                          name: 'ProductSearchPage'));
                     },
                     decoration: const InputDecoration(
                       prefixIcon: Icon(
-                        HugeIcons.strokeRoundedLocation07,
+                        HugeIcons.strokeRoundedSearch02,
                       ),
+                      hintText: 'Search Product',
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xffEAF0F4),
@@ -247,7 +250,6 @@ class _HomeCategoryWidgetState extends ConsumerState<HomeCategoryWidget> {
                               title: '',
                               categoriesType: CategoriesType.catSlug,
                               slug: data[index].slug,
-
                             ),
                             name: 'ProductPage',
                           ));

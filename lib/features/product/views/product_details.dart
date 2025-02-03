@@ -5,10 +5,14 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
+import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/cart/views/cart.dart';
+import 'package:shuvautsavapp/features/product/controller/wishlist_controller.dart';
 import 'package:shuvautsavapp/features/product/model/product_details_model.dart';
+import 'package:shuvautsavapp/features/product/views/widget/review_list_view.dart';
+import 'package:shuvautsavapp/features/product/views/widget/review_widget.dart';
 import 'package:shuvautsavapp/main.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
@@ -45,6 +49,38 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(productDetailsProvider(widget.slug));
+    ref.listen(wishlistController, (prev, next) {
+      next.maybeWhen(
+        orElse: () {},
+        error: (data, extra) {
+          ref.read(toastProvider.notifier).update((_) {
+            return (
+              title: 'Failed to add product to wishlist',
+              description: '',
+              id: '12121',
+              error: true,
+            );
+          });
+        },
+        success: (data, extra) {
+          ref.read(toastProvider.notifier).update((_) {
+            return (
+              title: 'Product added to wish list',
+              description: '',
+              id: '12121',
+              error: false,
+            );
+          });
+        },
+        loading: (loading, data) {
+          if (loading) {
+            LoadingIndicator.instance.show(context);
+          } else {
+            LoadingIndicator.instance.hide();
+          }
+        },
+      );
+    });
     return Stack(
       children: [
         Container(
@@ -69,20 +105,31 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
               data: (data) {
                 return Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 6)
+                          .copyWith(
+                    bottom: 15,
+                  ),
                   child: IntrinsicHeight(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Container(
-                          height: 48,
-                          width: 48,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: const Color.fromARGB(255, 219, 218, 218)),
-                          child: Icon(
-                            Icons.favorite_outline,
-                            color: Theme.of(context).primaryColor,
+                        InkWell(
+                          onTap: () {
+                            ref.read(wishlistController.notifier).addToWishList(
+                                  productId: '${data.product?.id}',
+                                );
+                          },
+                          child: Container(
+                            height: 48,
+                            width: 48,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color:
+                                    const Color.fromARGB(255, 219, 218, 218)),
+                            child: Icon(
+                              Icons.favorite_outline,
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -476,13 +523,91 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                         return TabViewWidget(
                                           index: _tabController.index,
                                           children: [
-                                            Text('TODO'),
+                                            if (data.product!
+                                                .productSpecification.isEmpty)
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical: 10,
+                                                  horizontal: 16,
+                                                ),
+                                                child: Text(
+                                                  'No Specification for product found',
+                                                ),
+                                              )
+                                            else
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: Column(
+                                                  children: data.product!
+                                                      .productSpecification
+                                                      .map((e) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        bottom: 6,
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 2,
+                                                            child: Text(
+                                                              "${e.specificationTitle} :-",
+                                                              style: context
+                                                                  .titleMedium
+                                                                  .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Expanded(
+                                                            flex: 3,
+                                                            child: Text(
+                                                              e.specificationValue,
+                                                              style: context
+                                                                  .titleMedium
+                                                                  .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ),
                                             HtmlWidget(
                                               data.product?.shippingPolicy ??
                                                   'N/A',
                                               textStyle: context.titleSmall,
                                             ),
-                                            Text('TODO'),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                if (data.reviewExists ==
+                                                        false &&
+                                                    (data.user_email)
+                                                        .isNotEmpty)
+                                                  RatingAndReviewWidget(
+                                                    slug: '${data.product?.id}',
+                                                  ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                ReviewListWidget(
+                                                  data: data,
+                                                ),
+                                              ],
+                                            ),
                                           ],
                                         );
                                       }),
@@ -651,4 +776,23 @@ class _TabViewWidgetState extends State<TabViewWidget> {
   Widget build(BuildContext context) {
     return widget.children[widget.index];
   }
+}
+
+String maskEmail(String email) {
+  if (!email.contains('@')) {
+    return email; // Return as is if not a valid email
+  }
+
+  final parts = email.split('@');
+  final localPart = parts[0];
+  final domain = parts[1];
+
+  // If the local part is too short, mask it differently
+  if (localPart.length <= 2) {
+    return '${localPart[0]}***@$domain';
+  }
+
+  final maskedLocalPart =
+      '${localPart[0]}${'*' * (localPart.length - 2)}${localPart[localPart.length - 1]}';
+  return '$maskedLocalPart@$domain';
 }

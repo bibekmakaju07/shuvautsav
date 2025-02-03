@@ -23,7 +23,7 @@ class CartPage extends StatefulHookConsumerWidget {
 class _CardPageState extends ConsumerState<CartPage> {
   ValueNotifier<List<int>> selectedProduct = ValueNotifier([]);
 
-  CartModel cartModel = CartModel();
+  CartModel allCartData = CartModel();
 
   @override
   void initState() {
@@ -53,19 +53,19 @@ class _CardPageState extends ConsumerState<CartPage> {
               child: CheckoutForm(
                 locationModel: data,
                 cartDetails: extra ?? {},
-                cartModel: cartModel,
+                cartModel: allCartData,
               ),
               name: 'CheckoutForm',
             ),
           );
-          ref.read(toastProvider.notifier).update((_) {
-            return (
-              title: 'Checkout Successfull',
-              description: '',
-              id: 'dasdasd',
-              error: false,
-            );
-          });
+          // ref.read(toastProvider.notifier).update((_) {
+          //   return (
+          //     title: 'Checkout Successfull',
+          //     description: '',
+          //     id: 'dasdasd',
+          //     error: false,
+          //   );
+          // });
         },
         loading: (loading, data) {
           if (loading) {
@@ -81,6 +81,9 @@ class _CardPageState extends ConsumerState<CartPage> {
         title: Text('Cart'),
       ),
       bottomSheet: Container(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom,
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: ValueListenableBuilder(
@@ -192,7 +195,7 @@ class _CardPageState extends ConsumerState<CartPage> {
                                           });
                                           return;
                                         }
-                                        cartModel = CartModel(
+                                        allCartData = CartModel(
                                           cartId:
                                               '${carts.first.id}-${DateTime.now().microsecondsSinceEpoch}',
                                           carts: Carts(

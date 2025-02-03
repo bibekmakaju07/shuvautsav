@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -8,26 +10,16 @@ import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/cart/views/cart.dart';
-import 'package:shuvautsavapp/features/category/model/category_model.dart';
 import 'package:shuvautsavapp/features/product/controller/filter_controller.dart';
 import 'package:shuvautsavapp/features/product/controller/product_controller.dart';
+import 'package:shuvautsavapp/features/product/controller/product_search_controller.dart';
 import 'package:shuvautsavapp/features/product/views/product_details.dart';
 import 'package:shuvautsavapp/features/product/views/widget/product_filter.dart';
 import 'package:shuvautsavapp/features/product/views/wishlist_page.dart';
 import 'package:shuvautsavapp/main.dart';
-import 'package:shuvautsavapp/network/network_client.dart';
 
-final categoryForFilterProvider =
-    FutureProvider.autoDispose<List<Category>>((ref) async {
-  final response = await NetworkService()
-      .get(RequestApi(endPath: 'https://shuvautsav.com/api/v1/category'));
-
-  final data = CategoryResponse.fromJson(response.data);
-  return data.data.categories;
-});
-
-class ProductPage extends ConsumerStatefulWidget {
-  const ProductPage({
+class ProductSearchPage extends ConsumerStatefulWidget {
+  const ProductSearchPage({
     super.key,
     this.slug,
     this.categoriesType = CategoriesType.product,
@@ -44,7 +36,7 @@ class ProductPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ProductPageState();
 }
 
-class _ProductPageState extends ConsumerState<ProductPage> {
+class _ProductPageState extends ConsumerState<ProductSearchPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _scrollController = ScrollController();
@@ -53,11 +45,11 @@ class _ProductPageState extends ConsumerState<ProductPage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref
-          .read(productPaginationProvider(widget.categoriesType.name).notifier)
-          .getProduct(slug: widget.slug, type: widget.categoriesType);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   ref
+    //       .read(productSearchProvider(widget.categoriesType.name).notifier)
+    //       .searchProduct(slug: widget.slug, type: widget.categoriesType);
+    // });
 
     _scrollController.addListener(_listen);
   }
@@ -67,12 +59,22 @@ class _ProductPageState extends ConsumerState<ProductPage> {
       if (_scrollController.position.maxScrollExtent -
               _scrollController.position.pixels <=
           100) {
-        ref
-            .read(
-                productPaginationProvider(widget.categoriesType.name).notifier)
-            .getProduct(slug: widget.slug, type: widget.categoriesType);
+        if (keyword.isNotEmpty) {
+          ref
+              .read(productSearchProvider.notifier)
+              .searchProduct(keyword: keyword);
+        }
       }
     }
+  }
+
+  String keyword = '';
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
   }
 
   @override
@@ -92,8 +94,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
         },
       );
     });
-    final state =
-        ref.watch(productPaginationProvider(widget.categoriesType.name));
+    final state = ref.watch(productSearchProvider);
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -142,8 +143,9 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      ref.push(
-                          RoutePage(child: WishListProductList(), name: 'WishListProductList'));
+                      ref.push(RoutePage(
+                          child: WishListProductList(),
+                          name: 'WishListProductList'));
                     },
                     child: Container(
                       width: 42,
@@ -222,50 +224,45 @@ class _ProductPageState extends ConsumerState<ProductPage> {
               const SizedBox(
                 height: 4,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //     left: 16,
-              //     right: 10,
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       Expanded(
-              //         child: TextFormField(
-              //           onTap: () {},
-              //           decoration: const InputDecoration(
-              //             isDense: true,
-              //             prefixIcon: Icon(
-              //               HugeIcons.strokeRoundedLocation07,
-              //             ),
-              //             border: OutlineInputBorder(
-              //               borderSide: BorderSide(
-              //                 color: Color(0xffEAF0F4),
-              //               ),
-              //               borderRadius: BorderRadius.all(
-              //                 Radius.circular(3),
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       const SizedBox(
-              //         width: 8,
-              //       ),
-              //       InkWell(
-              //         onTap: () {
-              //           ref.read(filterCategoryProvider.notifier).getCategory();
-              //         },
-              //         child: const SizedBox.square(
-              //           dimension: 48,
-              //           child: Icon(
-              //             HugeIcons.strokeRoundedFilterVertical,
-              //           ),
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // ),
-
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 10,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        onChanged: (value) {
+                          if (_debounce?.isActive ?? false) _debounce!.cancel();
+                          _debounce = Timer(Duration(milliseconds: 500), () {
+                            ref
+                                .read(productSearchProvider.notifier)
+                                .searchProduct(keyword: keyword);
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          prefixIcon: Icon(
+                            HugeIcons.strokeRoundedSearch02,
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAF0F4),
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                ),
+              ),
               if (state.isLoading && state.productResponse == null)
                 Padding(
                   padding: const EdgeInsets.only(top: 200),
@@ -308,13 +305,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                               height: 10,
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                ref
-                                    .read(productPaginationProvider(
-                                            'widget.categoriesType.name')
-                                        .notifier)
-                                    .getProduct(slug: '');
-                              },
+                              onPressed: () {},
                               child: Text('Retry'),
                             ),
                           ],

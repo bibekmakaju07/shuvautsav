@@ -254,86 +254,122 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                   ),
-                  // const Row(
-                  //   children: [
-                  //     Expanded(child: Divider(height: 50)),
-                  //     Padding(
-                  //       padding: EdgeInsets.symmetric(horizontal: 10),
-                  //       child: Text('or'),
-                  //     ),
-                  //     Expanded(child: Divider(height: 50))
-                  //   ],
-                  // ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: OutlinedButton(
-                  //     onPressed: () {
-                  //       ref.read(loginProvider.notifier).googleSignIn();
-                  //     },
-                  //     style: OutlinedButton.styleFrom(
-                  //       fixedSize: const Size.fromHeight(50),
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(10),
-                  //       ),
-                  //     ),
-                  //     child: const Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         Icon(HugeIcons.strokeRoundedGoogle),
-                  //         SizedBox(
-                  //           width: 10,
-                  //         ),
-                  //         Text(
-                  //           'Continue With Google',
-                  //           style: TextStyle(
-                  //             fontSize: 15,
-                  //             fontWeight: FontWeight.w600,
-                  //             color: Colors.black,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+                  const Row(
+                    children: [
+                      Expanded(child: Divider(height: 50)),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text('or'),
+                      ),
+                      Expanded(child: Divider(height: 50))
+                    ],
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        ref.read(loginProvider.notifier).googleSignIn();
+                      },
+                      style: OutlinedButton.styleFrom(
+                        fixedSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(HugeIcons.strokeRoundedGoogle),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Continue With Google',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
 
-                  // const SizedBox(
-                  //   height: 30,
-                  // ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: OutlinedButton(
-                  //     onPressed: () {
-                  //       ref.read(loginProvider.notifier).facebookSignIn();
-                  //     },
-                  //     style: OutlinedButton.styleFrom(
-                  //       backgroundColor: const Color.fromARGB(255, 53, 46, 251),
-                  //       fixedSize: const Size.fromHeight(50),
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(10),
-                  //       ),
-                  //     ),
-                  //     child: const Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         Icon(
-                  //           HugeIcons.strokeRoundedFacebook01,
-                  //           color: Colors.white,
-                  //         ),
-                  //         SizedBox(
-                  //           width: 10,
-                  //         ),
-                  //         Text(
-                  //           'Continue With facebook',
-                  //           style: TextStyle(
-                  //             fontSize: 15,
-                  //             color: Colors.white,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        ref.read(loginProvider.notifier).facebookSignIn();
+                      },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 53, 46, 251),
+                        fixedSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            HugeIcons.strokeRoundedFacebook01,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Continue With facebook',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        ref.read(loginProvider.notifier).facebookSignIn();
+                      },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 53, 46, 251),
+                        fixedSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            HugeIcons.strokeRoundedApple01,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Continue With Apple Sign In',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 30,
                   ),

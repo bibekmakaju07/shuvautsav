@@ -7,9 +7,9 @@ class PaymentView extends StatefulWidget {
   final int purchaseId;
 
   const PaymentView({
-    Key? key,
+    super.key,
     required this.purchaseId,
-  }) : super(key: key);
+  });
 
   @override
   State<PaymentView> createState() => _PaymentViewState();
