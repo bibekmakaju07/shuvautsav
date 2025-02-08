@@ -233,7 +233,9 @@ class _ProductPageState extends ConsumerState<ProductSearchPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        autofocus: true,
                         onChanged: (value) {
+                          keyword = value;
                           if (_debounce?.isActive ?? false) _debounce!.cancel();
                           _debounce = Timer(Duration(milliseconds: 500), () {
                             ref

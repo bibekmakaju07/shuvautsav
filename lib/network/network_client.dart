@@ -111,6 +111,22 @@ class NetworkService {
     } catch (e) {
       return _parseError(e);
     }
+  }Future<dynamic> delete(RequestApi api) async {
+    try {
+      final reponse = await dio.delete(
+        api.endPath,
+        data: api.bodyParams,
+        queryParameters: api.queryParams,
+        options: Options(
+          contentType: api.contentType,
+          sendTimeout: const Duration(seconds: 30),
+          receiveTimeout: const Duration(seconds: 30),
+        ),
+      );
+      return reponse;
+    } catch (e) {
+      return _parseError(e);
+    }
   }
 
   Future<dynamic> put(RequestApi api) async {

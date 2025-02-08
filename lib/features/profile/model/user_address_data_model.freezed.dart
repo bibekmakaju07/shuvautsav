@@ -340,9 +340,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   int get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get phone => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
   @JsonKey(name: 'address_id')
   int? get addressId => throw _privateConstructorUsedError;
   @JsonKey(name: 'international_address_id')
@@ -383,9 +383,9 @@ abstract class $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String name,
-      String email,
-      String phone,
+      String? name,
+      String? email,
+      String? phone,
       @JsonKey(name: 'address_id') int? addressId,
       @JsonKey(name: 'international_address_id') int? internationalAddressId,
       @JsonKey(name: 'country_id') int? countryId,
@@ -416,9 +416,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
-    Object? email = null,
-    Object? phone = null,
+    Object? name = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
     Object? addressId = freezed,
     Object? internationalAddressId = freezed,
     Object? countryId = freezed,
@@ -437,18 +437,18 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: null == phone
+              as String?,
+      phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       addressId: freezed == addressId
           ? _value.addressId
           : addressId // ignore: cast_nullable_to_non_nullable
@@ -510,9 +510,9 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String name,
-      String email,
-      String phone,
+      String? name,
+      String? email,
+      String? phone,
       @JsonKey(name: 'address_id') int? addressId,
       @JsonKey(name: 'international_address_id') int? internationalAddressId,
       @JsonKey(name: 'country_id') int? countryId,
@@ -540,9 +540,9 @@ class __$$UserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? name = null,
-    Object? email = null,
-    Object? phone = null,
+    Object? name = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
     Object? addressId = freezed,
     Object? internationalAddressId = freezed,
     Object? countryId = freezed,
@@ -561,18 +561,18 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      phone: null == phone
+              as String?,
+      phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       addressId: freezed == addressId
           ? _value.addressId
           : addressId // ignore: cast_nullable_to_non_nullable
@@ -630,9 +630,9 @@ class __$$UserImplCopyWithImpl<$Res>
 class _$UserImpl implements _User {
   const _$UserImpl(
       {required this.id,
-      required this.name,
-      required this.email,
-      required this.phone,
+      this.name,
+      this.email,
+      this.phone,
       @JsonKey(name: 'address_id') this.addressId,
       @JsonKey(name: 'international_address_id') this.internationalAddressId,
       @JsonKey(name: 'country_id') this.countryId,
@@ -652,11 +652,11 @@ class _$UserImpl implements _User {
   @override
   final int id;
   @override
-  final String name;
+  final String? name;
   @override
-  final String email;
+  final String? email;
   @override
-  final String phone;
+  final String? phone;
   @override
   @JsonKey(name: 'address_id')
   final int? addressId;
@@ -767,9 +767,9 @@ class _$UserImpl implements _User {
 abstract class _User implements User {
   const factory _User(
       {required final int id,
-      required final String name,
-      required final String email,
-      required final String phone,
+      final String? name,
+      final String? email,
+      final String? phone,
       @JsonKey(name: 'address_id') final int? addressId,
       @JsonKey(name: 'international_address_id')
       final int? internationalAddressId,
@@ -789,11 +789,11 @@ abstract class _User implements User {
   @override
   int get id;
   @override
-  String get name;
+  String? get name;
   @override
-  String get email;
+  String? get email;
   @override
-  String get phone;
+  String? get phone;
   @override
   @JsonKey(name: 'address_id')
   int? get addressId;

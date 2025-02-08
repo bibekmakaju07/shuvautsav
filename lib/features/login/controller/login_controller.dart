@@ -9,6 +9,7 @@ import 'package:shuvautsavapp/app/app_states/appstate.dart';
 import 'package:shuvautsavapp/features/login/model/login_model.dart';
 import 'package:shuvautsavapp/network/failure.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 final loginProvider =
     StateNotifierProvider.autoDispose<LoginNotifier, AppState>((ref) {
@@ -76,14 +77,56 @@ class LoginNotifier extends StateNotifier<AppState> {
     }
   }
 
+  Future<void> appleSignIn() async {
+    try {
+      final result = await SignInWithApple.getAppleIDCredential(scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ]);
+      if (result.authorizationCode.isNotEmpty) {
+        final response = await NetworkService().post(
+          RequestApi(
+            endPath: 'https://shuvautsav.com/api/v1/login/apple/callback',
+            bodyParams: {
+              'email': result.email,
+              'fullName': result.givenName,
+              'authorizationCode': result.authorizationCode,
+            },
+          ),
+        );
+        state = AppState.loading(false);
+        if (response is Response) {
+          final logindata = LoginModel.fromJson(response.data);
+          if (logindata.status != 1) {
+            state = AppState.error(null);
+            return;
+          }
+          await FlutterSecureStorage()
+              .write(key: 'access_token', value: logindata.data.accessToken);
+          state = AppState.success(null);
+        } else {
+           state = AppState.loading(false);
+        state = AppState.error(null);
+        }
+      } else {
+        state = AppState.loading(false);
+        state = AppState.error(null);
+      }
+    } catch (e) {
+      log("$e");
+      state = AppState.loading(false);
+      state = AppState.error(null);
+    }
+  }
+
   Future<void> facebookSignIn() async {
     try {
       final LoginResult result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success) {
+      if (result.status == LoginStatus.success&&result.accessToken?.token!=null) {
         final response = await NetworkService().post(
           RequestApi(
             endPath: 'https://shuvautsav.com/api/v1/login/facebook/callback',
-            bodyParams: {'access_token': result.accessToken},
+            bodyParams: {'access_token': result.accessToken?.token},
           ),
         );
         state = AppState.loading(false);

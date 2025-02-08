@@ -155,7 +155,19 @@ class _ProductListState extends ConsumerState<ProductList> {
                               SizedBox(
                                 height: 100,
                                 child: Image.network(
-                                    'https://shuvautsav.com/images/product/${data[index].image}'),
+                                  'https://shuvautsav.com/images/product/${data[index].image}',
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    return SizedBox(
+                                      height: 100,
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return SizedBox(
+                                      height: 100,
+                                    );
+                                  },
+                                ),
                               ),
                               const SizedBox(
                                 height: 10,

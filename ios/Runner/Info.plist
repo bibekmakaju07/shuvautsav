@@ -34,6 +34,30 @@
 		<string>Main</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>We need access to your microphone for search with voice.</string>
+		<key>FacebookAppID</key>
+		<string>1557057905035039</string>
+		<key>FacebookClientToken</key>
+		<string>f7b0d3aa1656f8b27bc51602153ba0bb</string>
+		<key>FacebookDisplayName</key>
+		<string>Shuvautsav</string>
+		<key>GIDClientID</key>
+		<string>365824589269-h30ko9ig8elgn9iuraboil19dkqeq9fh.apps.googleusercontent.com</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>fb1557057905035039</string>
+					<string>com.googleusercontent.apps.365824589269-h30ko9ig8elgn9iuraboil19dkqeq9fh</string>
+				</array>
+			</dict>
+		</array>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>fbapi</string>
+		</array>
 		<key>UISupportedInterfaceOrientations</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>

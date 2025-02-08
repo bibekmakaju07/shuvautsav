@@ -7,6 +7,9 @@ import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
 import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/login/views/login_page.dart';
+import 'package:shuvautsavapp/features/orders/views/order_status_tab_page.dart';
+import 'package:shuvautsavapp/features/product/views/wishlist_page.dart';
+import 'package:shuvautsavapp/features/profile/controller/delete_account.dart';
 import 'package:shuvautsavapp/features/profile/controller/logout_controller.dart';
 import 'package:shuvautsavapp/features/profile/controller/profile_controller.dart';
 import 'package:shuvautsavapp/features/profile/view/update_password_page.dart';
@@ -44,6 +47,39 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         },
         success: (data, extra) {
           ref.replaceAll(RoutePage(child: LoginPage(), name: 'LoginPage'));
+        },
+      );
+    });
+    ref.listen(deleteAccountProvider, (prev, next) {
+      next.maybeWhen(
+        orElse: () {},
+        loading: (loading, data) {
+          if (loading) {
+            LoadingIndicator.instance.show(context);
+          } else {
+            LoadingIndicator.instance.hide();
+          }
+        },
+        success: (data, extra) {
+          ref.read(toastProvider.notifier).update((_) {
+            return (
+              title: 'Account Deletion Successful',
+              description: '',
+              id: 'd1as11',
+              error: false,
+            );
+          });
+          ref.replaceAll(RoutePage(child: LoginPage(), name: 'LoginPage'));
+        },
+        error: (data, extra) {
+          ref.read(toastProvider.notifier).update((_) {
+            return (
+              title: 'Something went wrong',
+              description: '',
+              id: 'das11',
+              error: true,
+            );
+          });
         },
       );
     });
@@ -101,7 +137,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                         child: CircleAvatar(
                           radius: 25,
                           child: Text(
-                            data.user.name.isEmpty ? 'N/A' : data.user.name[0],
+                           ( data.user.name??'').isEmpty ? 'N/A' : data.user.name![0],
                             style: context.textTheme().headlineMedium,
                           ),
                         ),
@@ -112,14 +148,14 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.user.name,
+                              data.user.name??'',
                               style: context.textTheme().titleMedium,
                             ),
                             SizedBox(
                               height: 4,
                             ),
                             Text(
-                              data.user.email,
+                              data.user.email??'',
                               style: context.textTheme().titleSmall,
                             ),
                             SizedBox(
@@ -129,7 +165,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data.user.phone,
+                                  data.user.phone ?? '',
                                   style: context.textTheme().titleSmall,
                                 ),
                                 SizedBox(
@@ -137,8 +173,11 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                 ),
                                 InkWell(
                                     onTap: () async {
-                                      await Clipboard.setData(
-                                          ClipboardData(text: data.user.phone));
+                                      if (data.user.phone == null) {
+                                        return;
+                                      }
+                                      await Clipboard.setData(ClipboardData(
+                                          text: data.user.phone ?? ''));
                                     },
                                     child: Icon(HugeIcons.strokeRoundedCopy02))
                               ],
@@ -189,33 +228,54 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       Row(
                         children: [
                           Expanded(
-                            child: _buildInfoCard(
-                              title: 'Orders',
-                              value: '${dashboardCount.data.orders ?? ''}',
-                              icon: Icons.shopping_cart,
-                              color: Colors.green,
+                            child: InkWell(
+                              onTap: () {
+                                ref.push(RoutePage(
+                                    child: OrderStatusTabPage(),
+                                    name: 'WishListProductList'));
+                              },
+                              child: _buildInfoCard(
+                                title: 'Orders',
+                                value: '${dashboardCount.data.orders ?? ''}',
+                                icon: Icons.shopping_cart,
+                                color: Colors.green,
+                              ),
                             ),
                           ),
                           SizedBox(
                             width: 20,
                           ),
                           Expanded(
-                            child: _buildInfoCard(
-                              title: 'Returns',
-                              value: '${dashboardCount.data.returns ?? ''}',
-                              icon: Icons.undo,
-                              color: Colors.red,
+                            child: InkWell(
+                              onTap: () {
+                                ref.push(RoutePage(
+                                    child: OrderStatusTabPage(),
+                                    name: 'WishListProductList'));
+                              },
+                              child: _buildInfoCard(
+                                title: 'Returns',
+                                value: '${dashboardCount.data.returns ?? ''}',
+                                icon: Icons.undo,
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                           SizedBox(
                             width: 20,
                           ),
                           Expanded(
-                            child: _buildInfoCard(
-                              title: 'Wishlists',
-                              value: '${dashboardCount.data.wishlists ?? ''}',
-                              icon: Icons.favorite_border,
-                              color: Colors.purple,
+                            child: InkWell(
+                              onTap: () {
+                                ref.push(RoutePage(
+                                    child: WishListProductList(),
+                                    name: 'WishListProductList'));
+                              },
+                              child: _buildInfoCard(
+                                title: 'Wishlists',
+                                value: '${dashboardCount.data.wishlists ?? ''}',
+                                icon: Icons.favorite_border,
+                                color: Colors.purple,
+                              ),
                             ),
                           ),
                         ],
@@ -239,6 +299,44 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       ),
                       SizedBox(
                         height: 10,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          ref.push(RoutePage(
+                              child: UpdateProfile(), name: 'UpdateProfile'));
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: [
+                                Icon(HugeIcons.strokeRoundedProfile02,
+                                    size: 28,
+                                    color: Theme.of(context).primaryColor),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Text(
+                                    'Update Profile',
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall,
+                                  ),
+                                ),
+                                Icon(Icons.arrow_forward_ios,
+                                    size: 18, color: Colors.grey),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       InkWell(
                         onTap: () {
@@ -277,42 +375,49 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       InkWell(
                         onTap: () {
-                          ref.push(RoutePage(
-                              child: UpdateProfile(), name: 'UpdateProfile'));
+                          ref
+                              .read(deleteAccountProvider.notifier)
+                              .deleteAccount();
                         },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
                           ),
-                          elevation: 1,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Row(
                               children: [
-                                Icon(HugeIcons.strokeRoundedProfile02,
-                                    size: 28,
-                                    color: Theme.of(context).primaryColor),
+                                Icon(
+                                  HugeIcons.strokeRoundedLogout02,
+                                  size: 28,
+                                  color: context.primaryColor,
+                                ),
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Text(
-                                    'Update Profile',
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall,
+                                    'Delete Account',
+                                    style: context.bodySmall.copyWith(
+                                      color: context.primaryColor,
+                                    ),
                                   ),
                                 ),
-                                Icon(Icons.arrow_forward_ios,
-                                    size: 18, color: Colors.grey),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
                               ],
                             ),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       InkWell(
                         onTap: () {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -17,15 +19,15 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final TextEditingController emailController = TextEditingController(text: 'schandboy@gmail.com');
-  final TextEditingController passwordController = TextEditingController(text: '12345678');
+  final TextEditingController emailController =
+      TextEditingController(text: 'schandboy@gmail.com');
+  final TextEditingController passwordController =
+      TextEditingController(text: '12345678');
 
   @override
   void initState() {
     super.initState();
     LogoutController().logoutSocial();
-      
-
   }
 
   bool rememberMe = false;
@@ -333,17 +335,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                   ),
-const SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
+                  if(Platform.isIOS)
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () {
-                        ref.read(loginProvider.notifier).facebookSignIn();
+                        ref.read(loginProvider.notifier).appleSignIn();
                       },
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 53, 46, 251),
+                        backgroundColor: Colors.black,
                         fixedSize: const Size.fromHeight(50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),

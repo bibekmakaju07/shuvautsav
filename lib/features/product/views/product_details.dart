@@ -228,23 +228,25 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                                       MainAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      '${data.product?.title} added to cart',
+                                                      '${data.product?.title}',
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.fade,
                                                       style: context.titleMedium
                                                           .copyWith(
                                                         fontWeight:
-                                                            FontWeight.w700,
+                                                            FontWeight.w500,
                                                       ),
                                                     ),
                                                     Text(
                                                       '${data.product?.currency} ${data.product?.price}',
                                                       style: context.titleMedium
                                                           .copyWith(
+                                                            color: context.primaryColor,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w700),
+                                                                      .w500,
+                                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -254,20 +256,38 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                         ],
                                       ),
                                       actions: [
-                                        TextButton(
-                                          child: Text('Continue Shopping'),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                context.primaryColor,
+                                          ),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
+                                          child: Text(
+                                            'Continue Shopping',
+                                            style: context.labelMedium.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
-                                        TextButton(
-                                          child: Text('Goto Checkout'),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                context.primaryColor,
+                                          ),
                                           onPressed: () {
                                             Navigator.pop(context);
                                             ref.push(RoutePage(
                                                 child: CartPage(),
                                                 name: 'CartPage'));
                                           },
+                                          child: Text(
+                                            'Go To Checkout',
+                                            style: context.labelMedium.copyWith(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     );

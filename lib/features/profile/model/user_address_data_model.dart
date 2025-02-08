@@ -22,9 +22,9 @@ class UserAddressDataModel with _$UserAddressDataModel {
 class User with _$User {
   const factory User({
     required int id,
-    required String name,
-    required String email,
-    required String phone,
+     String? name,
+     String ?email,
+     String? phone,
     @JsonKey(name: 'address_id') int? addressId,
     @JsonKey(name: 'international_address_id') int? internationalAddressId,
     @JsonKey(name: 'country_id') int? countryId,

@@ -133,16 +133,14 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
       next.maybeWhen(
         orElse: () {},
         data: (data) {
-          _nameController.text = data.user.name;
-          _emailController.text = data.user.email;
+          _nameController.text = data.user.name??'';
+          _emailController.text = data.user.email??'';
           _streetController.text = data.user.street;
-          _phoneController.text = data.user.phone;
+          _phoneController.text = data.user.phone??'';
           _provinceController.text =
               data.provinces['${data.user.provinceId}'] ?? '';
-          _districtController.text =
-              data.provinces['${data.user.cityId}'] ?? '';
-          _muncipalityController.text =
-              data.provinces['${data.user.areaId}'] ?? '';
+          _districtController.text = data.cities['${data.user.cityId}'] ?? '';
+          _muncipalityController.text = data.areas['${data.user.areaId}'] ?? '';
 
           _countryController.text =
               data.countries['${data.user.countryId}'] ?? '';
@@ -206,6 +204,9 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
         orElse: () {
           return SizedBox();
         },
+        loading: () {
+          return Center(child: CircularProgressIndicator());
+        },
         data: (data) {
           return SingleChildScrollView(
             child: Padding(
@@ -239,22 +240,6 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                         CustomTextFormField(
                           label: 'Full Name',
                           textEditingController: _nameController,
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        CustomTextFormField(
-                          label: 'Street Address',
-                          validator: (p0) {
-                            if (p0 == null) {
-                              return 'Required';
-                            }
-                            if (p0.isEmpty) {
-                              return 'Field cannot be empty';
-                            }
-                            return null;
-                          },
-                          textEditingController: _streetController,
                         ),
                         SizedBox(
                           height: 16,
@@ -514,7 +499,7 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                                     height: 16,
                                   ),
                                   CustomTextFormField(
-                                    label: 'Choose  a Municipality/VDC',
+                                    label: 'Choose a Ward No.',
                                     validator: (p0) {
                                       if (p0 == null) {
                                         return 'Required';
@@ -528,7 +513,7 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                                     readOnly: true,
                                     onTap: () async {
                                       await showCustomBottom(
-                                        title: 'Choose a Municipality/VDC',
+                                        title: 'Choose a Ward No.',
                                         items:
                                             locationModel.data.wards.map((e) {
                                           return DropdownMenuItem(
@@ -548,12 +533,28 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
                                     suffixIcon:
                                         Icon(Icons.arrow_drop_down_outlined),
                                   ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
                                 ],
                               );
                             }),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        CustomTextFormField(
+                          label: 'Street Address',
+                          validator: (p0) {
+                            if (p0 == null) {
+                              return 'Required';
+                            }
+                            if (p0.isEmpty) {
+                              return 'Field cannot be empty';
+                            }
+                            return null;
+                          },
+                          textEditingController: _streetController,
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(

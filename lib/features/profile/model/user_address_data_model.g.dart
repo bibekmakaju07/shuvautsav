@@ -45,9 +45,9 @@ Map<String, dynamic> _$$UserAddressDataModelImplToJson(
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       id: (json['id'] as num).toInt(),
-      name: json['name'] as String,
-      email: json['email'] as String,
-      phone: json['phone'] as String,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
       addressId: (json['address_id'] as num?)?.toInt(),
       internationalAddressId:
           (json['international_address_id'] as num?)?.toInt(),
