@@ -14,7 +14,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final objectbox = await ObjectBox.create();
-  ChuckerFlutter.showOnRelease = true;
+  // ChuckerFlutter.showOnRelease = true;
   runApp(
     ProviderScope(
       overrides: [

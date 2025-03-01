@@ -65,10 +65,13 @@ class _BillingDetailsState extends ConsumerState<BillingDetails> {
     _districtController.text =
         locationModel.data.cities['${locationModel.data.customer?.cityId}'] ??
             '';
-    _muncipalityController.text = locationModel
-            .data.areas['${locationModel.data.customer?.areaId}'] ??
-        '';
-        
+    _muncipalityController.text =
+        locationModel.data.areas['${locationModel.data.customer?.areaId}'] ??
+            '';
+
+    provideId = "${locationModel.data.customer?.provinceId ?? ''}";
+    cityid = "${locationModel.data.customer?.cityId ?? ''}";
+    muncipalityId = "${locationModel.data.customer?.areaId ?? ''}";
 
     super.initState();
   }

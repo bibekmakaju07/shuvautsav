@@ -252,7 +252,7 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
                             productPrice: "$totalAmount",
                             callbackUrl: '',
                           ));
-                    } else if (formData['payment_method'] == 'cips') {
+                    } else if (formData['payment_method'] == 'connectips') {
                       ref.push(
                         RoutePage(
                           child: WebViewScreen(
@@ -264,6 +264,7 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
                                 params: {
                                   ...formData,
                                   'total_amount': totalAmount,
+                                  "TXNID": value.$2,
                                 },
                               );
                             },
@@ -299,7 +300,7 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
 enum PaymentMethod {
   cashOnDelivery("Cash on Delivery", "cod"),
   esewaPayment("Esewa Payment", 'esewa'),
-  ipsPayment("IPS Payment", 'cips'),
+  ipsPayment("IPS Payment", 'connectips'),
   // prabhupayPayment("Prabhupay Payment"),
   // bankTransfer("Bank Transfer")
   ;

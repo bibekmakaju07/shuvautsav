@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/payment/model/transaction_data_model.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
@@ -21,7 +24,7 @@ final futureCIPSProvider = FutureProvider.autoDispose
 
 class WebViewScreen extends StatefulWidget {
   final int amount;
-  final ValueSetter<String> onPaymentComplete;
+  final ValueSetter<(String, String)> onPaymentComplete;
 
   const WebViewScreen(
       {super.key, required this.amount, required this.onPaymentComplete});
@@ -45,47 +48,47 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(
-                  'Are you sure to cancel payment',
-                  style: context.labelLarge,
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(
-                      "No",
-                      style: context.labelMedium,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    child: Text(
-                      "YES",
-                      style: context.labelMedium,
-                    ),
-                  ),
-                ],
-              );
-            }).then((value) {
-          if (value == true) {
-            Navigator.pop(context);
-          }
-        });
-      },
+    return SizedBox(
+      // canPop: false,
+      // onPopInvokedWithResult: (didPop, result) {
+      //   showDialog(
+      //       context: context,
+      //       builder: (context) {
+      //         return AlertDialog(
+      //           title: Text(
+      //             'Are you sure to cancel payment',
+      //             style: context.labelLarge,
+      //           ),
+      //           actions: [
+      //             TextButton(
+      //               onPressed: () {
+      //                 Navigator.pop(context);
+      //               },
+      //               child: Text(
+      //                 "No",
+      //                 style: context.labelMedium,
+      //               ),
+      //             ),
+      //             SizedBox(
+      //               width: 20,
+      //             ),
+      //             TextButton(
+      //               onPressed: () {
+      //                 Navigator.pop(context, true);
+      //               },
+      //               child: Text(
+      //                 "YES",
+      //                 style: context.labelMedium,
+      //               ),
+      //             ),
+      //           ],
+      //         );
+      //       }).then((value) {
+      //     if (value == true) {
+      //       Navigator.pop(context);
+      //     }
+      //   });
+      // },
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -115,21 +118,33 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 onWebViewCreated: (controller) {
                   webViewController = controller;
                 },
-                onLoadStart: (controller, url) {
-                  print("Redirect detected: $url");
+                onLoadStop: (controller, url) {
+                  log("Redirect detected: $url");
+
                   if (url.toString().contains('shuvautsav.com/cips/success')) {
-                    print("Redirect detected: $url");
-                    Navigator.pop(context);
-
-                    widget.onPaymentComplete(url.toString());
-
-                    // Detect redirect and act accordingly
-                    if (url.toString().contains("success")) {
-                      print("Transaction Successful!");
-                    } else if (url.toString().contains("failure")) {
-                      print("Transaction Failed!");
+                    log("Redirect detected: $url");
+                    final txnid = url?.queryParameters['TXNID'] ?? '';
+                    if (txnid.isNotEmpty) {
+                      webViewController?.stopLoading();
+                      ref.pop();
+                      widget.onPaymentComplete((url.toString(), txnid));
                     }
                   }
+                },
+                onLoadStart: (controller, url) {
+                  // print("Redirect detected: $url");
+                  // if (url.toString().contains('shuvautsav.com/cips/success')) {
+                  //   print("Redirect detected: $url");
+
+                  //   widget.onPaymentComplete(url.toString());
+
+                  //   // Detect redirect and act accordingly
+                  //   if (url.toString().contains("success")) {
+                  //     print("Transaction Successful!");
+                  //   } else if (url.toString().contains("failure")) {
+                  //     print("Transaction Failed!");
+                  //   }
+                  // }
                 },
               );
             },
