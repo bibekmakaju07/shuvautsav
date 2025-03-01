@@ -3,13 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
+import 'package:shuvautsavapp/app/view/custom_appbar.dart';
 import 'package:shuvautsavapp/features/category/model/category_model.dart';
 import 'package:shuvautsavapp/features/product/controller/product_controller.dart';
 import 'package:shuvautsavapp/features/product/views/product_page.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
 final categoryProvider =
-    FutureProvider.autoDispose<List<Category>>((ref) async {
+    FutureProvider.autoDispose<List<ProductCategory>>((ref) async {
   final response = await NetworkService()
       .get(RequestApi(endPath: 'https://shuvautsav.com/api/v1/category'));
 
@@ -53,6 +54,14 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                     width: 100,
                   ),
                   const Spacer(),
+                  WishListButton(ref: ref),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  CartIconButton(ref: ref),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   // Container(
                   //   width: 42,
                   //   height: 42,

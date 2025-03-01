@@ -121,8 +121,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
           return Center(child: CircularProgressIndicator());
         },
         success: (profileDashboardData, extra) {
-          final data = profileDashboardData.$1;
-          final dashboardCount = profileDashboardData.$2;
+          final data = profileDashboardData.data;
+          final dashboardCount = profileDashboardData;
 
           return SingleChildScrollView(
             child: Padding(
@@ -137,7 +137,9 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                         child: CircleAvatar(
                           radius: 25,
                           child: Text(
-                           ( data.user.name??'').isEmpty ? 'N/A' : data.user.name![0],
+                            (data.user.name ?? '').isEmpty
+                                ? 'N/A'
+                                : data.user.name![0],
                             style: context.textTheme().headlineMedium,
                           ),
                         ),
@@ -148,14 +150,14 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.user.name??'',
+                              data.user.name ?? '',
                               style: context.textTheme().titleMedium,
                             ),
                             SizedBox(
                               height: 4,
                             ),
                             Text(
-                              data.user.email??'',
+                              data.user.email ?? '',
                               style: context.textTheme().titleSmall,
                             ),
                             SizedBox(
@@ -323,7 +325,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Text(
-                                    'Update Profile',
+                                    'Edit Profile',
                                     style:
                                         Theme.of(context).textTheme.titleSmall,
                                   ),
@@ -362,7 +364,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                 const SizedBox(width: 16),
                                 Expanded(
                                   child: Text(
-                                    'Update Password',
+                                    'Change Password',
                                     style:
                                         Theme.of(context).textTheme.titleSmall,
                                   ),
@@ -455,6 +457,9 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                             ),
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: 120,
                       ),
                     ],
                   )

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:shuvautsavapp/features/profile/model/user_address_data_model.dart';
 
 part 'dashboard_model.freezed.dart';
 part 'dashboard_model.g.dart';
@@ -7,7 +8,9 @@ part 'dashboard_model.g.dart';
 class DasboardOrdersDataModel with _$DasboardOrdersDataModel {
   const factory DasboardOrdersDataModel({
     @Default(-1) int status,
-    @Default(DashboardOrdersData()) DashboardOrdersData data,
+    @Default(UserAddressDataModel()) UserAddressDataModel data,
+    
+    
   }) = _DasboardOrdersDataModel;
 
   factory DasboardOrdersDataModel.fromJson(Map<String, dynamic> json) =>

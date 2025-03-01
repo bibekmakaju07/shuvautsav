@@ -14,7 +14,7 @@ class StoreReviewController
     extends StateNotifier<AppState<OrderResponseModel, NetworkFailure>> {
   StoreReviewController() : super(AppState.initial());
 
-  Future<void> storeReview({required Map<String, String> params,required String slug}) async {
+  Future<void> storeReview({required Map<String, dynamic> params,required String slug}) async {
     if (state == AppState.loading(true)) {
       return;
     }

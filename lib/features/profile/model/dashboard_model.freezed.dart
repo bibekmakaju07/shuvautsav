@@ -22,7 +22,7 @@ DasboardOrdersDataModel _$DasboardOrdersDataModelFromJson(
 /// @nodoc
 mixin _$DasboardOrdersDataModel {
   int get status => throw _privateConstructorUsedError;
-  DashboardOrdersData get data => throw _privateConstructorUsedError;
+  UserAddressDataModel get data => throw _privateConstructorUsedError;
 
   /// Serializes this DasboardOrdersDataModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,9 +40,9 @@ abstract class $DasboardOrdersDataModelCopyWith<$Res> {
           $Res Function(DasboardOrdersDataModel) then) =
       _$DasboardOrdersDataModelCopyWithImpl<$Res, DasboardOrdersDataModel>;
   @useResult
-  $Res call({int status, DashboardOrdersData data});
+  $Res call({int status, UserAddressDataModel data});
 
-  $DashboardOrdersDataCopyWith<$Res> get data;
+  $UserAddressDataModelCopyWith<$Res> get data;
 }
 
 /// @nodoc
@@ -72,7 +72,7 @@ class _$DasboardOrdersDataModelCopyWithImpl<$Res,
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as DashboardOrdersData,
+              as UserAddressDataModel,
     ) as $Val);
   }
 
@@ -80,8 +80,8 @@ class _$DasboardOrdersDataModelCopyWithImpl<$Res,
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $DashboardOrdersDataCopyWith<$Res> get data {
-    return $DashboardOrdersDataCopyWith<$Res>(_value.data, (value) {
+  $UserAddressDataModelCopyWith<$Res> get data {
+    return $UserAddressDataModelCopyWith<$Res>(_value.data, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
@@ -96,10 +96,10 @@ abstract class _$$DasboardOrdersDataModelImplCopyWith<$Res>
       __$$DasboardOrdersDataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int status, DashboardOrdersData data});
+  $Res call({int status, UserAddressDataModel data});
 
   @override
-  $DashboardOrdersDataCopyWith<$Res> get data;
+  $UserAddressDataModelCopyWith<$Res> get data;
 }
 
 /// @nodoc
@@ -128,7 +128,7 @@ class __$$DasboardOrdersDataModelImplCopyWithImpl<$Res>
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as DashboardOrdersData,
+              as UserAddressDataModel,
     ));
   }
 }
@@ -137,7 +137,7 @@ class __$$DasboardOrdersDataModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DasboardOrdersDataModelImpl implements _DasboardOrdersDataModel {
   const _$DasboardOrdersDataModelImpl(
-      {this.status = -1, this.data = const DashboardOrdersData()});
+      {this.status = -1, this.data = const UserAddressDataModel()});
 
   factory _$DasboardOrdersDataModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$DasboardOrdersDataModelImplFromJson(json);
@@ -147,7 +147,7 @@ class _$DasboardOrdersDataModelImpl implements _DasboardOrdersDataModel {
   final int status;
   @override
   @JsonKey()
-  final DashboardOrdersData data;
+  final UserAddressDataModel data;
 
   @override
   String toString() {
@@ -187,7 +187,7 @@ class _$DasboardOrdersDataModelImpl implements _DasboardOrdersDataModel {
 abstract class _DasboardOrdersDataModel implements DasboardOrdersDataModel {
   const factory _DasboardOrdersDataModel(
       {final int status,
-      final DashboardOrdersData data}) = _$DasboardOrdersDataModelImpl;
+      final UserAddressDataModel data}) = _$DasboardOrdersDataModelImpl;
 
   factory _DasboardOrdersDataModel.fromJson(Map<String, dynamic> json) =
       _$DasboardOrdersDataModelImpl.fromJson;
@@ -195,7 +195,7 @@ abstract class _DasboardOrdersDataModel implements DasboardOrdersDataModel {
   @override
   int get status;
   @override
-  DashboardOrdersData get data;
+  UserAddressDataModel get data;
 
   /// Create a copy of DasboardOrdersDataModel
   /// with the given fields replaced by the non-null parameter values.

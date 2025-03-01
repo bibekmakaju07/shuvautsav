@@ -23,7 +23,7 @@ class WishListController
       String url =
           'https://shuvautsav.com/api/v1/customer/wishlist/store?product_id=$productId';
 
-      final response = await NetworkService().get(RequestApi(
+      final response = await NetworkService().post(RequestApi(
         endPath: url,
       ));
       state = AppState.loading(false);

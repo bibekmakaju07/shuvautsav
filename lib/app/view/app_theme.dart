@@ -21,3 +21,16 @@ const TextTheme customTextTheme = TextTheme(
   labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500), // Medium
   labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w500), // Medium
 );
+
+
+extension StringExtensions on String? {
+  String get ucfirstWords {
+    if (this == null || this!.isEmpty) {
+      return '';
+    }
+    return this!
+        .split(' ')
+        .map((word) => word.isNotEmpty ? word[0].toUpperCase() + word.substring(1) : '')
+        .join(' ');
+  }
+}

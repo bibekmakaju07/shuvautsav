@@ -20,7 +20,7 @@ Map<String, dynamic> _$$CategoryResponseImplToJson(
 
 _$DataImpl _$$DataImplFromJson(Map<String, dynamic> json) => _$DataImpl(
       categories: (json['categories'] as List<dynamic>?)
-              ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ProductCategory.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -30,8 +30,9 @@ Map<String, dynamic> _$$DataImplToJson(_$DataImpl instance) =>
       'categories': instance.categories,
     };
 
-_$CategoryImpl _$$CategoryImplFromJson(Map<String, dynamic> json) =>
-    _$CategoryImpl(
+_$ProductCategoryImpl _$$ProductCategoryImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ProductCategoryImpl(
       id: (json['id'] as num?)?.toInt() ?? 0,
       title: json['title'] as String? ?? '',
       subtitle: json['subtitle'] as String? ?? '',
@@ -43,7 +44,8 @@ _$CategoryImpl _$$CategoryImplFromJson(Map<String, dynamic> json) =>
       status: (json['status'] as num?)?.toInt() ?? 0,
     );
 
-Map<String, dynamic> _$$CategoryImplToJson(_$CategoryImpl instance) =>
+Map<String, dynamic> _$$ProductCategoryImplToJson(
+        _$ProductCategoryImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

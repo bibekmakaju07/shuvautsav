@@ -5,8 +5,6 @@ import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/profile/controller/update_password_controller.dart';
 
-
-
 class UpdatePasswordForm extends ConsumerStatefulWidget {
   const UpdatePasswordForm({super.key});
 
@@ -59,7 +57,7 @@ class _UpdatePasswordFormState extends ConsumerState<UpdatePasswordForm> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text("Update Password"),
+        title: const Text("Change Password"),
         centerTitle: true,
       ),
       body: Padding(
@@ -67,10 +65,6 @@ class _UpdatePasswordFormState extends ConsumerState<UpdatePasswordForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Enter New Password",
-              style: context.titleLarge,
-            ),
             const SizedBox(height: 20),
             TextFormField(
               controller: _passwordController,
@@ -125,6 +119,7 @@ class _UpdatePasswordFormState extends ConsumerState<UpdatePasswordForm> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.primaryColor,
                   foregroundColor: Colors.white,
+                  
                   padding: const EdgeInsets.symmetric(vertical: 8),
                 ),
                 child: const Text(

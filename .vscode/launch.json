@@ -9,13 +9,14 @@
             "type": "dart",
             "request": "launch",
             "program": "lib/main.dart",
-            // "args": [
-            //     "--flavor",
-            //     "production", //development or staging or production
-            //     "--target",
-            //     "lib/main.dart",
-            //     // "--release",
-            // ]
+            "args": [
+                // "--flavor",
+                // "production", //development or staging or production
+                "--target",
+                "lib/main.dart",
+                "--no-enable-impeller"
+                // "--release",
+            ]
         },
         {
             "name": "Flutter prepod",

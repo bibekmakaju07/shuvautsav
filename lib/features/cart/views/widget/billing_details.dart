@@ -59,6 +59,16 @@ class _BillingDetailsState extends ConsumerState<BillingDetails> {
         TextEditingController(text: locationModel.data.customer?.street ?? '');
     _phoneController =
         TextEditingController(text: locationModel.data.customer?.phone ?? '');
+    _provinceController.text = locationModel
+            .data.provinces['${locationModel.data.customer?.provinceId}'] ??
+        '';
+    _districtController.text =
+        locationModel.data.cities['${locationModel.data.customer?.cityId}'] ??
+            '';
+    _muncipalityController.text = locationModel
+            .data.areas['${locationModel.data.customer?.areaId}'] ??
+        '';
+        
 
     super.initState();
   }

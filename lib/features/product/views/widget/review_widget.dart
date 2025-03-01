@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/product/model/review_product_controller.dart';
@@ -10,8 +9,10 @@ class RatingAndReviewWidget extends ConsumerStatefulWidget {
   const RatingAndReviewWidget({
     super.key,
     required this.slug,
+    this.onSuccess,
   });
   final String slug;
+  final VoidCallback? onSuccess;
 
   @override
   ConsumerState<RatingAndReviewWidget> createState() =>
@@ -51,15 +52,15 @@ class _RatingAndReviewWidgetState extends ConsumerState<RatingAndReviewWidget> {
           });
         },
         success: (data, extra) {
+          widget.onSuccess?.call();
           ref.read(toastProvider.notifier).update((_) {
             return (
               title: data.data.message,
               description: '',
-              id: '1212',
+              id: '12129',
               error: false,
             );
           });
-          ref.pop();
         },
       );
     });
@@ -83,7 +84,7 @@ class _RatingAndReviewWidgetState extends ConsumerState<RatingAndReviewWidget> {
               initialRating: _currentRating,
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: true,
+              allowHalfRating: false,
               itemCount: 5,
               itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               itemBuilder: (context, _) => const Icon(
@@ -119,12 +120,9 @@ class _RatingAndReviewWidgetState extends ConsumerState<RatingAndReviewWidget> {
               onPressed: () {
                 if (_currentRating > 0 && _reviewController.text.isNotEmpty) {
                   ref.read(storeReviewProvider.notifier).storeReview(params: {
-                    'score': "$_currentRating",
+                    'score': _currentRating.toInt(),
                     'review': _reviewController.text
-
-                  },
-                  slug: widget.slug
-                  );
+                  }, slug: widget.slug);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -135,6 +133,7 @@ class _RatingAndReviewWidgetState extends ConsumerState<RatingAndReviewWidget> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
+                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

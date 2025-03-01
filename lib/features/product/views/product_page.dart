@@ -18,7 +18,7 @@ import 'package:shuvautsavapp/main.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
 final categoryForFilterProvider =
-    FutureProvider.autoDispose<List<Category>>((ref) async {
+    FutureProvider.autoDispose<List<ProductCategory>>((ref) async {
   final response = await NetworkService()
       .get(RequestApi(endPath: 'https://shuvautsav.com/api/v1/category'));
 
@@ -48,6 +48,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _scrollController = ScrollController();
+
 
   @override
   void initState() {
@@ -101,7 +102,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
       ),
       child: Scaffold(
         key: _scaffoldKey,
-        endDrawer: const FilterDrawer(),
+        // endDrawer: const FilterDrawer(),
         body: SafeArea(
           top: true,
           bottom: true,
@@ -142,8 +143,9 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      ref.push(
-                          RoutePage(child: WishListProductList(), name: 'WishListProductList'));
+                      ref.push(RoutePage(
+                          child: WishListProductList(),
+                          name: 'WishListProductList'));
                     },
                     child: Container(
                       width: 42,

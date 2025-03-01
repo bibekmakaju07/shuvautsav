@@ -186,7 +186,7 @@ Data _$DataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Data {
-  List<Category> get categories => throw _privateConstructorUsedError;
+  List<ProductCategory> get categories => throw _privateConstructorUsedError;
 
   /// Serializes this Data to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -202,7 +202,7 @@ abstract class $DataCopyWith<$Res> {
   factory $DataCopyWith(Data value, $Res Function(Data) then) =
       _$DataCopyWithImpl<$Res, Data>;
   @useResult
-  $Res call({List<Category> categories});
+  $Res call({List<ProductCategory> categories});
 }
 
 /// @nodoc
@@ -226,7 +226,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       categories: null == categories
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+              as List<ProductCategory>,
     ) as $Val);
   }
 }
@@ -238,7 +238,7 @@ abstract class _$$DataImplCopyWith<$Res> implements $DataCopyWith<$Res> {
       __$$DataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Category> categories});
+  $Res call({List<ProductCategory> categories});
 }
 
 /// @nodoc
@@ -259,7 +259,7 @@ class __$$DataImplCopyWithImpl<$Res>
       categories: null == categories
           ? _value._categories
           : categories // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+              as List<ProductCategory>,
     ));
   }
 }
@@ -267,16 +267,16 @@ class __$$DataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DataImpl implements _Data {
-  const _$DataImpl({final List<Category> categories = const []})
+  const _$DataImpl({final List<ProductCategory> categories = const []})
       : _categories = categories;
 
   factory _$DataImpl.fromJson(Map<String, dynamic> json) =>
       _$$DataImplFromJson(json);
 
-  final List<Category> _categories;
+  final List<ProductCategory> _categories;
   @override
   @JsonKey()
-  List<Category> get categories {
+  List<ProductCategory> get categories {
     if (_categories is EqualUnmodifiableListView) return _categories;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_categories);
@@ -318,12 +318,12 @@ class _$DataImpl implements _Data {
 }
 
 abstract class _Data implements Data {
-  const factory _Data({final List<Category> categories}) = _$DataImpl;
+  const factory _Data({final List<ProductCategory> categories}) = _$DataImpl;
 
   factory _Data.fromJson(Map<String, dynamic> json) = _$DataImpl.fromJson;
 
   @override
-  List<Category> get categories;
+  List<ProductCategory> get categories;
 
   /// Create a copy of Data
   /// with the given fields replaced by the non-null parameter values.
@@ -333,12 +333,12 @@ abstract class _Data implements Data {
       throw _privateConstructorUsedError;
 }
 
-Category _$CategoryFromJson(Map<String, dynamic> json) {
-  return _Category.fromJson(json);
+ProductCategory _$ProductCategoryFromJson(Map<String, dynamic> json) {
+  return _ProductCategory.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Category {
+mixin _$ProductCategory {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get subtitle => throw _privateConstructorUsedError;
@@ -349,20 +349,21 @@ mixin _$Category {
   int get rank => throw _privateConstructorUsedError;
   int get status => throw _privateConstructorUsedError;
 
-  /// Serializes this Category to a JSON map.
+  /// Serializes this ProductCategory to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Category
+  /// Create a copy of ProductCategory
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CategoryCopyWith<Category> get copyWith =>
+  $ProductCategoryCopyWith<ProductCategory> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CategoryCopyWith<$Res> {
-  factory $CategoryCopyWith(Category value, $Res Function(Category) then) =
-      _$CategoryCopyWithImpl<$Res, Category>;
+abstract class $ProductCategoryCopyWith<$Res> {
+  factory $ProductCategoryCopyWith(
+          ProductCategory value, $Res Function(ProductCategory) then) =
+      _$ProductCategoryCopyWithImpl<$Res, ProductCategory>;
   @useResult
   $Res call(
       {int id,
@@ -377,16 +378,16 @@ abstract class $CategoryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CategoryCopyWithImpl<$Res, $Val extends Category>
-    implements $CategoryCopyWith<$Res> {
-  _$CategoryCopyWithImpl(this._value, this._then);
+class _$ProductCategoryCopyWithImpl<$Res, $Val extends ProductCategory>
+    implements $ProductCategoryCopyWith<$Res> {
+  _$ProductCategoryCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Category
+  /// Create a copy of ProductCategory
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -443,11 +444,11 @@ class _$CategoryCopyWithImpl<$Res, $Val extends Category>
 }
 
 /// @nodoc
-abstract class _$$CategoryImplCopyWith<$Res>
-    implements $CategoryCopyWith<$Res> {
-  factory _$$CategoryImplCopyWith(
-          _$CategoryImpl value, $Res Function(_$CategoryImpl) then) =
-      __$$CategoryImplCopyWithImpl<$Res>;
+abstract class _$$ProductCategoryImplCopyWith<$Res>
+    implements $ProductCategoryCopyWith<$Res> {
+  factory _$$ProductCategoryImplCopyWith(_$ProductCategoryImpl value,
+          $Res Function(_$ProductCategoryImpl) then) =
+      __$$ProductCategoryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -463,14 +464,14 @@ abstract class _$$CategoryImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CategoryImplCopyWithImpl<$Res>
-    extends _$CategoryCopyWithImpl<$Res, _$CategoryImpl>
-    implements _$$CategoryImplCopyWith<$Res> {
-  __$$CategoryImplCopyWithImpl(
-      _$CategoryImpl _value, $Res Function(_$CategoryImpl) _then)
+class __$$ProductCategoryImplCopyWithImpl<$Res>
+    extends _$ProductCategoryCopyWithImpl<$Res, _$ProductCategoryImpl>
+    implements _$$ProductCategoryImplCopyWith<$Res> {
+  __$$ProductCategoryImplCopyWithImpl(
+      _$ProductCategoryImpl _value, $Res Function(_$ProductCategoryImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Category
+  /// Create a copy of ProductCategory
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -485,7 +486,7 @@ class __$$CategoryImplCopyWithImpl<$Res>
     Object? rank = null,
     Object? status = null,
   }) {
-    return _then(_$CategoryImpl(
+    return _then(_$ProductCategoryImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -528,8 +529,8 @@ class __$$CategoryImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CategoryImpl implements _Category {
-  const _$CategoryImpl(
+class _$ProductCategoryImpl implements _ProductCategory {
+  const _$ProductCategoryImpl(
       {this.id = 0,
       this.title = '',
       this.subtitle = '',
@@ -540,8 +541,8 @@ class _$CategoryImpl implements _Category {
       this.rank = 0,
       this.status = 0});
 
-  factory _$CategoryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CategoryImplFromJson(json);
+  factory _$ProductCategoryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProductCategoryImplFromJson(json);
 
   @override
   @JsonKey()
@@ -573,14 +574,14 @@ class _$CategoryImpl implements _Category {
 
   @override
   String toString() {
-    return 'Category(id: $id, title: $title, subtitle: $subtitle, slug: $slug, code: $code, description: $description, image: $image, rank: $rank, status: $status)';
+    return 'ProductCategory(id: $id, title: $title, subtitle: $subtitle, slug: $slug, code: $code, description: $description, image: $image, rank: $rank, status: $status)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CategoryImpl &&
+            other is _$ProductCategoryImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.subtitle, subtitle) ||
@@ -599,24 +600,25 @@ class _$CategoryImpl implements _Category {
   int get hashCode => Object.hash(runtimeType, id, title, subtitle, slug, code,
       description, image, rank, status);
 
-  /// Create a copy of Category
+  /// Create a copy of ProductCategory
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CategoryImplCopyWith<_$CategoryImpl> get copyWith =>
-      __$$CategoryImplCopyWithImpl<_$CategoryImpl>(this, _$identity);
+  _$$ProductCategoryImplCopyWith<_$ProductCategoryImpl> get copyWith =>
+      __$$ProductCategoryImplCopyWithImpl<_$ProductCategoryImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CategoryImplToJson(
+    return _$$ProductCategoryImplToJson(
       this,
     );
   }
 }
 
-abstract class _Category implements Category {
-  const factory _Category(
+abstract class _ProductCategory implements ProductCategory {
+  const factory _ProductCategory(
       {final int id,
       final String title,
       final String subtitle,
@@ -625,10 +627,10 @@ abstract class _Category implements Category {
       final String description,
       final String image,
       final int rank,
-      final int status}) = _$CategoryImpl;
+      final int status}) = _$ProductCategoryImpl;
 
-  factory _Category.fromJson(Map<String, dynamic> json) =
-      _$CategoryImpl.fromJson;
+  factory _ProductCategory.fromJson(Map<String, dynamic> json) =
+      _$ProductCategoryImpl.fromJson;
 
   @override
   int get id;
@@ -649,10 +651,10 @@ abstract class _Category implements Category {
   @override
   int get status;
 
-  /// Create a copy of Category
+  /// Create a copy of ProductCategory
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CategoryImplCopyWith<_$CategoryImpl> get copyWith =>
+  _$$ProductCategoryImplCopyWith<_$ProductCategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

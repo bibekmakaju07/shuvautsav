@@ -26,6 +26,9 @@ mixin _$UserAddressDataModel {
   Map<String, String> get areas => throw _privateConstructorUsedError;
   List<int> get wards => throw _privateConstructorUsedError;
   Map<String, String> get countries => throw _privateConstructorUsedError;
+  int get orders => throw _privateConstructorUsedError;
+  int get returns => throw _privateConstructorUsedError;
+  int get wishlists => throw _privateConstructorUsedError;
 
   /// Serializes this UserAddressDataModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +52,10 @@ abstract class $UserAddressDataModelCopyWith<$Res> {
       Map<String, String> cities,
       Map<String, String> areas,
       List<int> wards,
-      Map<String, String> countries});
+      Map<String, String> countries,
+      int orders,
+      int returns,
+      int wishlists});
 
   $UserCopyWith<$Res> get user;
 }
@@ -76,6 +82,9 @@ class _$UserAddressDataModelCopyWithImpl<$Res,
     Object? areas = null,
     Object? wards = null,
     Object? countries = null,
+    Object? orders = null,
+    Object? returns = null,
+    Object? wishlists = null,
   }) {
     return _then(_value.copyWith(
       user: null == user
@@ -102,6 +111,18 @@ class _$UserAddressDataModelCopyWithImpl<$Res,
           ? _value.countries
           : countries // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      orders: null == orders
+          ? _value.orders
+          : orders // ignore: cast_nullable_to_non_nullable
+              as int,
+      returns: null == returns
+          ? _value.returns
+          : returns // ignore: cast_nullable_to_non_nullable
+              as int,
+      wishlists: null == wishlists
+          ? _value.wishlists
+          : wishlists // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -130,7 +151,10 @@ abstract class _$$UserAddressDataModelImplCopyWith<$Res>
       Map<String, String> cities,
       Map<String, String> areas,
       List<int> wards,
-      Map<String, String> countries});
+      Map<String, String> countries,
+      int orders,
+      int returns,
+      int wishlists});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -155,6 +179,9 @@ class __$$UserAddressDataModelImplCopyWithImpl<$Res>
     Object? areas = null,
     Object? wards = null,
     Object? countries = null,
+    Object? orders = null,
+    Object? returns = null,
+    Object? wishlists = null,
   }) {
     return _then(_$UserAddressDataModelImpl(
       user: null == user
@@ -181,6 +208,18 @@ class __$$UserAddressDataModelImplCopyWithImpl<$Res>
           ? _value._countries
           : countries // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
+      orders: null == orders
+          ? _value.orders
+          : orders // ignore: cast_nullable_to_non_nullable
+              as int,
+      returns: null == returns
+          ? _value.returns
+          : returns // ignore: cast_nullable_to_non_nullable
+              as int,
+      wishlists: null == wishlists
+          ? _value.wishlists
+          : wishlists // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -189,12 +228,15 @@ class __$$UserAddressDataModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserAddressDataModelImpl implements _UserAddressDataModel {
   const _$UserAddressDataModelImpl(
-      {required this.user,
+      {this.user = const User(),
       final Map<String, String> provinces = const {},
       final Map<String, String> cities = const {},
       final Map<String, String> areas = const {},
       final List<int> wards = const [],
-      final Map<String, String> countries = const {}})
+      final Map<String, String> countries = const {},
+      this.orders = 0,
+      this.returns = 0,
+      this.wishlists = 0})
       : _provinces = provinces,
         _cities = cities,
         _areas = areas,
@@ -205,6 +247,7 @@ class _$UserAddressDataModelImpl implements _UserAddressDataModel {
       _$$UserAddressDataModelImplFromJson(json);
 
   @override
+  @JsonKey()
   final User user;
   final Map<String, String> _provinces;
   @override
@@ -252,8 +295,18 @@ class _$UserAddressDataModelImpl implements _UserAddressDataModel {
   }
 
   @override
+  @JsonKey()
+  final int orders;
+  @override
+  @JsonKey()
+  final int returns;
+  @override
+  @JsonKey()
+  final int wishlists;
+
+  @override
   String toString() {
-    return 'UserAddressDataModel(user: $user, provinces: $provinces, cities: $cities, areas: $areas, wards: $wards, countries: $countries)';
+    return 'UserAddressDataModel(user: $user, provinces: $provinces, cities: $cities, areas: $areas, wards: $wards, countries: $countries, orders: $orders, returns: $returns, wishlists: $wishlists)';
   }
 
   @override
@@ -268,7 +321,11 @@ class _$UserAddressDataModelImpl implements _UserAddressDataModel {
             const DeepCollectionEquality().equals(other._areas, _areas) &&
             const DeepCollectionEquality().equals(other._wards, _wards) &&
             const DeepCollectionEquality()
-                .equals(other._countries, _countries));
+                .equals(other._countries, _countries) &&
+            (identical(other.orders, orders) || other.orders == orders) &&
+            (identical(other.returns, returns) || other.returns == returns) &&
+            (identical(other.wishlists, wishlists) ||
+                other.wishlists == wishlists));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -280,7 +337,10 @@ class _$UserAddressDataModelImpl implements _UserAddressDataModel {
       const DeepCollectionEquality().hash(_cities),
       const DeepCollectionEquality().hash(_areas),
       const DeepCollectionEquality().hash(_wards),
-      const DeepCollectionEquality().hash(_countries));
+      const DeepCollectionEquality().hash(_countries),
+      orders,
+      returns,
+      wishlists);
 
   /// Create a copy of UserAddressDataModel
   /// with the given fields replaced by the non-null parameter values.
@@ -302,12 +362,15 @@ class _$UserAddressDataModelImpl implements _UserAddressDataModel {
 
 abstract class _UserAddressDataModel implements UserAddressDataModel {
   const factory _UserAddressDataModel(
-      {required final User user,
+      {final User user,
       final Map<String, String> provinces,
       final Map<String, String> cities,
       final Map<String, String> areas,
       final List<int> wards,
-      final Map<String, String> countries}) = _$UserAddressDataModelImpl;
+      final Map<String, String> countries,
+      final int orders,
+      final int returns,
+      final int wishlists}) = _$UserAddressDataModelImpl;
 
   factory _UserAddressDataModel.fromJson(Map<String, dynamic> json) =
       _$UserAddressDataModelImpl.fromJson;
@@ -324,6 +387,12 @@ abstract class _UserAddressDataModel implements UserAddressDataModel {
   List<int> get wards;
   @override
   Map<String, String> get countries;
+  @override
+  int get orders;
+  @override
+  int get returns;
+  @override
+  int get wishlists;
 
   /// Create a copy of UserAddressDataModel
   /// with the given fields replaced by the non-null parameter values.
@@ -629,7 +698,7 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl implements _User {
   const _$UserImpl(
-      {required this.id,
+      {this.id = -1,
       this.name,
       this.email,
       this.phone,
@@ -650,6 +719,7 @@ class _$UserImpl implements _User {
       _$$UserImplFromJson(json);
 
   @override
+  @JsonKey()
   final int id;
   @override
   final String? name;
@@ -766,7 +836,7 @@ class _$UserImpl implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final int id,
+      {final int id,
       final String? name,
       final String? email,
       final String? phone,

@@ -35,12 +35,7 @@ class _ShippingDetailsState extends ConsumerState<ShippingDetails> {
     super.initState();
     locationModel = widget.locationModel;
     final customer = locationModel.data.customer;
-    _provinceController.text =
-        locationModel.data.provinces['${customer?.provinceId}'] ?? '';
-    _districtController.text =
-        locationModel.data.cities['${customer?.cityId}'] ?? '';
-    _muncipalityController.text =
-        locationModel.data.provinces['${customer?.areaId}'] ?? '';
+    
   }
 
   Future<T?> showCustomBottom<T>(
@@ -296,6 +291,15 @@ class _ShippingDetailsState extends ConsumerState<ShippingDetails> {
                   ),
                   CustomTextFormField(
                     label: 'Street Address',
+                validator: (p0) {
+                      if (p0 == null) {
+                        return 'Required';
+                      }
+                      if (p0.isEmpty) {
+                        return 'Field cannot be empty';
+                      }
+                      return null;
+                    },
                     textEditingController: _streetController,
                   ),
                   SizedBox(

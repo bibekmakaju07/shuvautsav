@@ -7,12 +7,13 @@ import 'package:shuvautsavapp/network/failure.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
 final filterCategoryProvider = StateNotifierProvider.autoDispose<
-    ProductFilterNotifier, AppState<List<Category>, NetworkFailure>>((ref) {
+    ProductFilterNotifier,
+    AppState<List<ProductCategory>, NetworkFailure>>((ref) {
   return ProductFilterNotifier();
 });
 
 class ProductFilterNotifier
-    extends StateNotifier<AppState<List<Category>, NetworkFailure>> {
+    extends StateNotifier<AppState<List<ProductCategory>, NetworkFailure>> {
   ProductFilterNotifier() : super(AppState.initial());
 
   Future<void> getCategory() async {
@@ -71,12 +72,12 @@ class ProductCategoryFilterNotifier
     }
   }
 
-  Future<void> getChildCategory(String subcategory, {String ?url}) async {
+  Future<void> getChildCategory(String subcategory, {String? url}) async {
     state = AppState.loading(true);
     try {
       final response = await NetworkService().get(RequestApi(
-          endPath:
-             url?? 'https://shuvautsav.com/api/v1/subcategory/$subcategory/products?per_page=2'));
+          endPath: url ??
+              'https://shuvautsav.com/api/v1/subcategory/$subcategory/products?per_page=2'));
       state = AppState.loading(false);
 
       if (response is Response) {

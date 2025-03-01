@@ -3,13 +3,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:shuvautsavapp/app/app_route/app_delegate.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
+import 'package:shuvautsavapp/app/view/custom_appbar.dart';
 import 'package:shuvautsavapp/features/category/model/category_model.dart';
+import 'package:shuvautsavapp/features/category/model/dashboard_product_model.dart';
 import 'package:shuvautsavapp/features/category/views/category.dart';
 import 'package:shuvautsavapp/features/product/controller/product_controller.dart';
 import 'package:shuvautsavapp/features/product/views/dashboard_product_widget.dart';
 import 'package:shuvautsavapp/features/product/views/product_page.dart';
 import 'package:shuvautsavapp/features/product/views/product_search_page.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
+
+final dashboardDataProvider =
+    FutureProvider.autoDispose<DashboardProductResponse>((ref) async {
+  final response = await NetworkService()
+      .get(RequestApi(endPath: 'https://shuvautsav.com/api/v1/home'));
+
+  final data = DashboardProductResponse.fromJson(response.data);
+  return data;
+});
 
 class HomePage extends StatefulHookConsumerWidget {
   const HomePage({super.key});
@@ -21,6 +32,7 @@ class HomePage extends StatefulHookConsumerWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(dashboardDataProvider);
     return Padding(
       padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
       child: Column(
@@ -33,121 +45,78 @@ class _HomePageState extends ConsumerState<HomePage> {
                 width: 100,
               ),
               const Spacer(),
-              InkWell(
-                onTap: () {
-                  ref.read(toastProvider.notifier).update((cb) {
-                    return (
-                      description: '',
-                      title: 'Coming Soon',
-                      id: '1212121',
-                      error: false
-                    );
-                  });
-                },
-                child: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(color: const Color(0xffEAF0F4), width: 1),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(3),
-                    ),
-                  ),
-                  child: const Icon(
-                    HugeIcons.strokeRoundedSearch01,
-                  ),
-                ),
-              ),
+              WishListButton(ref: ref),
+              // CartIconButton(ref: ref),
               const SizedBox(
                 width: 10,
               ),
-              InkWell(
-                onTap: () {
-                  ref.read(toastProvider.notifier).update((cb) {
-                    return (
-                      description: '',
-                      title: 'Coming Soon',
-                      id: '1212121',
-                      error: false
-                    );
-                  });
-                },
-                child: Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color(0xffEAF0F4),
-                      width: 1,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(
-                        3,
-                      ),
-                    ),
-                  ),
-                  child: const Icon(
-                    HugeIcons.strokeRoundedNotification03,
-                  ),
-                ),
-              )
             ],
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    readOnly: true,
-                    onTap: () {
-                      ref.push(RoutePage(
-                          child: const ProductSearchPage(
-                            title: null,
+          state.maybeWhen(
+            orElse: () {
+              return CircularProgressIndicator();
+            },
+            data: (data) {
+              return Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        readOnly: true,
+                        onTap: () {
+                          ref.push(RoutePage(
+                              child: const ProductSearchPage(
+                                title: null,
+                              ),
+                              name: 'ProductSearchPage'));
+                        },
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(
+                            HugeIcons.strokeRoundedSearch02,
                           ),
-                          name: 'ProductSearchPage'));
-                    },
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(
-                        HugeIcons.strokeRoundedSearch02,
-                      ),
-                      hintText: 'Search Product',
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xffEAF0F4),
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(3),
+                          hintText: 'Search Product',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffEAF0F4),
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      HomeCategoryWidget(
+                        category: data.data.categories,
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      DashboardProductWidget(data.data.products),
+                      DashboardGrid(
+                        title: data.data.category1.title,
+                        slug: 'celebration',
+                        products: data.data.products1,
+                      ),
+                      DashboardGrid(
+                        title: data.data.category2.title,
+                        slug: 'celebration',
+                        products: data.data.products2,
+                      ),
+                      SizedBox(
+                        height: 100,
+                      ),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const HomeCategoryWidget(),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  const DashboardProductWidget(),
-                  DashboardGrid(
-                    title: 'Celebration',
-                    slug: 'celebration',
-                  ),
-                  DashboardGrid(
-                    title: 'धार्मिक',
-                    slug: 'religious-items',
-                  ),
-                  SizedBox(
-                    height: 100,
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           )
         ],
       ),
@@ -157,19 +126,12 @@ class _HomePageState extends ConsumerState<HomePage> {
 
 //Home category widget
 
-final homeCategoryProvider =
-    FutureProvider.autoDispose<List<Category>>((ref) async {
-  final response = await NetworkService()
-      .get(RequestApi(endPath: 'https://shuvautsav.com/api/v1/category'));
-
-  final data = CategoryResponse.fromJson(response.data);
-  return data.data.categories;
-});
-
 class HomeCategoryWidget extends ConsumerStatefulWidget {
   const HomeCategoryWidget({
     super.key,
+    required this.category,
   });
+  final List<ProductCategory> category;
 
   @override
   ConsumerState<HomeCategoryWidget> createState() => _HomeCategoryWidgetState();
@@ -178,7 +140,6 @@ class HomeCategoryWidget extends ConsumerStatefulWidget {
 class _HomeCategoryWidgetState extends ConsumerState<HomeCategoryWidget> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(homeCategoryProvider);
     return Column(
       children: [
         Row(
@@ -193,21 +154,9 @@ class _HomeCategoryWidgetState extends ConsumerState<HomeCategoryWidget> {
             const SizedBox(
               width: 10,
             ),
-            state.maybeWhen(
-              orElse: () {
-                return const SizedBox.square(
-                  dimension: 12,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1,
-                  ),
-                );
-              },
-              data: (data) {
-                return Text(
-                  data.length > 15 ? '15+' : '${data.length}',
-                  style: const TextStyle(fontWeight: FontWeight.w400),
-                );
-              },
+            Text(
+              widget.category.length > 15 ? '15+' : '${widget.category.length}',
+              style: const TextStyle(fontWeight: FontWeight.w400),
             ),
             const Spacer(),
             InkWell(
@@ -231,54 +180,48 @@ class _HomeCategoryWidgetState extends ConsumerState<HomeCategoryWidget> {
         ),
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: state.maybeWhen(
-              orElse: () {
-                return const SizedBox();
-              },
-              data: (data) {
-                return Row(
-                  children: List.generate(data.length, (index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: InkWell(
-                        onTap: () {
-                          // ref.push(RoutePage(
-                          //     child:  ProductDetails(),
-                          //     name: 'ProductDetails'));
-                          ref.push(RoutePage(
-                            child: ProductPage(
-                              title: '',
-                              categoriesType: CategoriesType.catSlug,
-                              slug: data[index].slug,
-                            ),
-                            name: 'ProductPage',
-                          ));
-                        },
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Image.network(
-                                data[index].image,
-                                height: 60,
-                                width: 60,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Text(
-                              data[index].title,
-                              style: context.titleSmall,
-                            ),
-                          ],
+            child: Row(
+              children: List.generate(widget.category.length, (index) {
+                final data = widget.category[index];
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: InkWell(
+                    onTap: () {
+                      // ref.push(RoutePage(
+                      //     child:  ProductDetails(),
+                      //     name: 'ProductDetails'));
+                      ref.push(RoutePage(
+                        child: ProductPage(
+                          title: '',
+                          categoriesType: CategoriesType.catSlug,
+                          slug: data.slug,
                         ),
-                      ),
-                    );
-                  }).toList(),
+                        name: 'ProductPage',
+                      ));
+                    },
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: Image.network(
+                            data.image,
+                            height: 60,
+                            width: 60,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          data.title,
+                          style: context.titleSmall,
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              },
+              }).toList(),
             )),
       ],
     );

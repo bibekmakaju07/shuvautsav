@@ -13,6 +13,7 @@ import 'package:shuvautsavapp/features/cart/views/cart.dart';
 import 'package:shuvautsavapp/features/product/controller/filter_controller.dart';
 import 'package:shuvautsavapp/features/product/controller/product_controller.dart';
 import 'package:shuvautsavapp/features/product/controller/product_search_controller.dart';
+import 'package:shuvautsavapp/features/product/model/search_filter_data_model.dart';
 import 'package:shuvautsavapp/features/product/views/product_details.dart';
 import 'package:shuvautsavapp/features/product/views/widget/product_filter.dart';
 import 'package:shuvautsavapp/features/product/views/wishlist_page.dart';
@@ -62,7 +63,7 @@ class _ProductPageState extends ConsumerState<ProductSearchPage> {
         if (keyword.isNotEmpty) {
           ref
               .read(productSearchProvider.notifier)
-              .searchProduct(keyword: keyword);
+              .searchProduct(filteredDataModel);
         }
       }
     }
@@ -71,6 +72,7 @@ class _ProductPageState extends ConsumerState<ProductSearchPage> {
   String keyword = '';
   Timer? _debounce;
 
+  FilteredDataModel filteredDataModel = FilteredDataModel();
   @override
   void dispose() {
     _debounce?.cancel();
@@ -102,7 +104,13 @@ class _ProductPageState extends ConsumerState<ProductSearchPage> {
       ),
       child: Scaffold(
         key: _scaffoldKey,
-        endDrawer: const FilterDrawer(),
+        endDrawer: FilterDrawer(
+          filteredDataModel: filteredDataModel,
+          onSelect: (value) {
+            filteredDataModel = value;
+            ref.read(productSearchProvider.notifier).searchProduct(value);
+          },
+        ),
         body: SafeArea(
           top: true,
           bottom: true,
@@ -238,9 +246,12 @@ class _ProductPageState extends ConsumerState<ProductSearchPage> {
                           keyword = value;
                           if (_debounce?.isActive ?? false) _debounce!.cancel();
                           _debounce = Timer(Duration(milliseconds: 500), () {
+                            filteredDataModel = filteredDataModel.copyWith(
+                              keyword: keyword,
+                            );
                             ref
                                 .read(productSearchProvider.notifier)
-                                .searchProduct(keyword: keyword);
+                                .searchProduct(filteredDataModel);
                           });
                         },
                         decoration: const InputDecoration(
@@ -261,6 +272,14 @@ class _ProductPageState extends ConsumerState<ProductSearchPage> {
                     ),
                     const SizedBox(
                       width: 8,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _scaffoldKey.currentState?.openEndDrawer();
+                      },
+                      icon: Icon(
+                        HugeIcons.strokeRoundedFilter,
+                      ),
                     ),
                   ],
                 ),

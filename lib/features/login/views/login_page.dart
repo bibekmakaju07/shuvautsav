@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -20,9 +21,9 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController emailController =
-      TextEditingController(text: 'schandboy@gmail.com');
+      TextEditingController(text:kDebugMode? 'schandboy@gmail.com':'');
   final TextEditingController passwordController =
-      TextEditingController(text: '12345678');
+      TextEditingController(text:kDebugMode? '12345678':'');
 
   @override
   void initState() {

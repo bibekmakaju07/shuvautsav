@@ -11,8 +11,8 @@ _$DasboardOrdersDataModelImpl _$$DasboardOrdersDataModelImplFromJson(
     _$DasboardOrdersDataModelImpl(
       status: (json['status'] as num?)?.toInt() ?? -1,
       data: json['data'] == null
-          ? const DashboardOrdersData()
-          : DashboardOrdersData.fromJson(json['data'] as Map<String, dynamic>),
+          ? const UserAddressDataModel()
+          : UserAddressDataModel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$DasboardOrdersDataModelImplToJson(

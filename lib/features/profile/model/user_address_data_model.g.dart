@@ -9,7 +9,9 @@ part of 'user_address_data_model.dart';
 _$UserAddressDataModelImpl _$$UserAddressDataModelImplFromJson(
         Map<String, dynamic> json) =>
     _$UserAddressDataModelImpl(
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: json['user'] == null
+          ? const User()
+          : User.fromJson(json['user'] as Map<String, dynamic>),
       provinces: (json['provinces'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(k, e as String),
           ) ??
@@ -30,6 +32,9 @@ _$UserAddressDataModelImpl _$$UserAddressDataModelImplFromJson(
             (k, e) => MapEntry(k, e as String),
           ) ??
           const {},
+      orders: (json['orders'] as num?)?.toInt() ?? 0,
+      returns: (json['returns'] as num?)?.toInt() ?? 0,
+      wishlists: (json['wishlists'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$UserAddressDataModelImplToJson(
@@ -41,10 +46,13 @@ Map<String, dynamic> _$$UserAddressDataModelImplToJson(
       'areas': instance.areas,
       'wards': instance.wards,
       'countries': instance.countries,
+      'orders': instance.orders,
+      'returns': instance.returns,
+      'wishlists': instance.wishlists,
     };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt() ?? -1,
       name: json['name'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,

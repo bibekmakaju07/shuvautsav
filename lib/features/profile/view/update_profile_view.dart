@@ -133,10 +133,10 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
       next.maybeWhen(
         orElse: () {},
         data: (data) {
-          _nameController.text = data.user.name??'';
-          _emailController.text = data.user.email??'';
+          _nameController.text = data.user.name ?? '';
+          _emailController.text = data.user.email ?? '';
           _streetController.text = data.user.street;
-          _phoneController.text = data.user.phone??'';
+          _phoneController.text = data.user.phone ?? '';
           _provinceController.text =
               data.provinces['${data.user.provinceId}'] ?? '';
           _districtController.text = data.cities['${data.user.cityId}'] ?? '';
@@ -150,6 +150,7 @@ class _UpdateProfileState extends ConsumerState<UpdateProfile> {
           provideId = data.user.provinceId?.toString();
           cityid = data.user.cityId?.toString();
           muncipalityId = data.user.areaId?.toString();
+          _wardController.text = data.user.wardNo ?? '';
 
           locationModel = LocationModel(
               data: locationModel.data.copyWith(

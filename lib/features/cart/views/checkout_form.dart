@@ -9,10 +9,12 @@ import 'package:shuvautsavapp/app/view/app.dart';
 import 'package:shuvautsavapp/features/cart/controller/cart_checkout_store_controller.dart';
 import 'package:shuvautsavapp/features/cart/model/cart_list_model.dart';
 import 'package:shuvautsavapp/features/cart/model/checkout_success_model.dart';
+import 'package:shuvautsavapp/features/cart/views/checkout_success.dart';
 import 'package:shuvautsavapp/features/cart/views/widget/billing_details.dart';
 import 'package:shuvautsavapp/features/cart/views/widget/payment_widget.dart';
 import 'package:shuvautsavapp/features/cart/views/widget/shipping_details.dart';
 import 'package:shuvautsavapp/features/payment/controller/esewa_payment_controller.dart';
+import 'package:shuvautsavapp/features/payment/views/connect_ips_payment.dart';
 import 'package:shuvautsavapp/main.dart';
 import 'package:shuvautsavapp/network/network_client.dart';
 
@@ -138,15 +140,6 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
           }
         },
         success: (data, extra) {
-          ref.read(toastProvider.notifier).update((_) {
-            return (
-              title: 'Order Placed Successfully',
-              description: '',
-              id: '1231sa',
-              error: false,
-            );
-          });
-
           ref
               .read(objectBoxProvider.notifier)
               .state
@@ -155,7 +148,8 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
                   .map((e) => int.tryParse(e.id) ?? 0)
                   .toList());
 
-          ref.pop();
+          ref.push(RoutePage(
+              child: CheckoutSuccessPage(), name: 'CheckoutSuccessPage'));
         },
         error: (data, extra) {
           showDialog(
@@ -258,6 +252,25 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
                             productPrice: "$totalAmount",
                             callbackUrl: '',
                           ));
+                    } else if (formData['payment_method'] == 'cips') {
+                      ref.push(
+                        RoutePage(
+                          child: WebViewScreen(
+                            amount: totalAmount.toInt(),
+                            onPaymentComplete: (value) {
+                              ref
+                                  .read(checkoutStoreProvider.notifier)
+                                  .storeOnCheckout(
+                                params: {
+                                  ...formData,
+                                  'total_amount': totalAmount,
+                                },
+                              );
+                            },
+                          ),
+                          name: 'WebViewScreen',
+                        ),
+                      );
                     } else if (formData['payment_method'] == 'cod') {
                       ref.read(toastProvider.notifier).update((_) {
                         return (
@@ -285,8 +298,8 @@ class _CheckoutFormState extends ConsumerState<CheckoutForm>
 //cod,prabhupay,ips,fonepay,esewa
 enum PaymentMethod {
   cashOnDelivery("Cash on Delivery", "cod"),
-  esewaPayment("Esewa Payment", 'esewa')
-  // ipsPayment("IPS Payment"),
+  esewaPayment("Esewa Payment", 'esewa'),
+  ipsPayment("IPS Payment", 'cips'),
   // prabhupayPayment("Prabhupay Payment"),
   // bankTransfer("Bank Transfer")
   ;

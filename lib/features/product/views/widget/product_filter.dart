@@ -1,9 +1,13 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
-import 'package:shuvautsavapp/features/product/controller/filter_controller.dart';
-import 'package:shuvautsavapp/features/product/model/category_product_model.dart';
+import 'package:shuvautsavapp/features/category/model/category_model.dart';
+import 'package:shuvautsavapp/features/product/controller/search_controller.dart';
+import 'package:shuvautsavapp/features/product/model/product_filter_data_model.dart';
+import 'package:shuvautsavapp/features/product/model/search_filter_data_model.dart';
+import 'package:shuvautsavapp/network/network_client.dart';
 
 Color getColorByTitle(String title) {
   switch (title.toLowerCase()) {
@@ -40,63 +44,55 @@ Color getColorByTitle(String title) {
   }
 }
 
-final productSizedProvider =
-    StateProvider.autoDispose<CategoryProductResponse?>((ref) {
+final filterDataProvider = StateProvider.autoDispose<FilteredDataModel?>((ref) {
   return null;
 });
 
+final searchDataProvider =
+    FutureProvider.autoDispose<SearchDataResponse>((ref) async {
+  final data = await NetworkService().get(
+    RequestApi(
+      endPath: 'https://shuvautsav.com/api/v1/search',
+    ),
+  );
+  return SearchDataResponse.fromJson(data.data);
+});
+
 class FilterDrawer extends ConsumerStatefulWidget {
-  const FilterDrawer({super.key});
+  const FilterDrawer({
+    required this.filteredDataModel,
+    required this.onSelect,
+    super.key,
+  });
+
+  final FilteredDataModel filteredDataModel;
+  final ValueSetter<FilteredDataModel> onSelect;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _FilterDrawerState();
 }
 
 class _FilterDrawerState extends ConsumerState<FilterDrawer> {
-  final ValueNotifier<String> selectedCategory = ValueNotifier('');
+  final ValueNotifier<int?> selectedCategory = ValueNotifier(null);
+
+  late FilteredDataModel filteredDataModel;
+
+  final TextEditingController _minController = TextEditingController();
+  final TextEditingController _maxController = TextEditingController();
+
+  @override
+  void initState() {
+    filteredDataModel = widget.filteredDataModel;
+    selectedCategory.value = filteredDataModel.category_id;
+    _maxController.text = filteredDataModel.max ?? '';
+    _minController.text = filteredDataModel.min ?? '';
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      filterSubCategoryProvider('sizeChildCat'),
-      (previous, next) {
-        next.maybeWhen(
-          orElse: () {
-            ref.invalidate(productSizedProvider);
-          },
-          success: (data, extra) {
-            ref.read(productSizedProvider.notifier).state = data;
-          },
-        );
-      },
-    );
-    ref.listen(
-      filterSubCategoryProvider('subcat'),
-      (previous, next) {
-        next.maybeWhen(
-          orElse: () {
-            ref.invalidate(productSizedProvider);
-          },
-          success: (data, extra) {
-            ref.read(productSizedProvider.notifier).state = data;
-          },
-        );
-      },
-    );
-    ref.listen(
-      filterSubCategoryProvider('childcat'),
-      (previous, next) {
-        next.maybeWhen(
-          orElse: () {
-            ref.invalidate(productSizedProvider);
-          },
-          success: (data, extra) {
-            ref.read(productSizedProvider.notifier).state = data;
-          },
-        );
-      },
-    );
     return SafeArea(
-      // padding: EdgeInsets.symmetric(vertical: 20),
       child: Drawer(
         backgroundColor: Colors.white,
         width: MediaQuery.sizeOf(context).width * 0.9,
@@ -132,7 +128,10 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.red),
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.red,
+                            ),
                             borderRadius: BorderRadius.circular(
                               15,
                             ),
@@ -159,22 +158,78 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                       'Price Filter',
                       style: context.labelMedium.copyWith(),
                     ),
-                    SliderTheme(
-                      data: const SliderThemeData(
-                        rangeThumbShape: CircleThumbShape(thumbRadius: 8),
-                        trackHeight: 1,
-                        inactiveTrackColor: Colors.red,
-                      ),
-                      child: RangeSlider(
-                        min: 1,
-                        max: 100,
-                        labels: const RangeLabels('10', '90'),
-                        values: const RangeValues(10, 90),
-                        onChanged: (RangeValues value) {
-                          setState(() {});
-                        },
-                        activeColor: Colors.green,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Min. Price',
+                                style: context.labelSmall,
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              TextFormField(
+                                controller: _minController,
+                                onChanged: (value) {
+                                  filteredDataModel =
+                                      filteredDataModel.copyWith(min: value.trim().isEmpty?null:value);
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  hintText: 'Min Price',
+                                  hintStyle: context.labelSmall
+                                      .copyWith(color: Colors.grey.shade300),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 5,
+                                    horizontal: 10,
+                                  ),
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Max. Price',
+                                style: context.labelSmall,
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              TextFormField(
+                                controller: _maxController,
+                                onChanged: (value) {
+                                  filteredDataModel =
+                                      filteredDataModel.copyWith(max: value.trim().isEmpty?null:value);
+                                },
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  hintText: 'Max. Price',
+                                  hintStyle: context.labelSmall
+                                      .copyWith(color: Colors.grey.shade300),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 5,
+                                    horizontal: 10,
+                                  ),
+                                  border: OutlineInputBorder(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                     const SizedBox(
                       height: 15,
@@ -186,32 +241,48 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                     const SizedBox(
                       height: 5,
                     ),
-                    ref.watch(filterCategoryProvider).maybeWhen(
+                    ref.watch(searchDataProvider).maybeWhen(
                       orElse: () {
                         return const SizedBox();
                       },
-                      success: (data, extra) {
+                      error: (error, stackTrace) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                      data: (d) {
+                        final data = d.data;
                         return Wrap(spacing: 10, runSpacing: 3, children: [
                           ...List.generate(
-                            data.length > 4 ? 5 : data.length,
+                            data.categories.length > 4
+                                ? 5
+                                : data.categories.length,
                             (index) {
                               return InkWell(
                                 onTap: () {
+                                  selectedCategory.value =
+                                      data.categories[index].id;
                                   ref
-                                      .read(filterSubCategoryProvider('subcat')
-                                          .notifier)
-                                      .getSubCategory(data[index].slug);
-                                  ref.invalidate(
-                                      filterSubCategoryProvider('childcat'));
-                                  selectedCategory.value = data[index].slug;
+                                      .read(subfilterCategoryProvider.notifier)
+                                      .getSubCategory(
+                                          data.categories[index].slug);
+                                  ref.invalidate(childfilterCategoryProvider);
+
+                                  filteredDataModel =
+                                      filteredDataModel.copyWith(
+                                          category_id:
+                                              data.categories[index].id);
                                 },
                                 child: ValueListenableBuilder(
                                     valueListenable: selectedCategory,
                                     builder: (context, cat, _) {
                                       return Chip(
                                         avatar: CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(data[index].image),
+                                          backgroundImage: NetworkImage(
+                                              data.categories[index].image),
                                         ),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 2, horizontal: 5),
@@ -226,7 +297,8 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                                         ),
                                         color: WidgetStateColor.resolveWith(
                                             (value) {
-                                          if (cat == data[index].slug) {
+                                          if (cat ==
+                                              data.categories[index].id) {
                                             return Colors.red;
                                           }
                                           return const Color.fromARGB(
@@ -245,11 +317,12 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                                           ),
                                         ),
                                         label: Text(
-                                          data[index].title,
+                                          data.categories[index].title,
                                           style: context.labelSmall.copyWith(
-                                            color: cat == data[index].slug
-                                                ? Colors.white
-                                                : Colors.red,
+                                            color:
+                                                cat == data.categories[index].id
+                                                    ? Colors.white
+                                                    : Colors.red,
                                           ),
                                         ),
                                       );
@@ -257,7 +330,7 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                               );
                             },
                           ),
-                          if (data.length > 5)
+                          if (data.categories.length > 5)
                             InkWell(
                               onTap: () {
                                 showModalBottomSheet(
@@ -291,25 +364,30 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                                               ),
                                               Expanded(
                                                 child: ListView.builder(
-                                                  itemCount: data.length,
+                                                  itemCount:
+                                                      data.categories.length,
                                                   itemBuilder:
                                                       (context, index) {
                                                     return ListTile(
                                                       dense: true,
                                                       onTap: () {
-                                                        Navigator.pop(context,
-                                                            data[index].slug);
+                                                        Navigator.pop(
+                                                            context,
+                                                            data.categories[
+                                                                index]);
                                                       },
                                                       contentPadding:
                                                           EdgeInsets.zero,
                                                       leading: CircleAvatar(
                                                         backgroundImage:
-                                                            NetworkImage(
-                                                                data[index]
-                                                                    .image),
+                                                            NetworkImage(data
+                                                                .categories[
+                                                                    index]
+                                                                .image),
                                                       ),
-                                                      title: Text(
-                                                          data[index].title),
+                                                      title: Text(data
+                                                          .categories[index]
+                                                          .title),
                                                     );
                                                   },
                                                 ),
@@ -319,16 +397,19 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                                         ),
                                       );
                                     }).then((value) {
-                                  if (value is String) {
+                                  if (value is ProductCategory) {
+                                    selectedCategory.value = value.id;
                                     ref
                                         .read(
-                                            filterSubCategoryProvider('subcat')
-                                                .notifier)
-                                        .getSubCategory(value);
-                                    ref.invalidate(
-                                        filterSubCategoryProvider('childcat'));
-
-                                    selectedCategory.value = value;
+                                            subfilterCategoryProvider.notifier)
+                                        .getSubCategory(value.slug);
+                                    ref.invalidate(childfilterCategoryProvider);
+                                    filteredDataModel =
+                                        filteredDataModel.copyWith(
+                                      category_id: value.id,
+                                      sub_category_id: null,
+                                      child_category_id: null,
+                                    );
                                   }
                                 });
                               },
@@ -363,7 +444,7 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                                   ),
                                 ),
                                 label: Text(
-                                  '${data.length - 5} + More',
+                                  '${data.categories.length - 5} + More',
                                   style: context.labelSmall.copyWith(
                                     color: Colors.red,
                                   ),
@@ -376,27 +457,80 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                     const SizedBox(
                       height: 15,
                     ),
-                    SubCategoryFilter(
-                      familyName: 'subcat',
-                      onSelect: (value) {
-                        ref
-                            .read(
-                                filterSubCategoryProvider('childcat').notifier)
-                            .getChildCategory(value);
-                      },
-                    ),
+                    Consumer(builder: (context, ref, _) {
+                      final subCat = ref.watch(subfilterCategoryProvider);
+
+                      return subCat.maybeWhen(
+                        orElse: () => SizedBox(),
+                        loading: (loading, data) => SizedBox(),
+                        success: (data, _) {
+                          if (data.data.sub_categories.isEmpty) {
+                            return SizedBox();
+                          }
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Sub categories',
+                                style: context.labelSmall,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SubCategoryFilter(
+                                id: filteredDataModel.sub_category_id,
+                                categoryList: data.data.sub_categories,
+                                onSelect: (value) {
+                                  ref
+                                      .read(
+                                          childfilterCategoryProvider.notifier)
+                                      .getChildCategory(value.slug);
+                                  filteredDataModel =
+                                      filteredDataModel.copyWith(
+                                    sub_category_id: value.id,
+                                    child_category_id: null,
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }),
                     //childcat
-                    SubCategoryFilter(
-                      familyName: 'childcat',
-                      onSelect: (value) {
-                        ref
-                            .read(filterSubCategoryProvider('sizeChildCat')
-                                .notifier)
-                            .getChildCategory(value,
-                                url:
-                                    'https://shuvautsav.com/api/v1/childcategory/$value/products?per_page=2');
-                      },
-                    ),
+                    Consumer(builder: (context, ref, _) {
+                      final childCat = ref.watch(childfilterCategoryProvider);
+
+                      return childCat.maybeWhen(
+                        orElse: () => SizedBox(),
+                        loading: (loading, data) => SizedBox(),
+                        success: (data, _) {
+                          if (data.data.child_categories.isEmpty) {
+                            return SizedBox();
+                          }
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Child categories',
+                                style: context.labelSmall,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              SubCategoryFilter(
+                                id: filteredDataModel.child_category_id,
+                                categoryList: data.data.child_categories,
+                                onSelect: (value) {
+                                  filteredDataModel = filteredDataModel
+                                      .copyWith(child_category_id: value.id);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }),
                     SizedBox(
                       height: 15,
                     ),
@@ -404,15 +538,27 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                       height: 15,
                     ),
                     Consumer(builder: (context, ref, _) {
-                      final sizeState = ref.watch(productSizedProvider);
-                      if (sizeState != null) {
-                        return CSPFilter(
-                          colors: sizeState.data.colors,
-                          sizes: sizeState.data.sizes,
-                          onTap: (value) {},
-                        );
-                      }
-                      return SizedBox();
+                      final sizeState = ref.watch(searchDataProvider);
+                      return sizeState.maybeWhen(
+                        orElse: () {
+                          return SizedBox();
+                        },
+                        data: (data) {
+                          return CSPFilter(
+                            colors: data.data.colors,
+                            sizes: data.data.sizes,
+                            onTap: (({
+                                  ColorOption? color,
+                                  SizeOption? size
+                                }) value) {
+                              filteredDataModel = filteredDataModel.copyWith(
+                                color_id: value.color?.id,
+                                size_id: value.size?.id,
+                              );
+                            },
+                          );
+                        },
+                      );
                     })
                   ],
                 ),
@@ -425,7 +571,10 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                        widget.onSelect.call(filteredDataModel);
+                      },
                       child: Text(
                         'Filter',
                         style: context.titleSmall.copyWith(
@@ -440,7 +589,18 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
                   Expanded(
                     flex: 1,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        final keyword = filteredDataModel.keyword;
+
+                        filteredDataModel = FilteredDataModel(
+                          keyword: keyword,
+                        );
+                        selectedCategory.value = filteredDataModel.category_id;
+                        _minController.text = '';
+                        _maxController.text = '';
+
+                        setState(() {});
+                      },
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -479,11 +639,13 @@ class _FilterDrawerState extends ConsumerState<FilterDrawer> {
 class SubCategoryFilter extends ConsumerStatefulWidget {
   const SubCategoryFilter({
     super.key,
-    required this.familyName,
     required this.onSelect,
+    required this.id,
+    required this.categoryList,
   });
-  final String familyName;
-  final ValueSetter<String> onSelect;
+  final ValueSetter<ProductCategory> onSelect;
+  final List<ProductCategory> categoryList;
+  final int? id;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -491,200 +653,173 @@ class SubCategoryFilter extends ConsumerStatefulWidget {
 }
 
 class _SubCategoryFilterState extends ConsumerState<SubCategoryFilter> {
-  String slug = '';
+  ProductCategory? selectedCat;
+
+  @override
+  void initState() {
+    selectedCat =
+        widget.categoryList.firstWhereOrNull((e) => e.id == widget.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    ref.listen(filterSubCategoryProvider(widget.familyName), (prev, next) {
-      next.maybeWhen(
-        orElse: () {},
-        success: (data, extra) {
-          slug = '';
+    return Wrap(spacing: 10, runSpacing: 3, children: [
+      ...List.generate(
+        widget.categoryList.length > 4 ? 5 : widget.categoryList.length,
+        (index) {
+          final subCategories = widget.categoryList[index];
+          return InkWell(
+            onTap: () {
+              selectedCat = subCategories;
+              setState(() {});
+              widget.onSelect.call(subCategories);
+            },
+            child: Chip(
+              avatar: CircleAvatar(
+                backgroundImage: NetworkImage(subCategories.image),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+              labelPadding:
+                  const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+              backgroundColor: selectedCat?.slug == subCategories.slug
+                  ? Colors.red
+                  : const Color.fromARGB(
+                      255,
+                      255,
+                      236,
+                      236,
+                    ),
+              color: WidgetStateColor.resolveWith((value) {
+                if (selectedCat?.slug == subCategories.slug) {
+                  return Colors.red;
+                }
+                return const Color.fromARGB(
+                  255,
+                  255,
+                  236,
+                  236,
+                );
+              }),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                side: BorderSide(
+                  color: Colors.red,
+                  width: 0.2,
+                ),
+              ),
+              label: Text(
+                subCategories.title,
+                style: context.labelSmall.copyWith(
+                  color: selectedCat?.slug == subCategories.slug
+                      ? Colors.white
+                      : Colors.red,
+                ),
+              ),
+            ),
+          );
         },
-      );
-    });
-    return ref.watch(filterSubCategoryProvider(widget.familyName)).maybeWhen(
-      orElse: () {
-        return const SizedBox();
-      },
-      success: (data, extra) {
-        List<ChildProductCategory> listCategories = [];
-
-        if ('subcat' == widget.familyName) {
-          listCategories = data.data.sub_categories;
-        } else {
-          listCategories = data.data.child_categories;
-        }
-        if (listCategories.isEmpty) {
-          return SizedBox();
-        }
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if ('subcat' == widget.familyName)
-              Text('Sub-Categories')
-            else
-              Text('Child-Categories'),
-            Wrap(spacing: 10, runSpacing: 3, children: [
-              ...List.generate(
-                listCategories.length > 4 ? 5 : listCategories.length,
-                (index) {
-                  final subCategories = listCategories[index];
-                  return InkWell(
-                    onTap: () {
-                      slug = subCategories.slug;
-                      setState(() {});
-                      widget.onSelect.call(slug);
-                    },
-                    child: Chip(
-                      avatar: CircleAvatar(
-                        backgroundImage: NetworkImage(subCategories.image),
-                      ),
+      ),
+      if (widget.categoryList.length > 5)
+        InkWell(
+          onTap: () {
+            showModalBottomSheet(
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                context: context,
+                builder: (context) {
+                  return FractionallySizedBox(
+                    heightFactor: 0.8,
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 2, horizontal: 5),
-                      labelPadding: const EdgeInsets.symmetric(
-                          vertical: 2, horizontal: 5),
-                      backgroundColor: slug == subCategories.slug
-                          ? Colors.red
-                          : const Color.fromARGB(
-                              255,
-                              255,
-                              236,
-                              236,
+                          horizontal: 16, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Filter By Sub-Category',
+                            style: context.titleMedium,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: widget.categoryList.length,
+                              itemBuilder: (context, index) {
+                                final subCat = widget.categoryList[index];
+                                return ListTile(
+                                  dense: true,
+                                  onTap: () {
+                                    Navigator.pop(
+                                        context, widget.categoryList[index]);
+                                  },
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(subCat.image),
+                                  ),
+                                  title: Text(subCat.title),
+                                );
+                              },
                             ),
-                      color: WidgetStateColor.resolveWith((value) {
-                        if (slug == subCategories.slug) {
-                          return Colors.red;
-                        }
-                        return const Color.fromARGB(
-                          255,
-                          255,
-                          236,
-                          236,
-                        );
-                      }),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        side: BorderSide(
-                          color: Colors.red,
-                          width: 0.2,
-                        ),
-                      ),
-                      label: Text(
-                        subCategories.title,
-                        style: context.labelSmall.copyWith(
-                          color: slug == subCategories.slug
-                              ? Colors.white
-                              : Colors.red,
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );
-                },
+                }).then((value) {
+              if (value is ProductCategory) {
+                selectedCat = value;
+                setState(() {});
+                widget.onSelect.call(value);
+              }
+            });
+          },
+          child: Chip(
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+            labelPadding:
+                const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+            backgroundColor: const Color.fromARGB(
+              255,
+              255,
+              236,
+              236,
+            ),
+            color: WidgetStateColor.resolveWith((value) {
+              if (value.contains(WidgetState.selected)) {
+                return Colors.red;
+              }
+              return const Color.fromARGB(
+                255,
+                255,
+                236,
+                236,
+              );
+            }),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              side: BorderSide(
+                color: Colors.red,
+                width: 0.2,
               ),
-              if (listCategories.length > 5)
-                InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
-                        ),
-                        context: context,
-                        builder: (context) {
-                          return FractionallySizedBox(
-                            heightFactor: 0.8,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Filter By Sub-Category',
-                                    style: context.titleMedium,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                      itemCount: listCategories.length,
-                                      itemBuilder: (context, index) {
-                                        final subCat = listCategories[index];
-                                        return ListTile(
-                                          dense: true,
-                                          onTap: () {
-                                            Navigator.pop(context,
-                                                listCategories[index].slug);
-                                          },
-                                          contentPadding: EdgeInsets.zero,
-                                          leading: CircleAvatar(
-                                            backgroundImage:
-                                                NetworkImage(subCat.image),
-                                          ),
-                                          title: Text(subCat.title),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).then((value) {
-                      slug = value;
-                      setState(() {});
-                      widget.onSelect.call(slug);
-                    });
-                  },
-                  child: Chip(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                    labelPadding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                    backgroundColor: const Color.fromARGB(
-                      255,
-                      255,
-                      236,
-                      236,
-                    ),
-                    color: WidgetStateColor.resolveWith((value) {
-                      if (value.contains(WidgetState.selected)) {
-                        return Colors.red;
-                      }
-                      return const Color.fromARGB(
-                        255,
-                        255,
-                        236,
-                        236,
-                      );
-                    }),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      side: BorderSide(
-                        color: Colors.red,
-                        width: 0.2,
-                      ),
-                    ),
-                    label: Text(
-                      '${listCategories.length - 5} + More',
-                      style: context.labelSmall.copyWith(
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                )
-            ]),
-          ],
-        );
-      },
-    );
+            ),
+            label: Text(
+              '${widget.categoryList.length - 5} + More',
+              style: context.labelSmall.copyWith(
+                color: Colors.red,
+              ),
+            ),
+          ),
+        )
+    ]);
   }
 }
 
@@ -696,17 +831,20 @@ class CSPFilter extends ConsumerStatefulWidget {
     required this.onTap,
   });
 
-  final List<CategoryColorModel> colors;
-  final List<ProductSize> sizes;
+  final List<ColorOption> colors;
+  final List<SizeOption> sizes;
 
-  final ValueSetter<Map<String, String?>> onTap;
+  final ValueSetter<({ColorOption? color, SizeOption? size})> onTap;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CSPFilterState();
 }
 
 class _CSPFilterState extends ConsumerState<CSPFilter> {
-  final List<String> refinedBy = ['Best Selling', 'New', 'InStock'];
+  // final List<String> refinedBy = ['Best Selling', 'New', 'InStock'];
+
+  ColorOption? selectedColor;
+  SizeOption? selectedSize;
 
   Map<String, String?> selectedMap = {};
   @override
@@ -718,63 +856,63 @@ class _CSPFilterState extends ConsumerState<CSPFilter> {
           'Refined By',
           style: context.labelMedium.copyWith(),
         ),
-        const SizedBox(
-          height: 5,
-        ),
-        Wrap(
-            spacing: 10,
-            runSpacing: 3,
-            children: List.generate(refinedBy.length, (index) {
-              return InkWell(
-                onTap: () {
-                  if (selectedMap['refine'] == refinedBy[index]) {
-                    selectedMap['refine'] = null;
-                  } else {
-                    selectedMap['refine'] = refinedBy[index];
-                  }
-                  setState(() {});
-                  widget.onTap(selectedMap);
-                },
-                child: Chip(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                  labelPadding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                  backgroundColor: const Color.fromARGB(
-                    255,
-                    255,
-                    236,
-                    236,
-                  ),
-                  color: WidgetStateColor.resolveWith((value) {
-                    if (selectedMap['refine'] == refinedBy[index]) {
-                      return Colors.red;
-                    }
-                    return const Color.fromARGB(
-                      255,
-                      255,
-                      236,
-                      236,
-                    );
-                  }),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    side: BorderSide(
-                      color: Colors.red,
-                      width: 0.2,
-                    ),
-                  ),
-                  label: Text(
-                    refinedBy[index],
-                    style: context.labelSmall.copyWith(
-                      color: selectedMap['refine'] == refinedBy[index]
-                          ? Colors.white
-                          : Colors.red,
-                    ),
-                  ),
-                ),
-              );
-            })),
+        // const SizedBox(
+        //   height: 5,
+        // ),
+        // Wrap(
+        //     spacing: 10,
+        //     runSpacing: 3,
+        //     children: List.generate(refinedBy.length, (index) {
+        //       return InkWell(
+        //         onTap: () {
+        //           if (selectedMap['refine'] == refinedBy[index]) {
+        //             selectedMap['refine'] = null;
+        //           } else {
+        //             selectedMap['refine'] = refinedBy[index];
+        //           }
+        //           setState(() {});
+        //           widget.onTap(selectedMap);
+        //         },
+        //         child: Chip(
+        //           padding:
+        //               const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+        //           labelPadding:
+        //               const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+        //           backgroundColor: const Color.fromARGB(
+        //             255,
+        //             255,
+        //             236,
+        //             236,
+        //           ),
+        //           color: WidgetStateColor.resolveWith((value) {
+        //             if (selectedMap['refine'] == refinedBy[index]) {
+        //               return Colors.red;
+        //             }
+        //             return const Color.fromARGB(
+        //               255,
+        //               255,
+        //               236,
+        //               236,
+        //             );
+        //           }),
+        //           shape: const RoundedRectangleBorder(
+        //             borderRadius: BorderRadius.all(Radius.circular(15)),
+        //             side: BorderSide(
+        //               color: Colors.red,
+        //               width: 0.2,
+        //             ),
+        //           ),
+        //           label: Text(
+        //             refinedBy[index],
+        //             style: context.labelSmall.copyWith(
+        //               color: selectedMap['refine'] == refinedBy[index]
+        //                   ? Colors.white
+        //                   : Colors.red,
+        //             ),
+        //           ),
+        //         ),
+        //       );
+        //     })),
         const SizedBox(
           height: 15,
         ),
@@ -793,13 +931,9 @@ class _CSPFilterState extends ConsumerState<CSPFilter> {
             (index) {
               return InkWell(
                 onTap: () {
-                  if (selectedMap['color'] == widget.colors[index].title) {
-                    selectedMap['color'] = null;
-                  } else {
-                    selectedMap['color'] = widget.colors[index].title;
-                  }
+                  selectedColor = widget.colors[index];
                   setState(() {});
-                  widget.onTap(selectedMap);
+                  widget.onTap((color: selectedColor, size: selectedSize));
                 },
                 child: Chip(
                   visualDensity: VisualDensity.compact,
@@ -817,7 +951,7 @@ class _CSPFilterState extends ConsumerState<CSPFilter> {
                     236,
                   ),
                   color: WidgetStateColor.resolveWith((value) {
-                    if (selectedMap['color'] == widget.colors[index].title) {
+                    if (selectedColor?.id == widget.colors[index].id) {
                       return Colors.red;
                     }
                     return getColorByTitle(widget.colors[index].title)
@@ -833,7 +967,7 @@ class _CSPFilterState extends ConsumerState<CSPFilter> {
                   label: Text(
                     widget.colors[index].title.toUpperCase(),
                     style: context.labelSmall.copyWith(
-                      color: selectedMap['color'] == widget.colors[index].title
+                      color: selectedColor?.id == widget.colors[index].id
                           ? Colors.white
                           : getColorByTitle(widget.colors[index].title),
                     ),
@@ -859,13 +993,9 @@ class _CSPFilterState extends ConsumerState<CSPFilter> {
             children: List.generate(widget.sizes.length, (index) {
               return InkWell(
                 onTap: () {
-                  if (selectedMap['size'] == widget.sizes[index].title) {
-                    selectedMap['size'] = null;
-                  } else {
-                    selectedMap['size'] = widget.sizes[index].title;
-                  }
+                  selectedSize = widget.sizes[index];
                   setState(() {});
-                  widget.onTap(selectedMap);
+                  widget.onTap((color: selectedColor, size: selectedSize));
                 },
                 child: Chip(
                   padding:
@@ -879,7 +1009,7 @@ class _CSPFilterState extends ConsumerState<CSPFilter> {
                     236,
                   ),
                   color: WidgetStateColor.resolveWith((value) {
-                    if (selectedMap['size'] == widget.sizes[index].title) {
+                    if (selectedSize?.id == widget.sizes[index].id) {
                       return Colors.red;
                     }
                     return const Color.fromARGB(
@@ -899,7 +1029,7 @@ class _CSPFilterState extends ConsumerState<CSPFilter> {
                   label: Text(
                     widget.sizes[index].title,
                     style: context.labelSmall.copyWith(
-                      color: selectedMap['size'] == widget.sizes[index].title
+                      color: selectedSize?.id == widget.sizes[index].id
                           ? Colors.white
                           : Colors.red,
                     ),

@@ -6,12 +6,15 @@ part 'user_address_data_model.g.dart';
 @freezed
 class UserAddressDataModel with _$UserAddressDataModel {
   const factory UserAddressDataModel({
-    required User user,
+    @Default(User()) User user,
     @Default({}) Map<String, String> provinces,
     @Default({}) Map<String, String> cities,
     @Default({}) Map<String, String> areas,
     @Default([]) List<int> wards,
     @Default({}) Map<String, String> countries,
+       @Default(0) int orders,
+    @Default(0) int returns,
+    @Default(0) int wishlists,
   }) = _UserAddressDataModel;
 
   factory UserAddressDataModel.fromJson(Map<String, dynamic> json) =>
@@ -21,7 +24,7 @@ class UserAddressDataModel with _$UserAddressDataModel {
 @freezed
 class User with _$User {
   const factory User({
-    required int id,
+    @Default(-1) int id,
      String? name,
      String ?email,
      String? phone,

@@ -31,167 +31,170 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      backgroundColor: Colors.white,
-      body: widgetList[selectedPage],
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        onPressed: () {
-          ref.push(RoutePage(child: CartPage(), name: 'CartPage'));
-        },
-        child: Stack(
-          children: [
-            CustomPaint(
-              painter: MulticolorBorderCirclePainter(),
-              child: const Center(
-                child: Icon(
-                  HugeIcons.strokeRoundedShoppingCartCheck01,
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.white,
+        body: widgetList[selectedPage],
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          onPressed: () {
+            ref.push(RoutePage(child: CartPage(), name: 'CartPage'));
+          },
+          child: Stack(
+            children: [
+              CustomPaint(
+                painter: MulticolorBorderCirclePainter(),
+                child: const Center(
+                  child: Icon(
+                    HugeIcons.strokeRoundedShoppingCartCheck01,
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              right: 0,
-              child: StreamBuilder(
-                  stream: ref
-                      .read(objectBoxProvider.notifier)
-                      .state
-                      .box<ProductDetailsEntity>()
-                      .query()
-                      .watch(triggerImmediately: true)
-                      .map((q) => q.find().length),
-                  builder: (context, snap) {
-                    if (snap.hasData && snap.data! > 0) {
-                      return CircleAvatar(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        radius: 10,
-                        child: Text(
-                          '${snap.data}',
-                          style:
-                              context.labelSmall.copyWith(color: Colors.white),
-                        ),
-                      );
-                    }
-                    return SizedBox();
-                  }),
-            )
-          ],
+              Positioned(
+                right: 0,
+                child: StreamBuilder(
+                    stream: ref
+                        .read(objectBoxProvider.notifier)
+                        .state
+                        .box<ProductDetailsEntity>()
+                        .query()
+                        .watch(triggerImmediately: true)
+                        .map((q) => q.find().length),
+                    builder: (context, snap) {
+                      if (snap.hasData && snap.data! > 0) {
+                        return CircleAvatar(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          radius: 10,
+                          child: Text(
+                            '${snap.data}',
+                            style: context.labelSmall
+                                .copyWith(color: Colors.white),
+                          ),
+                        );
+                      }
+                      return SizedBox();
+                    }),
+              )
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 70,
-        width: double.infinity,
-        child: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
-          children: [
-            CustomPaint(
-              painter: CustomBottomPainter(),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BottomNavItem(
-                        index: 0,
-                        iconData: HugeIcons.strokeRoundedHome01,
-                        title: 'Home',
-                        selectedIndex: selectedPage,
-                        onSelect: (value) {
-                          setState(() {
-                            selectedPage = value;
-                          });
-                        },
-                      ),
-                      BottomNavItem(
-                        iconData: HugeIcons.strokeRoundedMenuCircle,
-                        title: 'Category',
-                        index: 1,
-                        selectedIndex: selectedPage,
-                        onSelect: (value) {
-                          setState(() {
-                            selectedPage = value;
-                          });
-                        },
-                      ),
-                      InkWell(
-                        onTap: () {
-                          ref.push(
-                            RoutePage(
-                                child: const CartPage(), name: 'CardPage'),
-                          );
-                        },
-                        child: SizedBox(
-                          width: MediaQuery.sizeOf(context).width * .2,
-                          child: const Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                bottom: 4,
-                              ),
-                              child: Text(
-                                'Cart',
-                                style: TextStyle(
-                                  color: Colors.white,
+        bottomNavigationBar: SizedBox(
+          height: 70,
+          width: double.infinity,
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              CustomPaint(
+                painter: CustomBottomPainter(),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        BottomNavItem(
+                          index: 0,
+                          iconData: HugeIcons.strokeRoundedHome01,
+                          title: 'Home',
+                          selectedIndex: selectedPage,
+                          onSelect: (value) {
+                            setState(() {
+                              selectedPage = value;
+                            });
+                          },
+                        ),
+                        BottomNavItem(
+                          iconData: HugeIcons.strokeRoundedMenuCircle,
+                          title: 'Category',
+                          index: 1,
+                          selectedIndex: selectedPage,
+                          onSelect: (value) {
+                            setState(() {
+                              selectedPage = value;
+                            });
+                          },
+                        ),
+                        InkWell(
+                          onTap: () {
+                            ref.push(
+                              RoutePage(
+                                  child: const CartPage(), name: 'CardPage'),
+                            );
+                          },
+                          child: SizedBox(
+                            width: MediaQuery.sizeOf(context).width * .2,
+                            child: const Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 4,
+                                ),
+                                child: Text(
+                                  'Cart',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      BottomNavItem(
-                        index: 3,
-                        iconData: HugeIcons.strokeRoundedShoppingBag01,
-                        title: 'Orders',
-                        selectedIndex: selectedPage,
-                        onSelect: (value) {
-                          setState(() {
-                            selectedPage = value;
-                          });
-                        },
-                      ),
-                      BottomNavItem(
-                        title: 'Profile',
-                        iconData: HugeIcons.strokeRoundedProfile02,
-                        index: 4,
-                        selectedIndex: selectedPage,
-                        onSelect: (value) {
-                          setState(() {
-                            selectedPage = value;
-                          });
-                        },
-                      ),
-                    ],
+                        BottomNavItem(
+                          index: 3,
+                          iconData: HugeIcons.strokeRoundedShoppingBag01,
+                          title: 'Orders',
+                          selectedIndex: selectedPage,
+                          onSelect: (value) {
+                            setState(() {
+                              selectedPage = value;
+                            });
+                          },
+                        ),
+                        BottomNavItem(
+                          title: 'Profile',
+                          iconData: HugeIcons.strokeRoundedProfile02,
+                          index: 4,
+                          selectedIndex: selectedPage,
+                          onSelect: (value) {
+                            setState(() {
+                              selectedPage = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Positioned(
-            //   top: -20,
-            //   height: 60,
-            //   width: 60,
-            //   child: InkWell(
-            //     onTap: () {
-            //       ref.push(
-            //         RoutePage(child: const CardPage(), name: 'CardPage'),
-            //       );
-            //     },
-            //     child: CustomPaint(
-            //       painter: MulticolorBorderCirclePainter(),
-            //       child: const Center(
-            //         child: Icon(
-            //           HugeIcons.strokeRoundedShoppingCartAdd01,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-          ],
+              // Positioned(
+              //   top: -20,
+              //   height: 60,
+              //   width: 60,
+              //   child: InkWell(
+              //     onTap: () {
+              //       ref.push(
+              //         RoutePage(child: const CardPage(), name: 'CardPage'),
+              //       );
+              //     },
+              //     child: CustomPaint(
+              //       painter: MulticolorBorderCirclePainter(),
+              //       child: const Center(
+              //         child: Icon(
+              //           HugeIcons.strokeRoundedShoppingCartAdd01,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );

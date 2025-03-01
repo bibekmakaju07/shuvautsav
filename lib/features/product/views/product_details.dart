@@ -8,6 +8,8 @@ import 'package:shuvautsavapp/app/extensions/context_extentions.dart';
 import 'package:shuvautsavapp/app/loading/loading_indicator.dart';
 import 'package:shuvautsavapp/app/storage/product_model.dart';
 import 'package:shuvautsavapp/app/view/app.dart';
+import 'package:shuvautsavapp/app/view/app_theme.dart';
+import 'package:shuvautsavapp/app/view/custom_appbar.dart';
 import 'package:shuvautsavapp/features/cart/views/cart.dart';
 import 'package:shuvautsavapp/features/product/controller/wishlist_controller.dart';
 import 'package:shuvautsavapp/features/product/model/product_details_model.dart';
@@ -55,7 +57,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
         error: (data, extra) {
           ref.read(toastProvider.notifier).update((_) {
             return (
-              title: 'Failed to add product to wishlist',
+              title: 'Failed to add product to wishlist'.ucfirstWords,
               description: '',
               id: '12121',
               error: true,
@@ -65,7 +67,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
         success: (data, extra) {
           ref.read(toastProvider.notifier).update((_) {
             return (
-              title: 'Product added to wish list',
+              title: 'Product added to wish list'.ucfirstWords,
               description: '',
               id: '12121',
               error: false,
@@ -87,7 +89,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
           color: Colors.white,
         ),
         Scaffold(
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+            backgroundColor: Colors.white,
             appBar: AppBar(
               title: Row(
                 children: [
@@ -95,8 +97,18 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                     'assets/images/app_logo.png',
                     width: 100,
                   ),
+                  Spacer(),
+                  WishListButton(ref: ref),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  CartIconButton(ref: ref),
+                  const SizedBox(
+                    width: 10,
+                  ),
                 ],
               ),
+           
             ),
             bottomSheet: state.maybeWhen(
               orElse: () {
@@ -174,40 +186,52 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                       mode: savedData != null
                                           ? PutMode.update
                                           : PutMode.insert);
-                              ref.read(toastProvider.notifier).update((_) {
-                                return (
-                                  error: false,
-                                  description: '',
-                                  title: savedData != null
-                                      ? 'Updated in cart'
-                                      : 'Added to cart',
-                                  id: '1'
-                                );
-                              });
+                              // ref.read(toastProvider.notifier).update((_) {
+                              //   return (
+                              //     error: false,
+                              //     description: '',
+                              //     title: savedData != null
+                              //         ? 'Updated in cart'
+                              //         : 'Added to cart',
+                              //     id: '1'
+                              //   );
+                              // });
                               showDialog(
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: Text(
-                                        savedData != null
-                                            ? 'Updated to cart successfully'
-                                            : 'Added to cart successfully',
-                                        style: context.titleSmall.copyWith(
-                                            fontWeight: FontWeight.w500),
+                                      contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 16,
                                       ),
                                       content: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            'Product Details',
-                                            style: context.titleMedium.copyWith(
-                                              fontWeight: FontWeight.w600,
+                                          Center(
+                                            child: Icon(
+                                              HugeIcons
+                                                  .strokeRoundedCheckmarkCircle01,
+                                              color: Colors.green,
+                                              size: 80,
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 5,
+                                            height: 8,
+                                          ),
+                                          Align(
+                                            child: Text(
+                                              'Item Added to your cart',
+                                              style:
+                                                  context.titleSmall.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.green,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 15,
                                           ),
                                           Row(
                                             children: [
@@ -242,54 +266,76 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                                       '${data.product?.currency} ${data.product?.price}',
                                                       style: context.titleMedium
                                                           .copyWith(
-                                                            color: context.primaryColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                                      ),
+                                                        color: context
+                                                            .primaryColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                             ],
                                           ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Row(
+                                            children: [
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6,
+                                                      horizontal: 10),
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)),
+                                                  backgroundColor:
+                                                      context.primaryColor,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  'Continue Shopping',
+                                                  style: context.labelMedium
+                                                      .copyWith(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      context.primaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 6,
+                                                      horizontal: 10),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                  ref.push(RoutePage(
+                                                      child: CartPage(),
+                                                      name: 'CartPage'));
+                                                },
+                                                child: Text(
+                                                  'Go To Checkout',
+                                                  style: context.labelMedium
+                                                      .copyWith(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                      actions: [
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                context.primaryColor,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            'Continue Shopping',
-                                            style: context.labelMedium.copyWith(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                context.primaryColor,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            ref.push(RoutePage(
-                                                child: CartPage(),
-                                                name: 'CartPage'));
-                                          },
-                                          child: Text(
-                                            'Go To Checkout',
-                                            style: context.labelMedium.copyWith(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
                                     );
                                   });
                             },
@@ -521,7 +567,7 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                 children: [
                                   TabBar(
                                     controller: _tabController,
-                                    isScrollable: false,
+                                    isScrollable: true,
                                     tabs: [
                                       Tab(
                                         text: 'Specification',
@@ -619,6 +665,11 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                                                         .isNotEmpty)
                                                   RatingAndReviewWidget(
                                                     slug: '${data.product?.id}',
+                                                    onSuccess: () {
+                                                      ref.invalidate(
+                                                          productDetailsProvider(
+                                                              widget.slug));
+                                                    },
                                                   ),
                                                 SizedBox(
                                                   height: 15,
@@ -766,7 +817,13 @@ class _ProductDetailsState extends ConsumerState<ProductDetails>
                             ),
                           ],
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: 100,
+                        child: ColoredBox(
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 );
