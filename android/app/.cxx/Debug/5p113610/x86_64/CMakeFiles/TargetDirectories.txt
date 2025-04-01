@@ -1,0 +1,2 @@
+/Users/bibekmakaju/Documents/pratice/shuvautsav/android/app/.cxx/Debug/5p113610/x86_64/CMakeFiles/rebuild_cache.dir
+/Users/bibekmakaju/Documents/pratice/shuvautsav/android/app/.cxx/Debug/5p113610/x86_64/CMakeFiles/edit_cache.dir
